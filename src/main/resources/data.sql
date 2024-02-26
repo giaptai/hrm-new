@@ -3,8 +3,8 @@ insert into `role_taikhoan` (id, title)
 values (0, 'ADMIN'),
        (1, 'EMPLOYEE');
 -- taikhoan
-INSERT INTO taikhoan (`username`, `password`, `role`)
-VALUES ('ThuNTM', '001225145523', 0),
+INSERT INTO taikhoan (`username`, `password`, `status`)
+VALUES ('ThuNTM', '001225145523', 1),
        ('TaiNG', '001478111451', 1);
 -- nhóm máu
 INSERT INTO nhom_mau (id, name)
@@ -322,20 +322,16 @@ values (1, 1, 6.2),
        (8, 10, 3.27),
        (8, 11, 3.45),
        (8, 12, 3.63);
--- khen_thuong
--- INSERT INTO quan_ly_nhan_vien_chinh_phu.khen_thuong (id, loai_so_yeu_ly_lich_chitiet, create_at, nam, update_at, so_yeu_ly_lich, hinh_thuc_khen_thuong, xep_loai_chuyen_mon, xep_loai_thi_dua, trang_thai, ly_do) 
--- VALUES (1, null, '2024-02-09 11:41:15', '2024-02-24 19:26:17', null, '0xBABAC3CE895E4790A397B8FCA6D2D897', 7, 'Giỏi', 'Tốt', 1, null);
-
 -- hinh_thuc_khen_thuong
 INSERT INTO hinh_thuc_khen_thuong (name, trang_thai) VALUES
-                            ('Huân chương', 1),
-                            ('Huy chương', 1),
-                            ('Danh hiệu vinh dự nhà nước', 1),
-                            ('Giải thưởng Hồ Chí Minh', 1),
-                            ('Giải thưởng Nhà nước', 1),
-                            ('Kỷ niệm chương', 1),
-                            ('Bằng khen', 1),
-                            ('Giấy khen', 1);
+                                                         ('Huân chương', 1),
+                                                         ('Huy chương', 1),
+                                                         ('Danh hiệu vinh dự nhà nước', 1),
+                                                         ('Giải thưởng Hồ Chí Minh', 1),
+                                                         ('Giải thưởng Nhà nước', 1),
+                                                         ('Kỷ niệm chương', 1),
+                                                         ('Bằng khen', 1),
+                                                         ('Giấy khen', 1);
 -- nhom_chuc_danh_dang
 INSERT INTO nhom_chuc_danh_dang (name)
 values ('Các chức danh lãnh đạo chủ chốt và lãnh đạo cấp cao của Đảng và Nhà nước'),
@@ -569,16 +565,16 @@ VALUES ('Lãnh đạo chủ chốt của Đảng và Nhà nước', 1),
 --        (9, 'Phó trưởng phòng và tương đương', 2),
 --        (10, 'Cán bộ xã, phường, thị trấn', 2);
 -- coquan_tochuc_donvi_tuyendung
--- insert
--- into coquan_tochuc_donvi_tuyendung (id, name)
--- VALUES (0, 'Tòa án nhân dân tối cao'),
---        (1, 'Viện kiểm sát nhân dân tối cao'),
---        (3, 'Kiểm toán Nhà nước'),
---        (4, 'Văn phòng Quốc hội'),
---        (5, 'Văn phòng Chủ tịch nước'),
---        (6, 'Ủy ban nhân dân cấp tỉnh'),
---        (7, 'Cơ quan của Đảng Cộng sản Việt Nam'),
---        (8, 'Cơ quan trung ương của Mặt trận Tổ quốc Việt Nam');
+insert
+into coquan_tochuc_donvi_tuyendung (id, name)
+VALUES (0, 'Tòa án nhân dân tối cao'),
+       (1, 'Viện kiểm sát nhân dân tối cao'),
+       (3, 'Kiểm toán Nhà nước'),
+       (4, 'Văn phòng Quốc hội'),
+       (5, 'Văn phòng Chủ tịch nước'),
+       (6, 'Ủy ban nhân dân cấp tỉnh'),
+       (7, 'Cơ quan của Đảng Cộng sản Việt Nam'),
+       (8, 'Cơ quan trung ương của Mặt trận Tổ quốc Việt Nam');
 -- loai_quan_ham_quan_doi
 insert into loai_quan_ham_quan_doi (id, name)
 VALUES (0, 'Sĩ quan'),

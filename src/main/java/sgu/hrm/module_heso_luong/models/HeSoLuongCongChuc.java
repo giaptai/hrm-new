@@ -32,7 +32,7 @@ public class HeSoLuongCongChuc extends DateTimeObject {
 //    HeSoLuongCongChucId heSoLuongCongChucId;
 
     @Id
-    @Column(name="id", columnDefinition = "integer auto_increment")
+    @Column(name="id", columnDefinition = "integer auto_increment primary key")
     int id;
 
     //    @Id
