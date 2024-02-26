@@ -52,7 +52,7 @@ public interface ITaiKhoanService {
         for (int i = 0; i < sSplit.length - 1; i++) {
             newS.append(sSplit[i].charAt(0));
         }
-        int checkUsername = taiKhoans.stream().filter(tKhoan -> tKhoan.getUsername().contentEquals(newS)).toList().size();
+        int checkUsername = taiKhoans.stream().filter(tKhoan -> tKhoan.getUsername().startsWith(newS.toString())).toList().size();
         if (checkUsername > 0) {
             newS.append(checkUsername);
         }

@@ -28,7 +28,7 @@ import sgu.hrm.module_utilities.models.BacLuong;
 //@IdClass(HeSoLuongVienChucId.class) // Add this line
 public class HeSoLuongVienChuc extends DateTimeObject {
     @Id
-    @Column(name="id", columnDefinition = "integer AUTO_INCREMENT primary key")
+    @Column(name="id", columnDefinition = "integer AUTO_INCREMENT")
     int id;
 
 //    @Id
