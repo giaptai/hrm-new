@@ -90,7 +90,7 @@ public interface ISoYeuLyLichService {
                 .phuCapKiemNhiem(soYeuLyLich.getPhuCapKiemNhiem())
                 .phuCapKhac(soYeuLyLich.getPhuCapKhac())
                 .viTriViecLam(Optional.ofNullable(soYeuLyLich.getViTriViecLam()).map(ViTriViecLam::getName).orElse(""))
-                .maSoViTriViecLam(String.valueOf(Optional.ofNullable(soYeuLyLich.getViTriViecLam()).map(ViTriViecLam::getId).orElse(null)))
+                .maSoViTriViecLam(Optional.ofNullable(soYeuLyLich.getViTriViecLam()).map(lam -> String.valueOf(lam.getId())).orElse(""))
                 .bacLuongTriViecLam(Optional.ofNullable(soYeuLyLich.getViTriViecLam()).map(ViTriViecLam::getBacLuong).orElse(0))
                 .luongTheoMucTien(Optional.ofNullable(soYeuLyLich.getViTriViecLam()).map(ViTriViecLam::getTienLuong).orElse(0.0))
                 .ngayHuongLuongTheoViTriViecLam(soYeuLyLich.getNgayHuongLuongTheoViTriViecLam())

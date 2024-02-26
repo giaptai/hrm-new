@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -201,9 +202,9 @@ public class TaiKhoanService implements ITaiKhoanService {
                         .soCCCD(reqTaiKhoan.soCCCD())
                         .create_at(taiKhoan.getCreate_at())
                         .build();
-//                soYeuLyLichRepository.save(soYeuLyLich);
+                soYeuLyLichRepository.save(soYeuLyLich);
                 taiKhoan.setSoYeuLyLich(soYeuLyLich);
-//                taiKhoanRepository.save(taiKhoan);
+                taiKhoanRepository.save(taiKhoan);
 //                return new ResDTO<>(
 //                        ResEnum.TAO_THANH_CONG.getStatusCode(),
 //                        ResEnum.TAO_THANH_CONG,
@@ -234,25 +235,25 @@ public class TaiKhoanService implements ITaiKhoanService {
         } finally {
             if (taiKhoan != null) {
                 // create the producer
-                KafkaProducer<String, String> producer = new KafkaProducer<>(KafkaTopicSendMail.properties);
-                ProducerRecord<String, String> producerRecord = new ProducerRecord<>("send_mail", taiKhoan.toString());
-                // send data - asynchronous
-                producer.send(producerRecord);
-                //flush + close
-                producer.flush();
-                producer.close();
-
-//                SimpleMailMessage message = new SimpleMailMessage();
-//                message.setFrom("noreply-chinhphu@gmail.com");
-//                message.setTo(reqTaiKhoan.email());
-//                message.setSubject("CHÀO MỪNG NHÂN VIÊN CHÍNH PHỦ");
-//                message.setText(String.format("%s\n%s\n%s\n%s",
-//                        "THÔNG TIN TÀI KHOẢN",
-//                        "Tên đăng nhập: " + taiKhoan.getUsername(),
-//                        "Mật khẩu: " + taiKhoan.getPassword(),
-//                        "Mã sơ yếu lý lịch: " + soYeuLyLich.getId()
-//                ));
-//                javaMailSender.send(message);
+//                KafkaProducer<String, String> producer = new KafkaProducer<>(KafkaTopicSendMail.properties);
+//                ProducerRecord<String, String> producerRecord = new ProducerRecord<>("send_mail", taiKhoan.toString());
+//                // send data - asynchronous
+//                producer.send(producerRecord);
+//                //flush + close
+//                producer.flush();
+//                producer.close();
+                //send email
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setFrom("noreply-chinhphu@gmail.com");
+                message.setTo(reqTaiKhoan.email());
+                message.setSubject("CHÀO MỪNG NHÂN VIÊN CHÍNH PHỦ");
+                message.setText(String.format("%s\n%s\n%s\n%s",
+                        "THÔNG TIN TÀI KHOẢN",
+                        "Tên đăng nhập: " + taiKhoan.getUsername(),
+                        "Mật khẩu: " + taiKhoan.getPassword(),
+                        "Mã sơ yếu lý lịch: " + soYeuLyLich.getId()
+                ));
+                javaMailSender.send(message);
             }
         }
     }

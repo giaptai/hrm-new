@@ -25,8 +25,10 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import sgu.hrm.module_congchuc_vienchuc.models.NgachCongChuc;
 import sgu.hrm.module_congchuc_vienchuc.models.NgachVienChuc;
+import sgu.hrm.module_soyeulylich.Okss;
 import sgu.hrm.module_soyeulylich_chitiet.models.BanThanCoLamViecChoCheDoCu;
 import sgu.hrm.module_taikhoan.models.TaiKhoan;
 import sgu.hrm.module_utilities.models.CapBacLoaiQuanHamQuanDoi;
@@ -222,8 +224,8 @@ public class SoYeuLyLich extends DateTimeObject {
     @Column(name = "tien_luong", columnDefinition = "double default 1.0")
     double tienLuong;
 
-    //NgachNgheNghiep ngachNgheNghiep;
-
+    //    NgachNgheNghiep ngachNgheNghiep;
+//    Okss okss;
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "ngach_cong_chuc_fk"), name = "ngach_cong_chuc", referencedColumnName = "id", columnDefinition = "varchar(6)")
     NgachCongChuc ngachCongChuc;
