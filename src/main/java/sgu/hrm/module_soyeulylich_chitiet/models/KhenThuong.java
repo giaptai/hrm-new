@@ -45,10 +45,10 @@ public class KhenThuong extends DateTimeObject {
     String xepLoaiThiDua;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "hinh_thuc_khen_thuong_fk"), name = "hinh_thuc_khen_thuong", referencedColumnName = "id", columnDefinition = "integer")
+    @JoinColumn(foreignKey = @ForeignKey(name = "hinh_thuc_khen_thuong_fk"), name = "hinh_thuc_khen_thuong", referencedColumnName = "id", columnDefinition = "INTEGER")
     HinhThucKhenThuong hinhThucKhenThuong;
 
-    @Column(name = "ly_do", columnDefinition = "text default ''")
+    @Column(name = "ly_do", columnDefinition = "text")
     String lyDo;
 
     @ManyToOne

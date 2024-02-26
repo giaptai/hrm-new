@@ -20,7 +20,8 @@ import sgu.hrm.module_utilities.models.ThanhPhanGiaDinh;
 import sgu.hrm.module_utilities.models.TinhTrangSucKhoe;
 import sgu.hrm.module_utilities.models.TrinhDoChuyenMon;
 import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
-import sgu.hrm.module_utilities.models.ViTriViecLam;;import java.util.Optional;
+import sgu.hrm.module_utilities.models.ViTriViecLam;
+import java.util.Optional;
 
 public interface ISoYeuLyLichService {
     ResDTO<?> xemThongTinSoYeuLyLich();
