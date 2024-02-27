@@ -15,7 +15,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import sgu.hrm.models.DateTimeObject;
-import sgu.hrm.module_heso_luong.models.HeSoLuongCongChuc;
 import sgu.hrm.module_heso_luong.models.HeSoLuongVienChuc;
 
 @Entity
