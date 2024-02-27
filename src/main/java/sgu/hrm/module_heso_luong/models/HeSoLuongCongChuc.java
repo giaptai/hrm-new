@@ -26,7 +26,7 @@ import sgu.hrm.module_utilities.models.BacLuong;
 public class HeSoLuongCongChuc extends DateTimeObject {
 
     @Id
-    @Column(name="id", columnDefinition = "integer auto_increment")
+    @Column(name="id", columnDefinition = "integer auto_increment primary key")
     int id;
 
     @ManyToOne
