@@ -213,7 +213,7 @@ public class SoYeuLyLich extends DateTimeObject {
     ChucDanhDang chucVuDangKiemNhiem;
 
     @Column(name = "cong_viec_chinh_duoc_giao", columnDefinition = "varchar(150) default ''")
-    String congVienChinhDuocGiao;
+    String congViecChinhDuocGiao;
 
     @Column(name = "so_truong_cong_tac", columnDefinition = "varchar(150) default ''")
     String soTruongCongTac;

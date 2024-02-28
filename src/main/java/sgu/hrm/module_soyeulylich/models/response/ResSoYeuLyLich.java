@@ -80,7 +80,7 @@ public record ResSoYeuLyLich(
 
         String chucVuDangKiemNhiem,
 
-        String congVienChinhDuocGiao,
+        String congViecChinhDuocGiao,
 
         String soTruongCongTac,
 

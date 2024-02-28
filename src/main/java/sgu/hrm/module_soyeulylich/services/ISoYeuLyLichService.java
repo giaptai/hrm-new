@@ -74,7 +74,7 @@ public interface ISoYeuLyLichService {
                 .chucVuKiemNhiem(soYeuLyLich.getChucVuKiemNhiem())
                 .chucVuDangHienTai(Optional.ofNullable(soYeuLyLich.getChucVuDangHienTai()).map(ChucDanhDang::getName).orElse(""))
                 .chucVuDangKiemNhiem(Optional.ofNullable(soYeuLyLich.getChucVuDangKiemNhiem()).map(ChucDanhDang::getName).orElse(""))
-                .congVienChinhDuocGiao(soYeuLyLich.getCongVienChinhDuocGiao())
+                .congViecChinhDuocGiao(soYeuLyLich.getCongViecChinhDuocGiao())
                 .soTruongCongTac(soYeuLyLich.getSoTruongCongTac())
                 .congViecLamLauNhat(soYeuLyLich.getCongViecLamLauNhat())
                 .tienLuong(soYeuLyLich.getTienLuong())

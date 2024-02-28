@@ -75,7 +75,7 @@ public record ReqSoYeuLyLich(
 
         String chucVuDangKiemNhiem,
 
-        String congVienChinhDuocGiao,
+        String congViecChinhDuocGiao,
 
         String soTruongCongTac,
 
