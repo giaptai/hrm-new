@@ -275,7 +275,7 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
                 .chucVuKiemNhiem(reqSoYeuLyLich.chucVuKiemNhiem())
                 .chucVuDangHienTai(chucDanhDangHienTai)
                 .chucVuDangKiemNhiem(chucDanhDangKiemNhiem)
-                .congVienChinhDuocGiao(reqSoYeuLyLich.congVienChinhDuocGiao())
+                .congViecChinhDuocGiao(reqSoYeuLyLich.congViecChinhDuocGiao())
                 .soTruongCongTac(reqSoYeuLyLich.soTruongCongTac())
                 .congViecLamLauNhat(reqSoYeuLyLich.congViecLamLauNhat())
                 .tienLuong(reqSoYeuLyLich.tienLuong())

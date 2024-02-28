@@ -2,7 +2,6 @@ package sgu.hrm.module_utilities.controllers;
 
 import lombok.RequiredArgsConstructor;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,6 +16,7 @@ import sgu.hrm.module_utilities.models.CapBacLoaiQuanHamQuanDoi;
 import sgu.hrm.module_utilities.models.CapNhomChucDanhDang;
 import sgu.hrm.module_utilities.models.ChucDanhDang;
 import sgu.hrm.module_utilities.models.ChucVu;
+import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 import sgu.hrm.module_utilities.models.DanToc;
 import sgu.hrm.module_utilities.models.DanhHieuNhaNuocPhongTang;
 import sgu.hrm.module_utilities.models.DoiTuongChinhSach;
@@ -44,6 +44,7 @@ public class UtilitiesController {
     private final IUtilitiesService<CapNhomChucDanhDang> capNhomChucDanhDangService;
     private final IUtilitiesService<ChucDanhDang> chucDanhDangService;
     private final IUtilitiesService<ChucVu> chucVuService;
+    private final IUtilitiesService<CoQuanToChucDonVi> coQuanToChucDonViService;
     private final IUtilitiesService<DanhHieuNhaNuocPhongTang> danhHieuNhaNuocPhongTangService;
     private final IUtilitiesService<DanToc> danTocService;
     private final IUtilitiesService<DoiTuongChinhSach> doiTuongChinhSachService;
@@ -150,6 +151,24 @@ public class UtilitiesController {
         @PatchMapping("/chuc-vu/sua")
         public ResDTO<?> editChucVu(@RequestBody ChucVu vu) {
             return chucVuService.sua(vu);
+        }
+    }
+
+    @RestController
+    class CoQuanToChucDonViController {
+        @GetMapping("/coquan-tochuc-donvi")
+        public ResDTO<?> getCoQuanToChucDonVi() {
+            return coQuanToChucDonViService.xemDS();
+        }
+
+        @PostMapping("/coquan-tochuc-donvi/them")
+        public ResDTO<?> addCoQuanToChucDonVi(@RequestBody ReqUtilities utilities) {
+            return coQuanToChucDonViService.them(utilities.name());
+        }
+
+        @PatchMapping("/coquan-tochuc-donvi/sua")
+        public ResDTO<?> editCoQuanToChucDonVi(@RequestBody CoQuanToChucDonVi vu) {
+            return coQuanToChucDonViService.sua(vu);
         }
     }
 

@@ -25,14 +25,11 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import sgu.hrm.module_congchuc_vienchuc.models.NgachCongChuc;
 import sgu.hrm.module_congchuc_vienchuc.models.NgachVienChuc;
-import sgu.hrm.module_soyeulylich.Okss;
 import sgu.hrm.module_soyeulylich_chitiet.models.BanThanCoLamViecChoCheDoCu;
 import sgu.hrm.module_taikhoan.models.TaiKhoan;
 import sgu.hrm.module_utilities.models.CapBacLoaiQuanHamQuanDoi;
-// import sgu.hrm.models.CoQuanToChucDonViTuyenDung;
 import sgu.hrm.module_utilities.models.ChucDanhDang;
 import sgu.hrm.module_utilities.models.ChucVu;
 import sgu.hrm.module_utilities.models.DanToc;
@@ -137,11 +134,6 @@ public class SoYeuLyLich extends DateTimeObject {
     @Column(name = "ngay_duoc_tuyen_dung_lan_dau", columnDefinition = "datetime")
     LocalDateTime ngayDuocTuyenDungLanDau;
 
-    // error
-//    @ManyToOne
-//    @JoinColumn(foreignKey = @ForeignKey(name = "coquan_tochuc_donvi_tuyendung_fk"), name = "coquan_tochuc_donvi_tuyendung_syll", referencedColumnName = "id", columnDefinition = "tinyint")
-//    CoQuanToChucDonViTuyenDung coQuanToChucDonViTuyenDung;
-
     //coquan_tochuc_donvi (dang lam vien), 1 collection rieng
     @Column(name = "coquan_tochuc_donvi_tuyendung", columnDefinition = "varchar(250) default''")
     String coQuanToChucDonViTuyenDung;
@@ -213,7 +205,7 @@ public class SoYeuLyLich extends DateTimeObject {
     ChucDanhDang chucVuDangKiemNhiem;
 
     @Column(name = "cong_viec_chinh_duoc_giao", columnDefinition = "varchar(150) default ''")
-    String congVienChinhDuocGiao;
+    String congViecChinhDuocGiao;
 
     @Column(name = "so_truong_cong_tac", columnDefinition = "varchar(150) default ''")
     String soTruongCongTac;
@@ -224,8 +216,9 @@ public class SoYeuLyLich extends DateTimeObject {
     @Column(name = "tien_luong", columnDefinition = "double default 1.0")
     double tienLuong;
 
-    //    NgachNgheNghiep ngachNgheNghiep;
+//    NgachNgheNghiep ngachNgheNghiep;
 //    Okss okss;
+
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "ngach_cong_chuc_fk"), name = "ngach_cong_chuc", referencedColumnName = "id", columnDefinition = "varchar(6)")
     NgachCongChuc ngachCongChuc;

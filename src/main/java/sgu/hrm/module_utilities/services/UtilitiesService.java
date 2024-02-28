@@ -12,6 +12,7 @@ import sgu.hrm.module_utilities.models.CapBacLoaiQuanHamQuanDoi;
 import sgu.hrm.module_utilities.models.CapNhomChucDanhDang;
 import sgu.hrm.module_utilities.models.ChucDanhDang;
 import sgu.hrm.module_utilities.models.ChucVu;
+import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 import sgu.hrm.module_utilities.models.DanToc;
 import sgu.hrm.module_utilities.models.DanhHieuNhaNuocPhongTang;
 import sgu.hrm.module_utilities.models.DoiTuongChinhSach;
@@ -33,6 +34,7 @@ import sgu.hrm.module_utilities.repositories.CapBacLoaiQuanHamQuanDoiRepository;
 import sgu.hrm.module_utilities.repositories.CapNhomChucDanhDangRepository;
 import sgu.hrm.module_utilities.repositories.ChucDanhDangRepository;
 import sgu.hrm.module_utilities.repositories.ChucVuRepository;
+import sgu.hrm.module_utilities.repositories.CoQuanToChucDonViRepository;
 import sgu.hrm.module_utilities.repositories.DanTocRepository;
 import sgu.hrm.module_utilities.repositories.DanhHieuNhaNuocPhongTangRepository;
 import sgu.hrm.module_utilities.repositories.DoiTuongChinhSachRepository;
@@ -60,6 +62,7 @@ public class UtilitiesService {
     private final CapNhomChucDanhDangRepository capNhomChucDanhDangRepository;
     private final ChucDanhDangRepository chucDanhDangRepository;
     private final ChucVuRepository chucVuRepository;
+    private final CoQuanToChucDonViRepository coQuanToChucDonViRepository;
     private final DanhHieuNhaNuocPhongTangRepository danhHieuNhaNuocPhongTangRepository;
     private final DanTocRepository danTocRepository;
     private final DoiTuongChinhSachRepository doiTuongChinhSachRepository;
@@ -162,9 +165,9 @@ public class UtilitiesService {
 
         @Override
         public ResDTO<CapBacLoaiQuanHamQuanDoi> sua(CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi) {
-            Optional<CapBacLoaiQuanHamQuanDoi> capBacLoaiQuanHamQuanDoi1 = capBacLoaiQuanHamQuanDoiRepository.findById(capBacLoaiQuanHamQuanDoi.getId());
+            Optional<CapBacLoaiQuanHamQuanDoi> optional = capBacLoaiQuanHamQuanDoiRepository.findById(capBacLoaiQuanHamQuanDoi.getId());
             try {
-                if (capBacLoaiQuanHamQuanDoi1.isPresent()) {
+                if (optional.isPresent()) {
                     capBacLoaiQuanHamQuanDoi.setUpdate_at();
                     return new ResDTO<>(
                             ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
@@ -327,11 +330,65 @@ public class UtilitiesService {
             ChucVu chucVu = chucVuRepository.findById(vu.getId()).orElse(null);
             try {
                 if (chucVu != null) {
-                    chucVu.setUpdate_at();
+                    vu.setUpdate_at();
                     return new ResDTO<>(
                             ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
                             ResEnum.CAP_NHAT_THANH_CONG,
-                            chucVuRepository.save(chucVu));
+                            chucVuRepository.save(vu));
+                }
+                return new ResDTO<>(
+                        ResEnum.HONG_TIM_THAY.getStatusCode(),
+                        ResEnum.HONG_TIM_THAY,
+                        null);
+            } catch (RuntimeException e) {
+                return new ResDTO<>(
+                        ResEnum.KHONG_HOP_LE.getStatusCode(),
+                        ResEnum.KHONG_HOP_LE,
+                        null
+                );
+            }
+        }
+    }
+
+    @Service
+    public class CoQuanToChucDonViService implements IUtilitiesService<CoQuanToChucDonVi> {
+        @Override
+        public ResDTO<List<CoQuanToChucDonVi>> xemDS() {
+            return new ResDTO<>(
+                    ResEnum.THANH_CONG.getStatusCode(),
+                    ResEnum.THANH_CONG,
+                    coQuanToChucDonViRepository.findAll()
+            );
+        }
+
+        @Override
+        public ResDTO<CoQuanToChucDonVi> them(String name) {
+            CoQuanToChucDonVi vu = new CoQuanToChucDonVi(name);
+            try {
+                return new ResDTO<>(
+                        ResEnum.THANH_CONG.getStatusCode(),
+                        ResEnum.THANH_CONG,
+                        coQuanToChucDonViRepository.save(vu)
+                );
+            } catch (RuntimeException e) {
+                return new ResDTO<>(
+                        ResEnum.THANH_CONG.getStatusCode(),
+                        ResEnum.THANH_CONG,
+                        null
+                );
+            }
+        }
+
+        @Override
+        public ResDTO<CoQuanToChucDonVi> sua(CoQuanToChucDonVi vu) {
+            CoQuanToChucDonVi co = coQuanToChucDonViRepository.findById(vu.getId()).orElse(null);
+            try {
+                if (co != null) {
+                    vu.setUpdate_at();
+                    return new ResDTO<>(
+                            ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
+                            ResEnum.CAP_NHAT_THANH_CONG,
+                            coQuanToChucDonViRepository.save(vu));
                 }
                 return new ResDTO<>(
                         ResEnum.HONG_TIM_THAY.getStatusCode(),
@@ -378,9 +435,9 @@ public class UtilitiesService {
 
         @Override
         public ResDTO<DanhHieuNhaNuocPhongTang> sua(DanhHieuNhaNuocPhongTang danhHieuNhaNuocPhongTang) {
-            Optional<DanhHieuNhaNuocPhongTang> danhHieuNhaNuocPhongTang1 = danhHieuNhaNuocPhongTangRepository.findById(danhHieuNhaNuocPhongTang.getId());
+            Optional<DanhHieuNhaNuocPhongTang> optional = danhHieuNhaNuocPhongTangRepository.findById(danhHieuNhaNuocPhongTang.getId());
             try {
-                if (danhHieuNhaNuocPhongTang1.isPresent()) {
+                if (optional.isPresent()) {
                     danhHieuNhaNuocPhongTang.setUpdate_at();
                     return new ResDTO<>(
                             ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
@@ -486,9 +543,9 @@ public class UtilitiesService {
 
         @Override
         public ResDTO<DoiTuongChinhSach> sua(DoiTuongChinhSach doiTuongChinhSach) {
-            Optional<DoiTuongChinhSach> doiTuongChinhSach1 = doiTuongChinhSachRepository.findById(doiTuongChinhSach.getId());
+            Optional<DoiTuongChinhSach> optional = doiTuongChinhSachRepository.findById(doiTuongChinhSach.getId());
             try {
-                if (doiTuongChinhSach1.isPresent()) {
+                if (optional.isPresent()) {
                     doiTuongChinhSach.setUpdate_at();
                     return new ResDTO<>(
                             ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
@@ -562,9 +619,9 @@ public class UtilitiesService {
 
         @Override
         public ResDTO<HinhThucKhenThuong> sua(HinhThucKhenThuong thuc) {
-            Optional<HinhThucKhenThuong> hinhThucKhenThuong = hinhThucKhenThuongRepository.findById(thuc.getId());
+            Optional<HinhThucKhenThuong> optional = hinhThucKhenThuongRepository.findById(thuc.getId());
             try {
-                if (hinhThucKhenThuong.isPresent()) {
+                if (optional.isPresent()) {
                     thuc.setUpdate_at();
                     return new ResDTO<>(
                             ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
@@ -616,9 +673,9 @@ public class UtilitiesService {
 
         @Override
         public ResDTO<HocHam> sua(HocHam hocHam) {
-            Optional<HocHam> hocHam1 = hocHamRepository.findById(hocHam.getId());
+            Optional<HocHam> optionalHocHam = hocHamRepository.findById(hocHam.getId());
             try {
-                if (hocHam1.isPresent()) {
+                if (optionalHocHam.isPresent()) {
                     hocHam.setUpdate_at();
                     return new ResDTO<>(
                             ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
@@ -670,9 +727,9 @@ public class UtilitiesService {
 
         @Override
         public ResDTO<LoaiQuanHamQuanDoi> sua(LoaiQuanHamQuanDoi loaiQuanHamQuanDoi) {
-            Optional<LoaiQuanHamQuanDoi> loaiQuanHamQuanDoi1 = loaiQuanHamQuanDoiRepository.findById(loaiQuanHamQuanDoi.getId());
+            Optional<LoaiQuanHamQuanDoi> optionalLoaiQuanHamQuanDoi = loaiQuanHamQuanDoiRepository.findById(loaiQuanHamQuanDoi.getId());
             try {
-                if (loaiQuanHamQuanDoi1.isPresent()) {
+                if (optionalLoaiQuanHamQuanDoi.isPresent()) {
                     loaiQuanHamQuanDoi.setUpdate_at();
                     return new ResDTO<>(
                             ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
@@ -747,7 +804,6 @@ public class UtilitiesService {
         }
     }
 
-
     @Service
     public class NhomMauService implements IUtilitiesService<NhomMau> {
         @Override
@@ -779,9 +835,9 @@ public class UtilitiesService {
 
         @Override
         public ResDTO<NhomMau> sua(NhomMau nhomMau) {
-            Optional<NhomMau> nhomMau1 = nhomMauRepository.findById(nhomMau.getId());
+            Optional<NhomMau> optionalNhomMau = nhomMauRepository.findById(nhomMau.getId());
             try {
-                if (nhomMau1.isPresent()) {
+                if (optionalNhomMau.isPresent()) {
                     nhomMau.setUpdate_at();
                     return new ResDTO<>(
                             ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
@@ -833,9 +889,9 @@ public class UtilitiesService {
 
         @Override
         public ResDTO<ThanhPhanGiaDinh> sua(ThanhPhanGiaDinh thanhPhanGiaDinh) {
-            Optional<ThanhPhanGiaDinh> thanhPhanGiaDinh1 = thanhPhanGiaDinhRepository.findById(thanhPhanGiaDinh.getId());
+            Optional<ThanhPhanGiaDinh> optionalThanhPhanGiaDinh = thanhPhanGiaDinhRepository.findById(thanhPhanGiaDinh.getId());
             try {
-                if (thanhPhanGiaDinh1.isPresent()) {
+                if (optionalThanhPhanGiaDinh.isPresent()) {
                     thanhPhanGiaDinh.setUpdate_at();
                     return new ResDTO<>(
                             ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
@@ -887,9 +943,9 @@ public class UtilitiesService {
 
         @Override
         public ResDTO<TinhTrangSucKhoe> sua(TinhTrangSucKhoe tinhTrangSucKhoe) {
-            Optional<TinhTrangSucKhoe> tinhTrangSucKhoe1 = tinhTrangSucKhoeRepository.findById(tinhTrangSucKhoe.getId());
+            Optional<TinhTrangSucKhoe> optionalTinhTrangSucKhoe = tinhTrangSucKhoeRepository.findById(tinhTrangSucKhoe.getId());
             try {
-                if (tinhTrangSucKhoe1.isPresent()) {
+                if (optionalTinhTrangSucKhoe.isPresent()) {
                     tinhTrangSucKhoe.setUpdate_at();
                     return new ResDTO<>(
                             ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
@@ -941,9 +997,9 @@ public class UtilitiesService {
 
         @Override
         public ResDTO<TonGiao> sua(TonGiao tonGiao) {
-            Optional<TonGiao> tonGiao1 = tonGiaoRepository.findById(tonGiao.getId());
+            Optional<TonGiao> optionalTonGiao = tonGiaoRepository.findById(tonGiao.getId());
             try {
-                if (tonGiao1.isPresent()) {
+                if (optionalTonGiao.isPresent()) {
                     tonGiao.setUpdate_at();
                     return new ResDTO<>(
                             ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
@@ -995,9 +1051,9 @@ public class UtilitiesService {
 
         @Override
         public ResDTO<TrinhDoChuyenMon> sua(TrinhDoChuyenMon trinhDoChuyenMon) {
-            Optional<TrinhDoChuyenMon> trinhDoChuyenMon1 = trinhDoChuyenMonRepository.findById(trinhDoChuyenMon.getId());
+            Optional<TrinhDoChuyenMon> optionalTrinhDoChuyenMon = trinhDoChuyenMonRepository.findById(trinhDoChuyenMon.getId());
             try {
-                if (trinhDoChuyenMon1.isPresent()) {
+                if (optionalTrinhDoChuyenMon.isPresent()) {
                     trinhDoChuyenMon.setUpdate_at();
                     return new ResDTO<>(
                             ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
@@ -1049,9 +1105,9 @@ public class UtilitiesService {
 
         @Override
         public ResDTO<TrinhDoGiaoDucPhoThong> sua(TrinhDoGiaoDucPhoThong trinhDoGiaoDucPhoThong) {
-            Optional<TrinhDoGiaoDucPhoThong> trinhDoGiaoDucPhoThong1 = trinhDoGiaoDucPhoThongRepository.findById(trinhDoGiaoDucPhoThong.getId());
+            Optional<TrinhDoGiaoDucPhoThong> optional = trinhDoGiaoDucPhoThongRepository.findById(trinhDoGiaoDucPhoThong.getId());
             try {
-                if (trinhDoGiaoDucPhoThong1.isPresent()) {
+                if (optional.isPresent()) {
                     trinhDoGiaoDucPhoThong.setUpdate_at();
                     return new ResDTO<>(
                             ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),

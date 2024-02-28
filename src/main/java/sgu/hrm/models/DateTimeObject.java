@@ -33,7 +33,6 @@ public class DateTimeObject {
         this.update_at = update_at;
     }
 
-    //
     public DateTimeObject() {
         this.create_at = LocalDateTime.now();
         this.trangThai = true;
