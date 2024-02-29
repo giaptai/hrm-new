@@ -113,7 +113,6 @@ public class SoYeuLyLichChiTietServices {
 
     @Service
     class LoaiSoYeuLyLichChiTietService implements ISoYeuLyLichChiTietServices.ILoaiSoYeuLyLichChiTietSefvice {
-
         @Override
         public ResDTO<List<LoaiSoYeuLyLichChiTiet>> xemLoaiSoYeuLyLichChiTiet() {
             try {
@@ -187,8 +186,7 @@ public class SoYeuLyLichChiTietServices {
                     .ketThuc(cu.ketThuc())
                     .chucDanhDonViDiaDiem(cu.chucDanhDonViDiaDiem())
                     .soYeuLyLich(syll)
-                    .create_at(syll.getCreate_at())
-                    .update_at(LocalDateTime.now())
+                    .create_at(cu.create_at())
                     .build() :
                     new BanThanCoLamViecChoCheDoCu(
                             cu.batDau(),
@@ -264,16 +262,17 @@ public class SoYeuLyLichChiTietServices {
         public ResDTO<?> suaThongTin(int id, ReqBanThanCoLamViecChoCheDoCu cu) {
             try {
                 TaiKhoan taiKhoan = crush_em_T();
-                BanThanCoLamViecChoCheDoCu banThanCoLamViecChoCheDoCu = null;
+                BanThanCoLamViecChoCheDoCu cheDoCu = null;
                 if (taiKhoan != null) {
-                    banThanCoLamViecChoCheDoCu = mapToBanThanCoLamViecChoCheDoCu(1, taiKhoan.getSoYeuLyLich(), cu);
-                    banThanCoLamViecChoCheDoCu.setId(id);
-                    banThanCoLamViecChoCheDoCuRepository.save(banThanCoLamViecChoCheDoCu);
+                    cheDoCu = mapToBanThanCoLamViecChoCheDoCu(1, taiKhoan.getSoYeuLyLich(), cu);
+                    cheDoCu.setId(id);
+                    cheDoCu.setUpdate_at();
+                    banThanCoLamViecChoCheDoCuRepository.save(cheDoCu);
                 }
                 return new ResDTO<>(
                         ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
                         ResEnum.CAP_NHAT_THANH_CONG,
-                        banThanCoLamViecChoCheDoCu != null ? mapToResBanThanCoLamViecChoCheDoCu(banThanCoLamViecChoCheDoCu) : null
+                        cheDoCu != null ? mapToResBanThanCoLamViecChoCheDoCu(cheDoCu) : null
                 );
 
             } catch (RuntimeException e) {
@@ -348,8 +347,7 @@ public class SoYeuLyLichChiTietServices {
                     .xepLoaiThiDua(cu.xepLoaiThiDua())
                     .hinhThucKhenThuong(hinhThucKhenThuongRepository.findByName(cu.hinhThucKhenThuong()))
                     .soYeuLyLich(syll)
-                    .create_at(syll.getCreate_at())
-                    .update_at(LocalDateTime.now())
+                    .create_at(cu.create_at())
                     .build() :
                     new KhenThuong(
                             cu.nam(),
@@ -428,6 +426,7 @@ public class SoYeuLyLichChiTietServices {
                 if (taiKhoan != null) {
                     khenThuong = mapToKhenThuong(1, taiKhoan.getSoYeuLyLich(), thuong);
                     khenThuong.setId(id);
+                    khenThuong.setUpdate_at();
                     khenThuongRepository.save(khenThuong);
                 }
                 return new ResDTO<>(
@@ -526,8 +525,7 @@ public class SoYeuLyLichChiTietServices {
                     .tenCoSoDaoTao(cu.tenCoSoDaoTao())
                     .chungChiDuocCap(cu.chungChiDuocCap())
                     .soYeuLyLich(syll)
-                    .create_at(syll.getCreate_at())
-                    .update_at(LocalDateTime.now())
+                    .create_at(cu.create_at())
                     .build() :
                     new KienThucAnNinhQuocPhong(
                             cu.batDau(),
@@ -607,6 +605,7 @@ public class SoYeuLyLichChiTietServices {
                 if (taiKhoan != null) {
                     phong = mapToKienThucAnNinhQuocPhong(1, taiKhoan.getSoYeuLyLich(), cu);
                     phong.setId(id);
+                    phong.setUpdate_at();
                     kienThucAnNinhQuocPhongRepository.save(phong);
                 }
                 return new ResDTO<>(
@@ -688,8 +687,7 @@ public class SoYeuLyLichChiTietServices {
                     .hanhViViPhamChinh(cu.hanhViViPhamChinh())
                     .coQuanQuyetDinh(cu.coQuanQuyetDinh())
                     .soYeuLyLich(syll)
-                    .create_at(syll.getCreate_at())
-                    .update_at(LocalDateTime.now())
+                    .create_at(cu.create_at())
                     .build() :
                     new KyLuat(
                             cu.batDau(),
@@ -770,6 +768,7 @@ public class SoYeuLyLichChiTietServices {
                 if (taiKhoan != null) {
                     kyLuat = mapToKyLuat(1, taiKhoan.getSoYeuLyLich(), cu);
                     kyLuat.setId(id);
+                    kyLuat.setUpdate_at();
                     kyLuatRepository.save(kyLuat);
                 }
                 return new ResDTO<>(
@@ -865,8 +864,7 @@ public class SoYeuLyLichChiTietServices {
                     .ketThuc(cu.ketThuc())
                     .toChucDiaChiCongViec(cu.toChucDiaChiCongViec())
                     .soYeuLyLich(syll)
-                    .create_at(syll.getCreate_at())
-                    .update_at(LocalDateTime.now())
+                    .create_at(cu.create_at())
                     .build() :
                     new LamViecONuocNgoai(
                             cu.batDau(),
@@ -945,6 +943,7 @@ public class SoYeuLyLichChiTietServices {
                 if (taiKhoan != null) {
                     ngoai = mapToLamViecONuocNgoai(1, taiKhoan.getSoYeuLyLich(), cu);
                     ngoai.setId(id);
+                    ngoai.setUpdate_at();
                     lamViecONuocNgoaiRepository.save(ngoai);
                 }
                 return new ResDTO<>(
@@ -1027,8 +1026,7 @@ public class SoYeuLyLichChiTietServices {
                     .heSoLuong(cu.heSoLuong())
                     .tienLuongTheoViTri(cu.tienLuongTheoViTri())
                     .soYeuLyLich(syll)
-                    .create_at(syll.getCreate_at())
-                    .update_at(LocalDateTime.now())
+                    .create_at(cu.create_at())
                     .build() :
                     new LuongBanThan(
                             cu.batDau(),
@@ -1110,6 +1108,7 @@ public class SoYeuLyLichChiTietServices {
                 if (taiKhoan != null) {
                     luongBanThan = mapToLuongBanThan(1, taiKhoan.getSoYeuLyLich(), cu);
                     luongBanThan.setId(id);
+                    luongBanThan.setUpdate_at();
                     luongBanThanRepository.save(luongBanThan);
                 }
                 return new ResDTO<>(
@@ -1190,8 +1189,7 @@ public class SoYeuLyLichChiTietServices {
                     .hinhThucDaoTao(cu.hinhThucDaoTao())
                     .vanBangDuocCap(cu.vanBangDuocCap())
                     .soYeuLyLich(syll)
-                    .create_at(syll.getCreate_at())
-                    .update_at(LocalDateTime.now())
+                    .create_at(cu.create_at())
                     .build() :
                     new LyLuanChinhTri(
                             cu.batDau(),
@@ -1272,6 +1270,7 @@ public class SoYeuLyLichChiTietServices {
                 if (taiKhoan != null) {
                     lyLuanChinhTri = mapToLyLuanChinhTri(1, taiKhoan.getSoYeuLyLich(), cu);
                     lyLuanChinhTri.setId(id);
+                    lyLuanChinhTri.setUpdate_at();
                     lyLuanChinhTriRepository.save(lyLuanChinhTri);
                 }
                 return new ResDTO<>(
@@ -1350,8 +1349,7 @@ public class SoYeuLyLichChiTietServices {
                     .tenCoSoDaoTao(cu.tenCoSoDaoTao())
                     .chungChiDuocCap(cu.chungChiDuocCap())
                     .soYeuLyLich(syll)
-                    .create_at(syll.getCreate_at())
-                    .update_at(LocalDateTime.now())
+                    .create_at(cu.create_at())
                     .build() :
                     new NghiepVuChuyenNganh(
                             cu.batDau(),
@@ -1431,6 +1429,7 @@ public class SoYeuLyLichChiTietServices {
                 if (taiKhoan != null) {
                     nghiepVuChuyenNganh = mapToNghiepVuChuyenNganh(1, taiKhoan.getSoYeuLyLich(), cu);
                     nghiepVuChuyenNganh.setId(id);
+                    nghiepVuChuyenNganh.setUpdate_at();
                     nghiepVuChuyenNganhRepository.save(nghiepVuChuyenNganh);
                 }
                 return new ResDTO<>(
@@ -1513,8 +1512,7 @@ public class SoYeuLyLichChiTietServices {
                     .chungChiDuocCap(cu.chungChiDuocCap())
                     .diemSo(cu.diemSo())
                     .soYeuLyLich(syll)
-                    .create_at(syll.getCreate_at())
-                    .update_at(LocalDateTime.now())
+                    .create_at(cu.create_at())
                     .build() :
                     new NgoaiNgu(
                             cu.batDau(),
@@ -1596,6 +1594,7 @@ public class SoYeuLyLichChiTietServices {
                 if (taiKhoan != null) {
                     ngoaiNgu = mapToNgoaiNgu(1, taiKhoan.getSoYeuLyLich(), cu);
                     ngoaiNgu.setId(id);
+                    ngoaiNgu.setUpdate_at();
                     ngoaiNguRepository.save(ngoaiNgu);
                 }
                 return new ResDTO<>(
@@ -1680,8 +1679,7 @@ public class SoYeuLyLichChiTietServices {
                     .hinhThucThuong(cu.hinhThucThuong())
                     .giaTri(cu.giaTri())
                     .soYeuLyLich(syll)
-                    .create_at(syll.getCreate_at())
-                    .update_at(LocalDateTime.now())
+                    .create_at(cu.create_at())
                     .build() :
                     new PhuCapKhac(
                             cu.batDau(),
@@ -1764,6 +1762,7 @@ public class SoYeuLyLichChiTietServices {
                 if (taiKhoan != null) {
                     phuCapKhac = mapToPhuCapKhac(1, taiKhoan.getSoYeuLyLich(), cu);
                     phuCapKhac.setId(id);
+                    phuCapKhac.setUpdate_at();
                     phuCapKhacRepository.save(phuCapKhac);
                 }
                 return new ResDTO<>(
@@ -1842,8 +1841,7 @@ public class SoYeuLyLichChiTietServices {
                     .namSinh(cu.namSinh())
                     .thongTinThanNhan(cu.thongTinThanNhan())
                     .soYeuLyLich(syll)
-                    .create_at(syll.getCreate_at())
-                    .update_at(LocalDateTime.now())
+                    .create_at(cu.create_at())
                     .build() :
                     new QuanHeGiaDinh(
                             cu.moiQuanHe(),
@@ -1923,6 +1921,7 @@ public class SoYeuLyLichChiTietServices {
                 if (taiKhoan != null) {
                     quanHeGiaDinh = mapToQuanHeGiaDinh(1, taiKhoan.getSoYeuLyLich(), cu);
                     quanHeGiaDinh.setId(id);
+                    quanHeGiaDinh.setUpdate_at();
                     quanHeGiaDinhRepository.save(quanHeGiaDinh);
                 }
                 return new ResDTO<>(
@@ -2001,8 +2000,7 @@ public class SoYeuLyLichChiTietServices {
                     .donViCongTac(cu.donViCongTac())
                     .chucDanh(cu.chucDanh())
                     .soYeuLyLich(syll)
-                    .create_at(syll.getCreate_at())
-                    .update_at(LocalDateTime.now())
+                    .create_at(cu.create_at())
                     .build() :
                     new QuaTrinhCongTac(
                             cu.batDau(),
@@ -2082,6 +2080,7 @@ public class SoYeuLyLichChiTietServices {
                 if (taiKhoan != null) {
                     quaTrinhCongTac = mapToQuaTrinhCongTac(1, taiKhoan.getSoYeuLyLich(), cu);
                     quaTrinhCongTac.setId(id);
+                    quaTrinhCongTac.setUpdate_at();
                     quaTrinhCongTacRepository.save(quaTrinhCongTac);
                 }
                 return new ResDTO<>(
@@ -2161,7 +2160,6 @@ public class SoYeuLyLichChiTietServices {
                     .chungChiDuocCap(cu.chungChiDuocCap())
                     .soYeuLyLich(syll)
                     .create_at(cu.create_at())
-                    .update_at(LocalDateTime.now())
                     .build() :
                     new TinHoc(
                             cu.batDau(),
@@ -2241,6 +2239,7 @@ public class SoYeuLyLichChiTietServices {
                 if (taiKhoan != null) {
                     tinHoc = mapToTinHoc(1, taiKhoan.getSoYeuLyLich(), cu);
                     tinHoc.setId(id);
+                    tinHoc.setUpdate_at();
                     tinHocRepository.save(tinHoc);
                 }
                 return new ResDTO<>(
