@@ -182,11 +182,13 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
             SoYeuLyLich soYeuLyLich = soYeuLyLichRepository.findById(UUID.fromString(id)).orElse(null);
             if (soYeuLyLich != null) {
                 soYeuLyLich.setTrangThai(reqDSSoYeuLyLich.trang_thai());
+                soYeuLyLich.setUpdate_at();
                 soYeuLyLichRepository.save(soYeuLyLich);
                 return new ResDTO<>(
                         ResEnum.THANH_CONG.getStatusCode(),
                         ResEnum.THANH_CONG,
-                        ISoYeuLyLichService.RES_DS_SO_YEU_LY_LICH(soYeuLyLich)
+//                        ISoYeuLyLichService.RES_DS_SO_YEU_LY_LICH(soYeuLyLich)
+                        ISoYeuLyLichService.mapToResSoYeuLyLich(soYeuLyLich)
                 );
             }
             return new ResDTO<>(

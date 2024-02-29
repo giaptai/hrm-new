@@ -1,5 +1,6 @@
 package sgu.hrm.module_soyeulylich_chitiet.controllers;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +15,10 @@ import sgu.hrm.module_response.ResDTO;
 import sgu.hrm.module_soyeulylich_chitiet.models.LoaiSoYeuLyLichChiTiet;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqBanThanCoLamViecChoCheDoCu;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKhenThuong;
+import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKhenThuongNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKienThucAnNinhQuocPhong;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKyLuat;
+import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKyLuatNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLamViecONuocNgoai;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLoaiSoYeuLyLichChiTiet;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLuongBanThan;
@@ -127,6 +130,12 @@ public class SoYeuLyLichChiTietController {
         return khenThuongSefvice.xemDanhSach(id);
     }
 
+    @PostMapping("/nhan-vien/khen-thuong")
+    @Transactional
+    public ResDTO<?> nhanvien_khenthuong(@RequestBody List<ReqKhenThuongNhanVien> nhanVien) {
+        return khenThuongSefvice.khenThuongNhanVien(nhanVien);
+    }
+
     //    =================================================
     @GetMapping("/ca-nhan/kien-thuc-an-ninh-quoc-phong")
     public ResDTO<List<?>> kien_thuc_an_ninh_quoc_phong() {
@@ -188,7 +197,11 @@ public class SoYeuLyLichChiTietController {
     public ResDTO<?> nhanvien_ky_luat(@PathVariable String id) {
         return kyLuatSefvice.xemDanhSach(id);
     }
-
+    @PostMapping("/nhan-vien/ky-luat")
+    @Transactional
+    public ResDTO<?> nhanvien_kyluat(@RequestBody List<ReqKyLuatNhanVien> nhanVien) {
+        return kyLuatSefvice.kyLuatNhanVien(nhanVien);
+    }
     //========================================================
     @GetMapping("/ca-nhan/lam-viec-o-nuoc-ngoai")
     public ResDTO<List<?>> lam_viec_o_nuoc_ngoai() {

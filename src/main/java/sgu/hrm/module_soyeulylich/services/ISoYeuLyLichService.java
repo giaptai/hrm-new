@@ -104,6 +104,9 @@ public interface ISoYeuLyLichService {
 //                .luongThucNhan(tinhLuongThucNhan(soYeuLyLich.getTienLuong(), soYeuLyLich.getNgachCongChuc().getHeSoLuongCongChuc().getHeSo(), soYeuLyLich.getPhanTramHuongLuongNgachNgheNghiep(), soYeuLyLich.getPhuCapThamNienVuotKhungNgachNgheNghiep(),
 //                        soYeuLyLich.getPhuCapChucVu(), soYeuLyLich.getPhuCapKiemNhiem(), soYeuLyLich.getPhuCapKhac(),
 //                        soYeuLyLich.getViTriViecLam().getTienLuong(), soYeuLyLich.getPhamTramHuongLuong(), soYeuLyLich.getPhuCapThamNienVuotKhung()))
+                .trangThai(soYeuLyLich.isTrangThai())
+                .create_at(soYeuLyLich.getCreate_at())
+                .update_at(soYeuLyLich.getUpdate_at())
                 .build();
     }
 

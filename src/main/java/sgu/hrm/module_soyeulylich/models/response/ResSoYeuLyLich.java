@@ -136,6 +136,9 @@ public record ResSoYeuLyLich(
 
         String nhomMau, //NhomMau nhomMau,
 
-        double luongThucNhan
+        double luongThucNhan,
+        boolean trangThai,
+        LocalDateTime create_at,
+        LocalDateTime update_at
 ) {
 }

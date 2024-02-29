@@ -11,6 +11,8 @@ import sgu.hrm.module_heso_luong.models.LoaiCongChuc;
 import sgu.hrm.module_heso_luong.models.LoaiVienChuc;
 import sgu.hrm.module_heso_luong.models.NhomLoaiCongChuc;
 import sgu.hrm.module_heso_luong.models.NhomLoaiVienChuc;
+import sgu.hrm.module_heso_luong.models.response.ResHeSoLuongCongChuc;
+import sgu.hrm.module_heso_luong.models.response.ResHeSoLuongVienChuc;
 import sgu.hrm.module_heso_luong.repositories.HeSoLuongCongChucRepository;
 import sgu.hrm.module_heso_luong.repositories.HeSoLuongVienChucRepository;
 import sgu.hrm.module_heso_luong.repositories.LoaiCongChucRepository;
@@ -31,6 +33,7 @@ public class HeSoLuongService implements IHeSoLuongService.ILoaiCongChucService,
         IHeSoLuongService.INhomLoaiVienChucService,
         IHeSoLuongService.IHeSoLuongCongChucService,
         IHeSoLuongService.IHeSoLuongVienChucService {
+
     final LoaiCongChucRepository loaiCongChucRepository;
     final LoaiVienChucRepository loaiVienChucRepository;
     final NhomLoaiCongChucRepository nhomLoaiCongChucRepository;
@@ -56,7 +59,8 @@ public class HeSoLuongService implements IHeSoLuongService.ILoaiCongChucService,
     public ResDTO<LoaiCongChuc> suaLoaiCongChuc() {
         return null;
     }
-/////
+
+    /////
     @Override
     public ResDTO<List<LoaiVienChuc>> xemLoaiVienChuc() {
         return new ResDTO<>(
@@ -75,7 +79,8 @@ public class HeSoLuongService implements IHeSoLuongService.ILoaiCongChucService,
     public ResDTO<LoaiVienChuc> suaLoaiVienChuc() {
         return null;
     }
-////
+
+    ////
     @Override
     public ResDTO<List<NhomLoaiCongChuc>> xemNhomLoaiCongChuc() {
         return new ResDTO<>(
@@ -94,7 +99,8 @@ public class HeSoLuongService implements IHeSoLuongService.ILoaiCongChucService,
     public ResDTO<NhomLoaiCongChuc> suaNhomLoaiCongChuc() {
         return null;
     }
-/////
+
+    /////
     @Override
     public ResDTO<List<NhomLoaiVienChuc>> xemNhomLoaiVienChuc() {
         return new ResDTO<>(
@@ -113,13 +119,15 @@ public class HeSoLuongService implements IHeSoLuongService.ILoaiCongChucService,
     public ResDTO<NhomLoaiVienChuc> suaNhomLoaiVienChuc() {
         return null;
     }
-/////
+
+    /////
     @Override
-    public ResDTO<List<HeSoLuongCongChuc>> xemHeSoLuongCongChuc() {
+    public ResDTO<List<ResHeSoLuongCongChuc>> xemHeSoLuongCongChuc() {
+        List<ResHeSoLuongCongChuc> chucs = heSoLuongCongChucRepository.findAll().stream().map(this::mapToResHeSoLuongCongChuc).toList();
         return new ResDTO<>(
                 ResEnum.THANH_CONG.getStatusCode(),
                 ResEnum.THANH_CONG,
-                heSoLuongCongChucRepository.findAll()
+                chucs
         );
     }
 
@@ -132,13 +140,15 @@ public class HeSoLuongService implements IHeSoLuongService.ILoaiCongChucService,
     public ResDTO<HeSoLuongCongChuc> suaHeSoLuongCongChuc() {
         return null;
     }
-//////
+
+    //////
     @Override
-    public ResDTO<List<HeSoLuongVienChuc>> xemHeSoLuongVienChuc() {
+    public ResDTO<List<ResHeSoLuongVienChuc>> xemHeSoLuongVienChuc() {
+        List<ResHeSoLuongVienChuc> viens = heSoLuongVienChucRepository.findAll().stream().map(this::mapToResHeSoLuongVienChuc).toList();
         return new ResDTO<>(
                 ResEnum.THANH_CONG.getStatusCode(),
                 ResEnum.THANH_CONG,
-                heSoLuongVienChucRepository.findAll()
+                viens
         );
     }
 
@@ -150,5 +160,29 @@ public class HeSoLuongService implements IHeSoLuongService.ILoaiCongChucService,
     @Override
     public ResDTO<HeSoLuongVienChuc> suaHeSoLuongVienChuc() {
         return null;
+    }
+
+    private ResHeSoLuongCongChuc mapToResHeSoLuongCongChuc(HeSoLuongCongChuc chuc) {
+        return ResHeSoLuongCongChuc.builder()
+                .id(chuc.getId())
+                .heSo(chuc.getHeSo())
+                .bacLuong(chuc.getBacLuong().getName())
+                .nhomLoaiCongChuc(chuc.getNhomLoaiCongChuc().getName())
+                .trangThai(chuc.isTrangThai())
+                .create_at(chuc.getCreate_at())
+                .update_at(chuc.getUpdate_at())
+                .build();
+    }
+
+    private ResHeSoLuongVienChuc mapToResHeSoLuongVienChuc(HeSoLuongVienChuc vien) {
+        return ResHeSoLuongVienChuc.builder()
+                .id(vien.getId())
+                .heSo(vien.getHeSo())
+                .bacLuong(vien.getBacLuong().getName())
+                .nhomLoaiVienChuc(vien.getNhomLoaiVienChuc().getName())
+                .trangThai(vien.isTrangThai())
+                .create_at(vien.getCreate_at())
+                .update_at(vien.getUpdate_at())
+                .build();
     }
 }

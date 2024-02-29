@@ -1,6 +1,8 @@
 package sgu.hrm.module_soyeulylich_chitiet.services;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import sgu.hrm.module_response.ResDTO;
 import sgu.hrm.module_response.ResEnum;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
+import sgu.hrm.module_soyeulylich.repository.SoYeuLyLichRepository;
 import sgu.hrm.module_soyeulylich_chitiet.models.BanThanCoLamViecChoCheDoCu;
 import sgu.hrm.module_soyeulylich_chitiet.models.KhenThuong;
 import sgu.hrm.module_soyeulylich_chitiet.models.KienThucAnNinhQuocPhong;
@@ -26,8 +29,10 @@ import sgu.hrm.module_soyeulylich_chitiet.models.TinHoc;
 
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqBanThanCoLamViecChoCheDoCu;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKhenThuong;
+import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKhenThuongNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKienThucAnNinhQuocPhong;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKyLuat;
+import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKyLuatNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLamViecONuocNgoai;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLoaiSoYeuLyLichChiTiet;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLuongBanThan;
@@ -67,31 +72,37 @@ import sgu.hrm.module_soyeulylich_chitiet.repositories.QuanHeGiaDinhRepository;
 import sgu.hrm.module_soyeulylich_chitiet.repositories.TinHocRepository;
 import sgu.hrm.module_taikhoan.models.TaiKhoan;
 import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
+import sgu.hrm.module_utilities.repositories.HinhThucKhenThuongRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor // create constructor if field is set final or @notnull
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SoYeuLyLichChiTietServices {
     //DI
-    private final LoaiSoYeuLyLichChiTietRepository loaiSoYeuLyLichChiTietRepository;
-    private final BanThanCoLamViecChoCheDoCuRepository banThanCoLamViecChoCheDoCuRepository;
-    private final KhenThuongRepository khenThuongRepository;
-    private final KienThucAnNinhQuocPhongRepository kienThucAnNinhQuocPhongRepository;
-    private final KyLuatRepository kyLuatRepository;
-    private final LamViecONuocNgoaiRepository lamViecONuocNgoaiRepository;
-    private final LuongBanThanRepository luongBanThanRepository;
-    private final LyLuanChinhTriRepository lyLuanChinhTriRepository;
-    private final NghiepVuChuyenNganhRepository nghiepVuChuyenNganhRepository;
-    private final NgoaiNguRepository ngoaiNguRepository;
-    private final PhuCapKhacRepository phuCapKhacRepository;
-    private final QuanHeGiaDinhRepository quanHeGiaDinhRepository;
-    private final QuaTrinhCongTacRepository quaTrinhCongTacRepository;
-    private final TinHocRepository tinHocRepository;
+    final SoYeuLyLichRepository soYeuLyLichRepository;
+    final LoaiSoYeuLyLichChiTietRepository loaiSoYeuLyLichChiTietRepository;
+    final BanThanCoLamViecChoCheDoCuRepository banThanCoLamViecChoCheDoCuRepository;
+    final KhenThuongRepository khenThuongRepository;
+    final HinhThucKhenThuongRepository hinhThucKhenThuongRepository;
+    final KienThucAnNinhQuocPhongRepository kienThucAnNinhQuocPhongRepository;
+    final KyLuatRepository kyLuatRepository;
+    final LamViecONuocNgoaiRepository lamViecONuocNgoaiRepository;
+    final LuongBanThanRepository luongBanThanRepository;
+    final LyLuanChinhTriRepository lyLuanChinhTriRepository;
+    final NghiepVuChuyenNganhRepository nghiepVuChuyenNganhRepository;
+    final NgoaiNguRepository ngoaiNguRepository;
+    final PhuCapKhacRepository phuCapKhacRepository;
+    final QuanHeGiaDinhRepository quanHeGiaDinhRepository;
+    final QuaTrinhCongTacRepository quaTrinhCongTacRepository;
+    final TinHocRepository tinHocRepository;
 
     private TaiKhoan crush_em_T() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -176,7 +187,7 @@ public class SoYeuLyLichChiTietServices {
                     .ketThuc(cu.ketThuc())
                     .chucDanhDonViDiaDiem(cu.chucDanhDonViDiaDiem())
                     .soYeuLyLich(syll)
-                    .create_at(cu.create_at())
+                    .create_at(syll.getCreate_at())
                     .update_at(LocalDateTime.now())
                     .build() :
                     new BanThanCoLamViecChoCheDoCu(
@@ -330,20 +341,21 @@ public class SoYeuLyLichChiTietServices {
         }
 
         private KhenThuong mapToKhenThuong(int check, SoYeuLyLich syll, ReqKhenThuong cu) {
+
             return check == 1 ? KhenThuong.builder()
                     .nam(cu.nam())
                     .xepLoaiChuyenMon(cu.xepLoaiChuyenMon())
                     .xepLoaiThiDua(cu.xepLoaiThiDua())
-                    .hinhThucKhenThuong(null)
+                    .hinhThucKhenThuong(hinhThucKhenThuongRepository.findByName(cu.hinhThucKhenThuong()))
                     .soYeuLyLich(syll)
-                    .create_at(cu.create_at())
+                    .create_at(syll.getCreate_at())
                     .update_at(LocalDateTime.now())
                     .build() :
                     new KhenThuong(
                             cu.nam(),
                             cu.xepLoaiChuyenMon(),
                             cu.xepLoaiThiDua(),
-                            null,
+                            hinhThucKhenThuongRepository.findByName(cu.hinhThucKhenThuong()),
                             cu.lyDo(),
                             null,
                             syll);
@@ -472,6 +484,25 @@ public class SoYeuLyLichChiTietServices {
                 throw new RuntimeException(e.getCause());
             }
         }
+
+        @Override
+        public ResDTO<?> khenThuongNhanVien(List<ReqKhenThuongNhanVien> vien) {
+            try {
+                List<KhenThuong> khenThuongs = vien.stream().flatMap(
+                        reqNV -> reqNV.nhanVienUUIDs().stream().map(
+                                nvId -> mapToKhenThuong(-1, Optional.ofNullable(soYeuLyLichRepository.findById(nvId)).map(Optional::get).orElseThrow(RuntimeException::new), reqNV.khenThuong())
+                        )).toList();
+                khenThuongRepository.saveAll(khenThuongs);
+                List<ResKhenThuong> resKT = khenThuongs.stream().map(this::mapToResKhenThuong).toList();
+                return new ResDTO<>(
+                        ResEnum.KHEN_THUONG_THANH_CONG.getStatusCode(),
+                        ResEnum.KHEN_THUONG_THANH_CONG,
+                        khenThuongs.stream().map(this::mapToResKhenThuong).toList()
+                );
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e.getCause());
+            }
+        }
     }
 
     @Service
@@ -495,7 +526,7 @@ public class SoYeuLyLichChiTietServices {
                     .tenCoSoDaoTao(cu.tenCoSoDaoTao())
                     .chungChiDuocCap(cu.chungChiDuocCap())
                     .soYeuLyLich(syll)
-                    .create_at(cu.create_at())
+                    .create_at(syll.getCreate_at())
                     .update_at(LocalDateTime.now())
                     .build() :
                     new KienThucAnNinhQuocPhong(
@@ -657,7 +688,7 @@ public class SoYeuLyLichChiTietServices {
                     .hanhViViPhamChinh(cu.hanhViViPhamChinh())
                     .coQuanQuyetDinh(cu.coQuanQuyetDinh())
                     .soYeuLyLich(syll)
-                    .create_at(cu.create_at())
+                    .create_at(syll.getCreate_at())
                     .update_at(LocalDateTime.now())
                     .build() :
                     new KyLuat(
@@ -795,6 +826,24 @@ public class SoYeuLyLichChiTietServices {
                 throw new RuntimeException(e.getCause());
             }
         }
+
+        @Override
+        public ResDTO<?> kyLuatNhanVien(List<ReqKyLuatNhanVien> ky) {
+            try {
+                List<KyLuat> kyLuats = ky.stream().flatMap(
+                        reqNV -> reqNV.nhanVienUUIDs().stream().map(
+                                nvId -> mapToKyLuat(-1, Optional.ofNullable(soYeuLyLichRepository.findById(nvId)).map(Optional::get).orElseThrow(RuntimeException::new), reqNV.kyLuat())
+                        )).toList();
+                kyLuatRepository.saveAll(kyLuats);
+                return new ResDTO<>(
+                        ResEnum.KY_LUAT_THANH_CONG.getStatusCode(),
+                        ResEnum.KY_LUAT_THANH_CONG,
+                        kyLuats.stream().map(this::mapToResKyLuat).toList()
+                );
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e.getCause());
+            }
+        }
     }
 
     @Service
@@ -816,7 +865,7 @@ public class SoYeuLyLichChiTietServices {
                     .ketThuc(cu.ketThuc())
                     .toChucDiaChiCongViec(cu.toChucDiaChiCongViec())
                     .soYeuLyLich(syll)
-                    .create_at(cu.create_at())
+                    .create_at(syll.getCreate_at())
                     .update_at(LocalDateTime.now())
                     .build() :
                     new LamViecONuocNgoai(
@@ -978,7 +1027,7 @@ public class SoYeuLyLichChiTietServices {
                     .heSoLuong(cu.heSoLuong())
                     .tienLuongTheoViTri(cu.tienLuongTheoViTri())
                     .soYeuLyLich(syll)
-                    .create_at(cu.create_at())
+                    .create_at(syll.getCreate_at())
                     .update_at(LocalDateTime.now())
                     .build() :
                     new LuongBanThan(
@@ -1141,7 +1190,7 @@ public class SoYeuLyLichChiTietServices {
                     .hinhThucDaoTao(cu.hinhThucDaoTao())
                     .vanBangDuocCap(cu.vanBangDuocCap())
                     .soYeuLyLich(syll)
-                    .create_at(cu.create_at())
+                    .create_at(syll.getCreate_at())
                     .update_at(LocalDateTime.now())
                     .build() :
                     new LyLuanChinhTri(
@@ -1301,7 +1350,7 @@ public class SoYeuLyLichChiTietServices {
                     .tenCoSoDaoTao(cu.tenCoSoDaoTao())
                     .chungChiDuocCap(cu.chungChiDuocCap())
                     .soYeuLyLich(syll)
-                    .create_at(cu.create_at())
+                    .create_at(syll.getCreate_at())
                     .update_at(LocalDateTime.now())
                     .build() :
                     new NghiepVuChuyenNganh(
@@ -1464,7 +1513,7 @@ public class SoYeuLyLichChiTietServices {
                     .chungChiDuocCap(cu.chungChiDuocCap())
                     .diemSo(cu.diemSo())
                     .soYeuLyLich(syll)
-                    .create_at(cu.create_at())
+                    .create_at(syll.getCreate_at())
                     .update_at(LocalDateTime.now())
                     .build() :
                     new NgoaiNgu(
@@ -1631,7 +1680,7 @@ public class SoYeuLyLichChiTietServices {
                     .hinhThucThuong(cu.hinhThucThuong())
                     .giaTri(cu.giaTri())
                     .soYeuLyLich(syll)
-                    .create_at(cu.create_at())
+                    .create_at(syll.getCreate_at())
                     .update_at(LocalDateTime.now())
                     .build() :
                     new PhuCapKhac(
@@ -1793,7 +1842,7 @@ public class SoYeuLyLichChiTietServices {
                     .namSinh(cu.namSinh())
                     .thongTinThanNhan(cu.thongTinThanNhan())
                     .soYeuLyLich(syll)
-                    .create_at(cu.create_at())
+                    .create_at(syll.getCreate_at())
                     .update_at(LocalDateTime.now())
                     .build() :
                     new QuanHeGiaDinh(
@@ -1952,7 +2001,7 @@ public class SoYeuLyLichChiTietServices {
                     .donViCongTac(cu.donViCongTac())
                     .chucDanh(cu.chucDanh())
                     .soYeuLyLich(syll)
-                    .create_at(cu.create_at())
+                    .create_at(syll.getCreate_at())
                     .update_at(LocalDateTime.now())
                     .build() :
                     new QuaTrinhCongTac(

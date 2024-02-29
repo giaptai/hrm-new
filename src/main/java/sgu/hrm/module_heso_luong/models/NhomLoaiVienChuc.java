@@ -38,6 +38,6 @@ public class NhomLoaiVienChuc extends DateTimeObject {
     @JoinColumn(name = "loai_vien_chuc", referencedColumnName = "id", columnDefinition = "VARCHAR(10)")
     LoaiVienChuc loaiVienChuc;
 
-    @OneToMany(mappedBy = "nhomLoaiVienChuc")
-    List<HeSoLuongVienChuc> heSoLuongVienChucs;
+//    @OneToMany(mappedBy = "nhomLoaiVienChuc")
+//    List<HeSoLuongVienChuc> heSoLuongVienChucs;
 }

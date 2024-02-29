@@ -1,6 +1,10 @@
 package sgu.hrm.module_response;
 
 public enum ResEnum {
+    KY_LUAT_THANH_CONG(200),
+    KY_LUAT_THAT_BAI(200),
+    KHEN_THUONG_THANH_CONG(200),
+    KHEN_THUONG_THAT_BAI(200),
     DOI_MAT_KHAU_THANH_CONG(200),
     DANG_NHAP_THANH_CONG(200),
     DANG_NHAP_THAT_BAI(200),

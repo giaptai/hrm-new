@@ -29,6 +29,6 @@ public class LoaiVienChuc extends DateTimeObject {
     @Column(length = 2, unique = true)
     String name;
 
-    @OneToMany(mappedBy = "loaiVienChuc")
-    List<NhomLoaiVienChuc> nhomLoaiVienChucs;
+//    @OneToMany(mappedBy = "loaiVienChuc")
+//    List<NhomLoaiVienChuc> nhomLoaiVienChucs;
 }

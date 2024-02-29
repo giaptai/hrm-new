@@ -6,6 +6,8 @@ import sgu.hrm.module_heso_luong.models.LoaiCongChuc;
 import sgu.hrm.module_heso_luong.models.LoaiVienChuc;
 import sgu.hrm.module_heso_luong.models.NhomLoaiCongChuc;
 import sgu.hrm.module_heso_luong.models.NhomLoaiVienChuc;
+import sgu.hrm.module_heso_luong.models.response.ResHeSoLuongCongChuc;
+import sgu.hrm.module_heso_luong.models.response.ResHeSoLuongVienChuc;
 import sgu.hrm.module_response.ResDTO;
 
 import java.util.List;
@@ -44,7 +46,7 @@ public interface IHeSoLuongService {
     }
 
     interface IHeSoLuongCongChucService {
-        ResDTO<List<HeSoLuongCongChuc>> xemHeSoLuongCongChuc();
+        ResDTO<List<ResHeSoLuongCongChuc>> xemHeSoLuongCongChuc();
 
         ResDTO<HeSoLuongCongChuc> themHeSoLuongCongChuc();
 
@@ -52,7 +54,7 @@ public interface IHeSoLuongService {
     }
 
     interface IHeSoLuongVienChucService {
-        ResDTO<List<HeSoLuongVienChuc>> xemHeSoLuongVienChuc();
+        ResDTO<List<ResHeSoLuongVienChuc>> xemHeSoLuongVienChuc();
 
         ResDTO<HeSoLuongVienChuc> themHeSoLuongVienChuc();
 

@@ -17,8 +17,10 @@ import sgu.hrm.module_soyeulylich_chitiet.models.QuanHeGiaDinh;
 import sgu.hrm.module_soyeulylich_chitiet.models.TinHoc;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqBanThanCoLamViecChoCheDoCu;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKhenThuong;
+import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKhenThuongNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKienThucAnNinhQuocPhong;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKyLuat;
+import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKyLuatNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLamViecONuocNgoai;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLoaiSoYeuLyLichChiTiet;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLuongBanThan;
@@ -59,12 +61,14 @@ public interface ISoYeuLyLichChiTietServices<T, H> {
     }
 
     abstract class IKhenThuongSefvice implements ISoYeuLyLichChiTietServices<KhenThuong, ReqKhenThuong> {
+        public abstract ResDTO<?> khenThuongNhanVien(List<ReqKhenThuongNhanVien> vien);
     }
 
     abstract class IKienThucAnNinhQuocPhongSefvice implements ISoYeuLyLichChiTietServices<KienThucAnNinhQuocPhong, ReqKienThucAnNinhQuocPhong> {
     }
 
     abstract class IKyLuatSefvice implements ISoYeuLyLichChiTietServices<KyLuat, ReqKyLuat> {
+        public abstract ResDTO<?> kyLuatNhanVien(List<ReqKyLuatNhanVien> vien);
     }
 
     abstract class ILamViecONuocNgoaiSefvice implements ISoYeuLyLichChiTietServices<LamViecONuocNgoai, ReqLamViecONuocNgoai> {
