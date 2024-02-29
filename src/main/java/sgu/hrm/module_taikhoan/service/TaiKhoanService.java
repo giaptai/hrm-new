@@ -48,7 +48,7 @@ public class TaiKhoanService implements ITaiKhoanService {
 
     final SoYeuLyLichRepository soYeuLyLichRepository;
 
-    final JavaMailSender javaMailSender;
+//    final JavaMailSender javaMailSender;
 
     final JWTUtilities jwtUtilities;
 
@@ -243,17 +243,17 @@ public class TaiKhoanService implements ITaiKhoanService {
 //                producer.flush();
 //                producer.close();
                 //send email
-                SimpleMailMessage message = new SimpleMailMessage();
-                message.setFrom("noreply-chinhphu@gmail.com");
-                message.setTo(reqTaiKhoan.email());
-                message.setSubject("CHÀO MỪNG NHÂN VIÊN CHÍNH PHỦ");
-                message.setText(String.format("%s\n%s\n%s\n%s",
-                        "THÔNG TIN TÀI KHOẢN",
-                        "Tên đăng nhập: " + taiKhoan.getUsername(),
-                        "Mật khẩu: " + taiKhoan.getPassword(),
-                        "Mã sơ yếu lý lịch: " + soYeuLyLich.getId()
-                ));
-                javaMailSender.send(message);
+//                SimpleMailMessage message = new SimpleMailMessage();
+//                message.setFrom("noreply-chinhphu@gmail.com");
+//                message.setTo(reqTaiKhoan.email());
+//                message.setSubject("CHÀO MỪNG NHÂN VIÊN CHÍNH PHỦ");
+//                message.setText(String.format("%s\n%s\n%s\n%s",
+//                        "THÔNG TIN TÀI KHOẢN",
+//                        "Tên đăng nhập: " + taiKhoan.getUsername(),
+//                        "Mật khẩu: " + taiKhoan.getPassword(),
+//                        "Mã sơ yếu lý lịch: " + soYeuLyLich.getId()
+//                ));
+//                javaMailSender.send(message);
             }
         }
     }
