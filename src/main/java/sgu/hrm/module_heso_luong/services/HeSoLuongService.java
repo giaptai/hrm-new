@@ -43,11 +43,7 @@ public class HeSoLuongService implements IHeSoLuongService.ILoaiCongChucService,
 
     @Override
     public ResDTO<List<LoaiCongChuc>> xemLoaiCongChuc() {
-        return new ResDTO<>(
-                ResEnum.THANH_CONG.getStatusCode(),
-                ResEnum.THANH_CONG,
-                loaiCongChucRepository.findAll()
-        );
+        return ResDTO.response(ResEnum.THANH_CONG, loaiCongChucRepository.findAll());
     }
 
     @Override
@@ -63,11 +59,7 @@ public class HeSoLuongService implements IHeSoLuongService.ILoaiCongChucService,
     /////
     @Override
     public ResDTO<List<LoaiVienChuc>> xemLoaiVienChuc() {
-        return new ResDTO<>(
-                ResEnum.THANH_CONG.getStatusCode(),
-                ResEnum.THANH_CONG,
-                loaiVienChucRepository.findAll()
-        );
+        return ResDTO.response(ResEnum.THANH_CONG, loaiVienChucRepository.findAll());
     }
 
     @Override
@@ -83,11 +75,7 @@ public class HeSoLuongService implements IHeSoLuongService.ILoaiCongChucService,
     ////
     @Override
     public ResDTO<List<NhomLoaiCongChuc>> xemNhomLoaiCongChuc() {
-        return new ResDTO<>(
-                ResEnum.THANH_CONG.getStatusCode(),
-                ResEnum.THANH_CONG,
-                nhomLoaiCongChucRepository.findAll()
-        );
+        return ResDTO.response(ResEnum.THANH_CONG, nhomLoaiCongChucRepository.findAll());
     }
 
     @Override
@@ -103,11 +91,8 @@ public class HeSoLuongService implements IHeSoLuongService.ILoaiCongChucService,
     /////
     @Override
     public ResDTO<List<NhomLoaiVienChuc>> xemNhomLoaiVienChuc() {
-        return new ResDTO<>(
-                ResEnum.THANH_CONG.getStatusCode(),
-                ResEnum.THANH_CONG,
-                nhomLoaiVienChucRepository.findAll()
-        );
+        return ResDTO.response(ResEnum.THANH_CONG, nhomLoaiVienChucRepository.findAll());
+
     }
 
     @Override
@@ -124,11 +109,7 @@ public class HeSoLuongService implements IHeSoLuongService.ILoaiCongChucService,
     @Override
     public ResDTO<List<ResHeSoLuongCongChuc>> xemHeSoLuongCongChuc() {
         List<ResHeSoLuongCongChuc> chucs = heSoLuongCongChucRepository.findAll().stream().map(this::mapToResHeSoLuongCongChuc).toList();
-        return new ResDTO<>(
-                ResEnum.THANH_CONG.getStatusCode(),
-                ResEnum.THANH_CONG,
-                chucs
-        );
+        return ResDTO.response(ResEnum.THANH_CONG, chucs);
     }
 
     @Override
@@ -145,11 +126,7 @@ public class HeSoLuongService implements IHeSoLuongService.ILoaiCongChucService,
     @Override
     public ResDTO<List<ResHeSoLuongVienChuc>> xemHeSoLuongVienChuc() {
         List<ResHeSoLuongVienChuc> viens = heSoLuongVienChucRepository.findAll().stream().map(this::mapToResHeSoLuongVienChuc).toList();
-        return new ResDTO<>(
-                ResEnum.THANH_CONG.getStatusCode(),
-                ResEnum.THANH_CONG,
-                viens
-        );
+        return ResDTO.response(ResEnum.THANH_CONG, viens);
     }
 
     @Override

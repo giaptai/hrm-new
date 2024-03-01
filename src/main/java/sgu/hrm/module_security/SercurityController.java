@@ -19,11 +19,7 @@ public class SercurityController {
 
     @GetMapping("/tu-choi")
     public ResDTO<String> getDenied() throws RuntimeException {
-        return new ResDTO<>(
-                ResEnum.TRUY_CAP_BI_CAM.getStatusCode(),
-                ResEnum.TRUY_CAP_BI_CAM,
-                null
-        );
+        return ResDTO.response(ResEnum.TRUY_CAP_BI_CAM, null);
     }
 
     @PostMapping("/dang-nhap")
@@ -34,17 +30,9 @@ public class SercurityController {
     @GetMapping("/dang-xuat")
     public ResDTO<String> getLogout(HttpServletResponse response) throws Exception {
         try {
-            return new ResDTO<>(
-                    ResEnum.THANH_CONG.getStatusCode(),
-                    ResEnum.THANH_CONG,
-                    "Thoát thành công"
-            );
+            return ResDTO.response(ResEnum.DANG_XUAT_THANH_CONG, "Thoát thành công !!!");
         } catch (Exception e) {
-            return new ResDTO<>(
-                    ResEnum.KHONG_HOP_LE.getStatusCode(),
-                    ResEnum.KHONG_HOP_LE,
-                    null
-            );
+            return ResDTO.response(ResEnum.DANG_XUAT_THANH_CONG, null);
         }
     }
 }

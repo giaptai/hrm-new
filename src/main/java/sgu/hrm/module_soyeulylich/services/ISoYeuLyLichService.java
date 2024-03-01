@@ -70,7 +70,7 @@ public interface ISoYeuLyLichService {
                 .ngayBoNhiem(soYeuLyLich.getNgayBoNhiem())
                 .ngayBoNhiemLai(soYeuLyLich.getNgayBoNhiemLai())
                 .duocQuyHoacChucDanh(soYeuLyLich.getDuocQuyHoacChucDanh())
-                .chucVuKiemNhiem(soYeuLyLich.getChucVuKiemNhiem())
+                .chucVuKiemNhiem(soYeuLyLich.getChucVuKiemNhiem().getName())
                 .chucVuDangHienTai(Optional.ofNullable(soYeuLyLich.getChucVuDangHienTai()).map(ChucDanhDang::getName).orElse(""))
                 .chucVuDangKiemNhiem(Optional.ofNullable(soYeuLyLich.getChucVuDangKiemNhiem()).map(ChucDanhDang::getName).orElse(""))
                 .congViecChinhDuocGiao(soYeuLyLich.getCongViecChinhDuocGiao())

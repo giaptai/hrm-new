@@ -17,7 +17,6 @@ import sgu.hrm.module_response.ResDTO;
 import sgu.hrm.module_response.ResEnum;
 import sgu.hrm.module_soyeulylich.models.request.ReqDSSoYeuLyLich;
 import sgu.hrm.module_soyeulylich.models.request.ReqSoYeuLyLich;
-import sgu.hrm.module_soyeulylich.models.response.ResDSSoYeuLyLich;
 import sgu.hrm.module_soyeulylich.repository.SoYeuLyLichRepository;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_soyeulylich.models.response.ResSoYeuLyLich;
@@ -88,11 +87,7 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
     public ResDTO<?> xemThongTinSoYeuLyLich() {
         try {
             SoYeuLyLich soYeuLyLich = get_Info_SoYeuLyLich();
-            return new ResDTO<>(
-                    ResEnum.THANH_CONG.getStatusCode(),
-                    ResEnum.THANH_CONG,
-                    soYeuLyLich != null ? ISoYeuLyLichService.mapToResSoYeuLyLich(soYeuLyLich) : ""
-            );
+            return ResDTO.response(ResEnum.THANH_CONG, soYeuLyLich != null ? ISoYeuLyLichService.mapToResSoYeuLyLich(soYeuLyLich) : "");
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
@@ -108,16 +103,8 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
                 soYeuLyLichNew.setCreate_at(soYeuLyLich.getCreate_at());
                 soYeuLyLichNew.setUpdate_at();
                 soYeuLyLichRepository.save(soYeuLyLichNew);
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        ISoYeuLyLichService.mapToResSoYeuLyLich(soYeuLyLichNew)
-                );
-            } else return new ResDTO<>(
-                    ResEnum.HONG_TIM_THAY.getStatusCode(),
-                    ResEnum.HONG_TIM_THAY,
-                    null
-            );
+                return ResDTO.response(ResEnum.THANH_CONG, ISoYeuLyLichService.mapToResSoYeuLyLich(soYeuLyLichNew));
+            } else return ResDTO.response(ResEnum.HONG_TIM_THAY, null);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
@@ -127,11 +114,7 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
     public ResDTO<?> xemDanhSachSoYeuLyLich() {
         try {
             List<ResSoYeuLyLich> soYeuLyLichs = soYeuLyLichRepository.findAll().stream().map(ISoYeuLyLichService::mapToResSoYeuLyLich).toList();
-            return new ResDTO<>(
-                    ResEnum.THANH_CONG.getStatusCode(),
-                    ResEnum.THANH_CONG,
-                    soYeuLyLichs
-            );
+            return ResDTO.response(ResEnum.THANH_CONG, soYeuLyLichs);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
@@ -146,12 +129,8 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
             if (UUID_REGEX.matcher(q).matches()) {
                 resSoYeuLyLichId = soYeuLyLichRepository.findById(UUID.fromString(q)).orElse(null);
             }
-            return new ResDTO<>(
-                    ResEnum.THANH_CONG.getStatusCode(),
-                    ResEnum.THANH_CONG,
-                    (resSoYeuLyLichSoCCCD != null ? ISoYeuLyLichService.mapToResSoYeuLyLich(resSoYeuLyLichSoCCCD) :
-                            resSoYeuLyLichId != null ? ISoYeuLyLichService.mapToResSoYeuLyLich(resSoYeuLyLichId) : null)
-            );
+            return ResDTO.response(ResEnum.THANH_CONG, (resSoYeuLyLichSoCCCD != null ? ISoYeuLyLichService.mapToResSoYeuLyLich(resSoYeuLyLichSoCCCD) :
+                    resSoYeuLyLichId != null ? ISoYeuLyLichService.mapToResSoYeuLyLich(resSoYeuLyLichId) : null));
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
@@ -161,16 +140,9 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
     public ResDTO<?> xemSoYeuLyLichTheoId(String id) {
         try {
             SoYeuLyLich soYeuLyLich = soYeuLyLichRepository.findById(UUID.fromString(id)).orElse(null);
-            return new ResDTO<>(ResEnum.THANH_CONG.getStatusCode(),
-                    ResEnum.THANH_CONG,
-                    soYeuLyLich != null ? ISoYeuLyLichService.mapToResSoYeuLyLich(soYeuLyLich) : null
-            );
+            return ResDTO.response(ResEnum.THANH_CONG, soYeuLyLich != null ? ISoYeuLyLichService.mapToResSoYeuLyLich(soYeuLyLich) : null);
         } catch (IllegalArgumentException e) {
-            return new ResDTO<>(
-                    ResEnum.HONG_TIM_THAY.getStatusCode(),
-                    ResEnum.HONG_TIM_THAY,
-                    ""
-            );
+            return ResDTO.response(ResEnum.KHONG_HOP_LE, "");
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
@@ -184,18 +156,11 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
                 soYeuLyLich.setTrangThai(reqDSSoYeuLyLich.trang_thai());
                 soYeuLyLich.setUpdate_at();
                 soYeuLyLichRepository.save(soYeuLyLich);
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-//                        ISoYeuLyLichService.RES_DS_SO_YEU_LY_LICH(soYeuLyLich)
-                        ISoYeuLyLichService.mapToResSoYeuLyLich(soYeuLyLich)
-                );
+                // ISoYeuLyLichService.RES_DS_SO_YEU_LY_LICH(soYeuLyLich)
+                return ResDTO.response(ResEnum.THANH_CONG, ISoYeuLyLichService.mapToResSoYeuLyLich(soYeuLyLich));
+
             }
-            return new ResDTO<>(
-                    ResEnum.HONG_TIM_THAY.getStatusCode(),
-                    ResEnum.HONG_TIM_THAY,
-                    ""
-            );
+            return ResDTO.response(ResEnum.HONG_TIM_THAY, "");
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
@@ -235,6 +200,7 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
         TinhTrangSucKhoe tinhTrangSucKhoe = tinhTrangSucKhoeRepository.findByTitle(reqSoYeuLyLich.tinhTrangSucKhoe());
         NhomMau nhomMau = nhomMauRepository.findByName(reqSoYeuLyLich.nhomMau());
         ChucVu chucVu = chucVuRepository.findByName(reqSoYeuLyLich.chucVuHienTai());
+        ChucVu chucVuKiemNhiem = chucVuRepository.findByName(reqSoYeuLyLich.chucVuKiemNhiem());
         NgachCongChuc ngachCongChuc = ngachCongChucRepository.findByName(reqSoYeuLyLich.ngachNgheNghiep());
         NgachVienChuc ngachVienChuc = ngachVienChucRepository.findByName(reqSoYeuLyLich.ngachNgheNghiep());
         ViTriViecLam viTriViecLam = viTriViecLamRepository.findByName(reqSoYeuLyLich.viTriViecLam());
@@ -274,7 +240,7 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
                 .ngayBoNhiem(reqSoYeuLyLich.ngayBoNhiem())
                 .ngayBoNhiemLai(reqSoYeuLyLich.ngayBoNhiemLai())
                 .duocQuyHoacChucDanh(reqSoYeuLyLich.duocQuyHoacChucDanh())
-                .chucVuKiemNhiem(reqSoYeuLyLich.chucVuKiemNhiem())
+                .chucVuKiemNhiem(chucVuKiemNhiem)
                 .chucVuDangHienTai(chucDanhDangHienTai)
                 .chucVuDangKiemNhiem(chucDanhDangKiemNhiem)
                 .congViecChinhDuocGiao(reqSoYeuLyLich.congViecChinhDuocGiao())

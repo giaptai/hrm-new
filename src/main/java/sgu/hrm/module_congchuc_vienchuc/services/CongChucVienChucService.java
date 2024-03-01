@@ -33,43 +33,27 @@ public class CongChucVienChucService implements
 //        return bacNgachCongChucRepository.findAll().stream().map(BacNgachCongChuc::getName).toList();
 //        return bacNgachCongChucRepository.findAll().stream().map(bacNgachCongChuc -> (bacNgachCongChuc.getName());
 //        return bacNgachCongChucRepository.findAll();
-        return new ResDTO<>(
-                ResEnum.THANH_CONG.getStatusCode(),
-                ResEnum.THANH_CONG,
-                bacNgachCongChucRepository.findAll()
-        );
+        return ResDTO.response(ResEnum.THANH_CONG, bacNgachCongChucRepository.findAll());
     }
 
     @Override
     public ResDTO<List<BacNgachVienChuc>> xemBacNgachVienChuc() {
 //        return bacNgachVienChucRepository.findAll();
         //return bacNgachVienChucRepository.findAll().stream().map(bacNgachVienChuc -> new CongChucVienChucDTO(bacNgachVienChuc.getName())).toList();
-        return new ResDTO<>(
-                ResEnum.THANH_CONG.getStatusCode(),
-                ResEnum.THANH_CONG,
-                bacNgachVienChucRepository.findAll()
-        );
+        return ResDTO.response(ResEnum.THANH_CONG, bacNgachVienChucRepository.findAll());
     }
 
     @Override
     public ResDTO<List<NgachCongChuc>> xemNgachCongChuc() {
 //        return ngachCongChucRepository.findAll();
 //        return ngachCongChucRepository.findAll().stream().map(ngachCongChuc -> new CongChucVienChucDTO(ngachCongChuc.getName())).toList();
-        return new ResDTO<>(
-                ResEnum.THANH_CONG.getStatusCode(),
-                ResEnum.THANH_CONG,
-                ngachCongChucRepository.findAll()
-        );
+        return ResDTO.response(ResEnum.THANH_CONG, ngachCongChucRepository.findAll());
     }
 
     @Override
     public ResDTO<List<NgachVienChuc>> xemNgachVienChuc() {
 //        return ngachVienChucRepository.findAll();
 //        return ngachVienChucRepository.findAll().stream().map(ngachVienChuc -> new CongChucVienChucDTO(ngachVienChuc.getName())).toList();
-        return new ResDTO<>(
-                ResEnum.THANH_CONG.getStatusCode(),
-                ResEnum.THANH_CONG,
-                ngachVienChucRepository.findAll()
-        );
+        return ResDTO.response(ResEnum.THANH_CONG, ngachVienChucRepository.findAll());
     }
 }

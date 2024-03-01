@@ -193,8 +193,12 @@ public class SoYeuLyLich extends DateTimeObject {
     @Column(name = "duoc_quy_hoach_chuc_danh", columnDefinition = "varchar(50) default ''")
     String duocQuyHoacChucDanh;
 
-    @Column(name = "chuc_vu_kiem_nhiem", columnDefinition = "varchar(150) default ''")
-    String chucVuKiemNhiem;
+//    @Column(name = "chuc_vu_kiem_nhiem", columnDefinition = "varchar(150) default ''")
+//    String chucVuKiemNhiem;
+
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "chuc_vu_kiem_nhiem_fk"), name = "chuc_vu_kiem_nhiem", referencedColumnName = "id", columnDefinition = "integer")
+    ChucVu chucVuKiemNhiem;
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "chuc_vu_dang_hien_tai_fk"), referencedColumnName = "id", name = "chuc_vu_dang_hien_tai", columnDefinition = "integer")

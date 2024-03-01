@@ -74,13 +74,10 @@ import sgu.hrm.module_taikhoan.models.TaiKhoan;
 import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
 import sgu.hrm.module_utilities.repositories.HinhThucKhenThuongRepository;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor // create constructor if field is set final or @notnull
@@ -116,17 +113,9 @@ public class SoYeuLyLichChiTietServices {
         @Override
         public ResDTO<List<LoaiSoYeuLyLichChiTiet>> xemLoaiSoYeuLyLichChiTiet() {
             try {
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        loaiSoYeuLyLichChiTietRepository.findAll()
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, loaiSoYeuLyLichChiTietRepository.findAll());
             } catch (RuntimeException e) {
-                return new ResDTO<>(
-                        ResEnum.KHONG_HOP_LE.getStatusCode(),
-                        ResEnum.KHONG_HOP_LE,
-                        null
-                );
+                return ResDTO.response(ResEnum.KHONG_HOP_LE, null);
             }
         }
 
@@ -134,17 +123,9 @@ public class SoYeuLyLichChiTietServices {
         public ResDTO<LoaiSoYeuLyLichChiTiet> themLoaiSoYeuLyLichChiTiet(ReqLoaiSoYeuLyLichChiTiet name) {
             LoaiSoYeuLyLichChiTiet loaiSoYeuLyLichChiTiet = new LoaiSoYeuLyLichChiTiet(name.name());
             try {
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        loaiSoYeuLyLichChiTietRepository.save(loaiSoYeuLyLichChiTiet)
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, loaiSoYeuLyLichChiTietRepository.save(loaiSoYeuLyLichChiTiet));
             } catch (RuntimeException e) {
-                return new ResDTO<>(
-                        ResEnum.KHONG_HOP_LE.getStatusCode(),
-                        ResEnum.KHONG_HOP_LE,
-                        null
-                );
+                return ResDTO.response(ResEnum.KHONG_HOP_LE, null);
             }
         }
 
@@ -153,17 +134,9 @@ public class SoYeuLyLichChiTietServices {
             Optional<LoaiSoYeuLyLichChiTiet> loaiSoYeuLyLichChiTiet1 = loaiSoYeuLyLichChiTietRepository.findById(loaiSoYeuLyLichChiTiet.getId());
             if (loaiSoYeuLyLichChiTiet1.isPresent()) {
                 loaiSoYeuLyLichChiTiet.setUpdate_at(); //update thoi gian sua entity nay, ok
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        loaiSoYeuLyLichChiTietRepository.save(loaiSoYeuLyLichChiTiet)
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, loaiSoYeuLyLichChiTietRepository.save(loaiSoYeuLyLichChiTiet));
             }
-            return new ResDTO<>(
-                    ResEnum.KHONG_HOP_LE.getStatusCode(),
-                    ResEnum.KHONG_HOP_LE,
-                    null
-            );
+            return ResDTO.response(ResEnum.KHONG_HOP_LE, null);
         }
     }
 
@@ -206,11 +179,7 @@ public class SoYeuLyLichChiTietServices {
                             this::mapToResBanThanCoLamViecChoCheDoCu
                     ).toList();
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        banThanCoLamViecChoCheDoCus
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, banThanCoLamViecChoCheDoCus);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -228,11 +197,7 @@ public class SoYeuLyLichChiTietServices {
                             cu -> cu.id() == id
                     ).findFirst().orElse(null);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        banThanCoLamViecChoCheDoCus
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, banThanCoLamViecChoCheDoCus);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -247,12 +212,7 @@ public class SoYeuLyLichChiTietServices {
                     banThanCoLamViecChoCheDoCu = mapToBanThanCoLamViecChoCheDoCu(-1, taiKhoan.getSoYeuLyLich(), cu);
                     banThanCoLamViecChoCheDoCuRepository.save(banThanCoLamViecChoCheDoCu);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        banThanCoLamViecChoCheDoCu != null ? mapToResBanThanCoLamViecChoCheDoCu(banThanCoLamViecChoCheDoCu) : null
-                );
-
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, banThanCoLamViecChoCheDoCu != null ? mapToResBanThanCoLamViecChoCheDoCu(banThanCoLamViecChoCheDoCu) : null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -269,12 +229,7 @@ public class SoYeuLyLichChiTietServices {
                     cheDoCu.setUpdate_at();
                     banThanCoLamViecChoCheDoCuRepository.save(cheDoCu);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        cheDoCu != null ? mapToResBanThanCoLamViecChoCheDoCu(cheDoCu) : null
-                );
-
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, cheDoCu != null ? mapToResBanThanCoLamViecChoCheDoCu(cheDoCu) : null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -291,11 +246,7 @@ public class SoYeuLyLichChiTietServices {
                     ).findFirst().orElseThrow(() -> new RuntimeException("Khong tin thay"));
                     banThanCoLamViecChoCheDoCuRepository.delete(banThanCoLamViecChoCheDoCu);
                 }
-                return new ResDTO<>(
-                        ResEnum.XOA_THANH_CONG.getStatusCode(),
-                        ResEnum.XOA_THANH_CONG,
-                        ResEnum.XOA_THANH_CONG.name()
-                );
+                return ResDTO.response(ResEnum.XOA_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -308,17 +259,9 @@ public class SoYeuLyLichChiTietServices {
                         banThanCoLamViecChoCheDoCuRepository.listBanThanCoLamViecChoCheDoCu(UUID.fromString(id)).stream().map(
                                 this::mapToResBanThanCoLamViecChoCheDoCu
                         ).toList();
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        banThanCoLamViecChoCheDoCus
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, banThanCoLamViecChoCheDoCus);
             } catch (IllegalArgumentException e) {
-                return new ResDTO<>(
-                        ResEnum.HONG_TIM_THAY.getStatusCode(),
-                        ResEnum.HONG_TIM_THAY,
-                        null
-                );
+                return ResDTO.response(ResEnum.HONG_TIM_THAY, null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -367,11 +310,7 @@ public class SoYeuLyLichChiTietServices {
                 if (taiKhoan != null) {
                     khenThuongs = taiKhoan.getSoYeuLyLich().getKhenThuongs().stream().map(thuong -> mapToResKhenThuong(thuong)).toList();
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        khenThuongs
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, khenThuongs);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -389,11 +328,7 @@ public class SoYeuLyLichChiTietServices {
                             cu -> cu.id() == id
                     ).findFirst().orElse(null);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        khenThuong
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, khenThuong);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -408,11 +343,7 @@ public class SoYeuLyLichChiTietServices {
                     thuong = mapToKhenThuong(-1, taiKhoan.getSoYeuLyLich(), khenThuong);
                     khenThuongRepository.save(thuong);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        null
-                );
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -429,12 +360,7 @@ public class SoYeuLyLichChiTietServices {
                     khenThuong.setUpdate_at();
                     khenThuongRepository.save(khenThuong);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        khenThuong != null ? mapToResKhenThuong(khenThuong) : null
-                );
-
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, khenThuong != null ? mapToResKhenThuong(khenThuong) : null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -451,11 +377,7 @@ public class SoYeuLyLichChiTietServices {
                     ).findFirst().orElseThrow(() -> new RuntimeException("Khong tin thay"));
                     khenThuongRepository.delete(thuong);
                 }
-                return new ResDTO<>(
-                        ResEnum.XOA_THANH_CONG.getStatusCode(),
-                        ResEnum.XOA_THANH_CONG,
-                        ResEnum.XOA_THANH_CONG.name()
-                );
+                return ResDTO.response(ResEnum.XOA_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -468,17 +390,9 @@ public class SoYeuLyLichChiTietServices {
                         khenThuongRepository.listKhenThuong(UUID.fromString(id)).stream().map(
                                 this::mapToResKhenThuong
                         ).toList();
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        resKhenThuongs
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, resKhenThuongs);
             } catch (IllegalArgumentException e) {
-                return new ResDTO<>(
-                        ResEnum.HONG_TIM_THAY.getStatusCode(),
-                        ResEnum.HONG_TIM_THAY,
-                        null
-                );
+                return ResDTO.response(ResEnum.HONG_TIM_THAY, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -493,11 +407,7 @@ public class SoYeuLyLichChiTietServices {
                         )).toList();
                 khenThuongRepository.saveAll(khenThuongs);
                 List<ResKhenThuong> resKT = khenThuongs.stream().map(this::mapToResKhenThuong).toList();
-                return new ResDTO<>(
-                        ResEnum.KHEN_THUONG_THANH_CONG.getStatusCode(),
-                        ResEnum.KHEN_THUONG_THANH_CONG,
-                        khenThuongs.stream().map(this::mapToResKhenThuong).toList()
-                );
+                return ResDTO.response(ResEnum.KHEN_THUONG_THANH_CONG, khenThuongs.stream().map(this::mapToResKhenThuong).toList());
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -546,11 +456,7 @@ public class SoYeuLyLichChiTietServices {
                             this::mapToResKienThucAnNinhQuocPhong
                     ).toList();
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        kienThucAnNinhQuocPhongs
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, kienThucAnNinhQuocPhongs);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -568,11 +474,7 @@ public class SoYeuLyLichChiTietServices {
                             cu -> cu.id() == id
                     ).findFirst().orElse(null);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        phong
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, phong);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -587,11 +489,7 @@ public class SoYeuLyLichChiTietServices {
                     phong = mapToKienThucAnNinhQuocPhong(-1, taiKhoan.getSoYeuLyLich(), cu);
                     kienThucAnNinhQuocPhongRepository.save(phong);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        null
-                );
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -608,12 +506,7 @@ public class SoYeuLyLichChiTietServices {
                     phong.setUpdate_at();
                     kienThucAnNinhQuocPhongRepository.save(phong);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        phong != null ? mapToResKienThucAnNinhQuocPhong(phong) : null
-                );
-
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, phong != null ? mapToResKienThucAnNinhQuocPhong(phong) : null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -630,11 +523,7 @@ public class SoYeuLyLichChiTietServices {
                     ).findFirst().orElseThrow(() -> new RuntimeException("Khong tin thay"));
                     kienThucAnNinhQuocPhongRepository.delete(phong);
                 }
-                return new ResDTO<>(
-                        ResEnum.XOA_THANH_CONG.getStatusCode(),
-                        ResEnum.XOA_THANH_CONG,
-                        ResEnum.XOA_THANH_CONG.name()
-                );
+                return ResDTO.response(ResEnum.XOA_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -647,17 +536,9 @@ public class SoYeuLyLichChiTietServices {
                         kienThucAnNinhQuocPhongRepository.listKienThucAnNinhQuocPhong(UUID.fromString(id)).stream().map(
                                 this::mapToResKienThucAnNinhQuocPhong
                         ).toList();
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        resKienThucAnNinhQuocPhongs
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, resKienThucAnNinhQuocPhongs);
             } catch (IllegalArgumentException e) {
-                return new ResDTO<>(
-                        ResEnum.HONG_TIM_THAY.getStatusCode(),
-                        ResEnum.HONG_TIM_THAY,
-                        null
-                );
+                return ResDTO.response(ResEnum.HONG_TIM_THAY, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -709,11 +590,7 @@ public class SoYeuLyLichChiTietServices {
                             this::mapToResKyLuat
                     ).toList();
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        kyLuats
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, kyLuats);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -731,11 +608,7 @@ public class SoYeuLyLichChiTietServices {
                             cu -> cu.id() == id
                     ).findFirst().orElse(null);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        kyLuat
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, kyLuat);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -750,11 +623,7 @@ public class SoYeuLyLichChiTietServices {
                     kyLuat = mapToKyLuat(-1, taiKhoan.getSoYeuLyLich(), cu);
                     kyLuatRepository.save(kyLuat);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        null
-                );
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -771,12 +640,7 @@ public class SoYeuLyLichChiTietServices {
                     kyLuat.setUpdate_at();
                     kyLuatRepository.save(kyLuat);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        kyLuat != null ? mapToResKyLuat(kyLuat) : null
-                );
-
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, kyLuat != null ? mapToResKyLuat(kyLuat) : null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -793,11 +657,7 @@ public class SoYeuLyLichChiTietServices {
                     ).findFirst().orElseThrow(() -> new RuntimeException("Khong tin thay"));
                     kyLuatRepository.delete(kyLuat);
                 }
-                return new ResDTO<>(
-                        ResEnum.XOA_THANH_CONG.getStatusCode(),
-                        ResEnum.XOA_THANH_CONG,
-                        ResEnum.XOA_THANH_CONG.name()
-                );
+                return ResDTO.response(ResEnum.XOA_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -810,17 +670,9 @@ public class SoYeuLyLichChiTietServices {
                         kyLuatRepository.listKyLuat(UUID.fromString(id)).stream().map(
                                 this::mapToResKyLuat
                         ).toList();
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        resKyLuats
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, resKyLuats);
             } catch (IllegalArgumentException e) {
-                return new ResDTO<>(
-                        ResEnum.HONG_TIM_THAY.getStatusCode(),
-                        ResEnum.HONG_TIM_THAY,
-                        null
-                );
+                return ResDTO.response(ResEnum.HONG_TIM_THAY, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -834,11 +686,7 @@ public class SoYeuLyLichChiTietServices {
                                 nvId -> mapToKyLuat(-1, Optional.ofNullable(soYeuLyLichRepository.findById(nvId)).map(Optional::get).orElseThrow(RuntimeException::new), reqNV.kyLuat())
                         )).toList();
                 kyLuatRepository.saveAll(kyLuats);
-                return new ResDTO<>(
-                        ResEnum.KY_LUAT_THANH_CONG.getStatusCode(),
-                        ResEnum.KY_LUAT_THANH_CONG,
-                        kyLuats.stream().map(this::mapToResKyLuat).toList()
-                );
+                return ResDTO.response(ResEnum.KY_LUAT_THANH_CONG, kyLuats.stream().map(this::mapToResKyLuat).toList());
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -884,11 +732,7 @@ public class SoYeuLyLichChiTietServices {
                             this::mapToResLamViecONuocNgoai
                     ).toList();
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        lamViecONuocNgoais
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, lamViecONuocNgoais);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -906,11 +750,7 @@ public class SoYeuLyLichChiTietServices {
                             cu -> cu.id() == id
                     ).findFirst().orElse(null);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        ngoai
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, ngoai);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -925,11 +765,7 @@ public class SoYeuLyLichChiTietServices {
                     ngoai = mapToLamViecONuocNgoai(-1, taiKhoan.getSoYeuLyLich(), cu);
                     lamViecONuocNgoaiRepository.save(ngoai);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        null
-                );
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -946,11 +782,7 @@ public class SoYeuLyLichChiTietServices {
                     ngoai.setUpdate_at();
                     lamViecONuocNgoaiRepository.save(ngoai);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        ngoai != null ? mapToResLamViecONuocNgoai(ngoai) : null
-                );
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, ngoai != null ? mapToResLamViecONuocNgoai(ngoai) : null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -967,11 +799,7 @@ public class SoYeuLyLichChiTietServices {
                     ).findFirst().orElseThrow(() -> new RuntimeException("Khong tin thay"));
                     lamViecONuocNgoaiRepository.delete(ngoai);
                 }
-                return new ResDTO<>(
-                        ResEnum.XOA_THANH_CONG.getStatusCode(),
-                        ResEnum.XOA_THANH_CONG,
-                        ResEnum.XOA_THANH_CONG.name()
-                );
+                return ResDTO.response(ResEnum.XOA_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -984,17 +812,9 @@ public class SoYeuLyLichChiTietServices {
                         lamViecONuocNgoaiRepository.listLamViecONuocNgoai(UUID.fromString(id)).stream().map(
                                 this::mapToResLamViecONuocNgoai
                         ).toList();
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        resLamViecONuocNgoais
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, resLamViecONuocNgoais);
             } catch (IllegalArgumentException e) {
-                return new ResDTO<>(
-                        ResEnum.HONG_TIM_THAY.getStatusCode(),
-                        ResEnum.HONG_TIM_THAY,
-                        null
-                );
+                return ResDTO.response(ResEnum.HONG_TIM_THAY, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1049,11 +869,7 @@ public class SoYeuLyLichChiTietServices {
                             this::mapToResLuongBanThan
                     ).toList();
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        luongBanThans
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, luongBanThans);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1071,11 +887,7 @@ public class SoYeuLyLichChiTietServices {
                             cu -> cu.id() == id
                     ).findFirst().orElse(null);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        luongBanThan
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, luongBanThan);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1090,11 +902,7 @@ public class SoYeuLyLichChiTietServices {
                     luongBanThan = mapToLuongBanThan(-1, taiKhoan.getSoYeuLyLich(), cu);
                     luongBanThanRepository.save(luongBanThan);
                 }
-                return new ResDTO<>(
-                        ResEnum.TAO_THANH_CONG.getStatusCode(),
-                        ResEnum.TAO_THANH_CONG,
-                        null
-                );
+                return ResDTO.response(ResEnum.TAO_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1111,11 +919,7 @@ public class SoYeuLyLichChiTietServices {
                     luongBanThan.setUpdate_at();
                     luongBanThanRepository.save(luongBanThan);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        luongBanThan != null ? mapToResLuongBanThan(luongBanThan) : null
-                );
+                return ResDTO.response(ResEnum.TAO_THANH_CONG, luongBanThan != null ? mapToResLuongBanThan(luongBanThan) : null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1132,11 +936,7 @@ public class SoYeuLyLichChiTietServices {
                     ).findFirst().orElseThrow(() -> new RuntimeException("Khong tin thay"));
                     luongBanThanRepository.delete(luongBanThan);
                 }
-                return new ResDTO<>(
-                        ResEnum.XOA_THANH_CONG.getStatusCode(),
-                        ResEnum.XOA_THANH_CONG,
-                        ResEnum.XOA_THANH_CONG.name()
-                );
+                return ResDTO.response(ResEnum.XOA_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1149,17 +949,9 @@ public class SoYeuLyLichChiTietServices {
                         luongBanThanRepository.listLuongBanThan(UUID.fromString(id)).stream().map(
                                 this::mapToResLuongBanThan
                         ).toList();
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        resLuongBanThans
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, resLuongBanThans);
             } catch (IllegalArgumentException e) {
-                return new ResDTO<>(
-                        ResEnum.HONG_TIM_THAY.getStatusCode(),
-                        ResEnum.HONG_TIM_THAY,
-                        null
-                );
+                return ResDTO.response(ResEnum.HONG_TIM_THAY, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1211,11 +1003,7 @@ public class SoYeuLyLichChiTietServices {
                             this::mapToResLyLuanChinhTri
                     ).toList();
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        lyLuanChinhTris
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, lyLuanChinhTris);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1233,11 +1021,7 @@ public class SoYeuLyLichChiTietServices {
                             cu -> cu.id() == id
                     ).findFirst().orElse(null);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        lyLuanChinhTris
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, lyLuanChinhTris);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1252,11 +1036,7 @@ public class SoYeuLyLichChiTietServices {
                     lyLuanChinhTri = mapToLyLuanChinhTri(-1, taiKhoan.getSoYeuLyLich(), cu);
                     lyLuanChinhTriRepository.save(lyLuanChinhTri);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        null
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1273,11 +1053,7 @@ public class SoYeuLyLichChiTietServices {
                     lyLuanChinhTri.setUpdate_at();
                     lyLuanChinhTriRepository.save(lyLuanChinhTri);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        lyLuanChinhTri != null ? mapToResLyLuanChinhTri(lyLuanChinhTri) : null
-                );
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, lyLuanChinhTri != null ? mapToResLyLuanChinhTri(lyLuanChinhTri) : null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1294,11 +1070,7 @@ public class SoYeuLyLichChiTietServices {
                     ).findFirst().orElseThrow(() -> new RuntimeException("Khong tin thay"));
                     lyLuanChinhTriRepository.delete(lyLuanChinhTri);
                 }
-                return new ResDTO<>(
-                        ResEnum.XOA_THANH_CONG.getStatusCode(),
-                        ResEnum.XOA_THANH_CONG,
-                        ResEnum.XOA_THANH_CONG.name()
-                );
+                return ResDTO.response(ResEnum.XOA_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1311,17 +1083,9 @@ public class SoYeuLyLichChiTietServices {
                         lyLuanChinhTriRepository.listLyLuanChinhTri(UUID.fromString(id)).stream().map(
                                 this::mapToResLyLuanChinhTri
                         ).toList();
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        resLyLuanChinhTris
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, resLyLuanChinhTris);
             } catch (IllegalArgumentException e) {
-                return new ResDTO<>(
-                        ResEnum.HONG_TIM_THAY.getStatusCode(),
-                        ResEnum.HONG_TIM_THAY,
-                        null
-                );
+                return ResDTO.response(ResEnum.HONG_TIM_THAY, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1370,11 +1134,7 @@ public class SoYeuLyLichChiTietServices {
                             this::mapToResNghiepVuChuyenNganh
                     ).toList();
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        nghiepVuChuyenNganhs
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, nghiepVuChuyenNganhs);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1392,11 +1152,7 @@ public class SoYeuLyLichChiTietServices {
                             cu -> cu.id() == id
                     ).findFirst().orElse(null);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        nghiepVuChuyenNganh
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, nghiepVuChuyenNganh);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1411,11 +1167,7 @@ public class SoYeuLyLichChiTietServices {
                     nghiepVuChuyenNganh = mapToNghiepVuChuyenNganh(-1, taiKhoan.getSoYeuLyLich(), cu);
                     nghiepVuChuyenNganhRepository.save(nghiepVuChuyenNganh);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        null
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1432,11 +1184,7 @@ public class SoYeuLyLichChiTietServices {
                     nghiepVuChuyenNganh.setUpdate_at();
                     nghiepVuChuyenNganhRepository.save(nghiepVuChuyenNganh);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        nghiepVuChuyenNganh != null ? mapToResNghiepVuChuyenNganh(nghiepVuChuyenNganh) : null
-                );
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, nghiepVuChuyenNganh != null ? mapToResNghiepVuChuyenNganh(nghiepVuChuyenNganh) : null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1453,11 +1201,7 @@ public class SoYeuLyLichChiTietServices {
                     ).findFirst().orElseThrow(() -> new RuntimeException("Khong tin thay"));
                     nghiepVuChuyenNganhRepository.delete(nghiepVuChuyenNganh);
                 }
-                return new ResDTO<>(
-                        ResEnum.XOA_THANH_CONG.getStatusCode(),
-                        ResEnum.XOA_THANH_CONG,
-                        ResEnum.XOA_THANH_CONG.name()
-                );
+                return ResDTO.response(ResEnum.XOA_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1470,17 +1214,9 @@ public class SoYeuLyLichChiTietServices {
                         nghiepVuChuyenNganhRepository.listNghiepVuChuyenNganh(UUID.fromString(id)).stream().map(
                                 this::mapToResNghiepVuChuyenNganh
                         ).toList();
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        resNghiepVuChuyenNganhs
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, resNghiepVuChuyenNganhs);
             } catch (IllegalArgumentException e) {
-                return new ResDTO<>(
-                        ResEnum.HONG_TIM_THAY.getStatusCode(),
-                        ResEnum.HONG_TIM_THAY,
-                        null
-                );
+                return ResDTO.response(ResEnum.HONG_TIM_THAY, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1535,11 +1271,7 @@ public class SoYeuLyLichChiTietServices {
                             this::mapToResNgoaiNgu
                     ).toList();
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        ngoaiNgus
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, ngoaiNgus);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1557,11 +1289,7 @@ public class SoYeuLyLichChiTietServices {
                             cu -> cu.id() == id
                     ).findFirst().orElse(null);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        ngoaiNgu
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, ngoaiNgu);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1576,11 +1304,7 @@ public class SoYeuLyLichChiTietServices {
                     ngoaiNgu = mapToNgoaiNgu(-1, taiKhoan.getSoYeuLyLich(), cu);
                     ngoaiNguRepository.save(ngoaiNgu);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        null
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1597,11 +1321,7 @@ public class SoYeuLyLichChiTietServices {
                     ngoaiNgu.setUpdate_at();
                     ngoaiNguRepository.save(ngoaiNgu);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        ngoaiNgu != null ? mapToResNgoaiNgu(ngoaiNgu) : null
-                );
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, ngoaiNgu != null ? mapToResNgoaiNgu(ngoaiNgu) : null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1618,11 +1338,7 @@ public class SoYeuLyLichChiTietServices {
                     ).findFirst().orElseThrow(() -> new RuntimeException("Khong tin thay"));
                     ngoaiNguRepository.delete(ngoaiNgu);
                 }
-                return new ResDTO<>(
-                        ResEnum.XOA_THANH_CONG.getStatusCode(),
-                        ResEnum.XOA_THANH_CONG,
-                        ResEnum.XOA_THANH_CONG.name()
-                );
+                return ResDTO.response(ResEnum.XOA_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1635,17 +1351,9 @@ public class SoYeuLyLichChiTietServices {
                         ngoaiNguRepository.listNgoaiNgu(UUID.fromString(id)).stream().map(
                                 this::mapToResNgoaiNgu
                         ).toList();
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        resNgoaiNgus
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, resNgoaiNgus);
             } catch (IllegalArgumentException e) {
-                return new ResDTO<>(
-                        ResEnum.HONG_TIM_THAY.getStatusCode(),
-                        ResEnum.HONG_TIM_THAY,
-                        null
-                );
+                return ResDTO.response(ResEnum.HONG_TIM_THAY, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1703,11 +1411,7 @@ public class SoYeuLyLichChiTietServices {
                             this::mapToResPhuCapKhac
                     ).toList();
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        phuCapKhacs
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, phuCapKhacs);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1725,11 +1429,7 @@ public class SoYeuLyLichChiTietServices {
                             cu -> cu.id() == id
                     ).findFirst().orElse(null);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        phuCapKhac
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, phuCapKhac);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1744,11 +1444,7 @@ public class SoYeuLyLichChiTietServices {
                     phuCapKhac = mapToPhuCapKhac(-1, taiKhoan.getSoYeuLyLich(), cu);
                     phuCapKhacRepository.save(phuCapKhac);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        null
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1765,11 +1461,7 @@ public class SoYeuLyLichChiTietServices {
                     phuCapKhac.setUpdate_at();
                     phuCapKhacRepository.save(phuCapKhac);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        phuCapKhac != null ? mapToResPhuCapKhac(phuCapKhac) : null
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, phuCapKhac != null ? mapToResPhuCapKhac(phuCapKhac) : null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1786,11 +1478,7 @@ public class SoYeuLyLichChiTietServices {
                     ).findFirst().orElseThrow(() -> new RuntimeException("Khong tin thay"));
                     phuCapKhacRepository.delete(phuCapKhac);
                 }
-                return new ResDTO<>(
-                        ResEnum.XOA_THANH_CONG.getStatusCode(),
-                        ResEnum.XOA_THANH_CONG,
-                        ResEnum.XOA_THANH_CONG.name()
-                );
+                return ResDTO.response(ResEnum.XOA_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1803,17 +1491,9 @@ public class SoYeuLyLichChiTietServices {
                         phuCapKhacRepository.listPhuCapKhac(UUID.fromString(id)).stream().map(
                                 this::mapToResPhuCapKhac
                         ).toList();
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        resPhuCapKhacs
-                );
+                return ResDTO.response(ResEnum.XOA_THANH_CONG, resPhuCapKhacs);
             } catch (IllegalArgumentException e) {
-                return new ResDTO<>(
-                        ResEnum.HONG_TIM_THAY.getStatusCode(),
-                        ResEnum.HONG_TIM_THAY,
-                        null
-                );
+                return ResDTO.response(ResEnum.HONG_TIM_THAY, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1862,11 +1542,7 @@ public class SoYeuLyLichChiTietServices {
                             this::mapToResQuanHeGiaDinh
                     ).toList();
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        quanHeGiaDinhs
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, quanHeGiaDinhs);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1884,11 +1560,7 @@ public class SoYeuLyLichChiTietServices {
                             cu -> cu.id() == id
                     ).findFirst().orElse(null);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        quanHeGiaDinh
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, quanHeGiaDinh);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1903,11 +1575,7 @@ public class SoYeuLyLichChiTietServices {
                     quanHeGiaDinh = mapToQuanHeGiaDinh(-1, taiKhoan.getSoYeuLyLich(), cu);
                     quanHeGiaDinhRepository.save(quanHeGiaDinh);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        null
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1924,11 +1592,7 @@ public class SoYeuLyLichChiTietServices {
                     quanHeGiaDinh.setUpdate_at();
                     quanHeGiaDinhRepository.save(quanHeGiaDinh);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        quanHeGiaDinh != null ? mapToResQuanHeGiaDinh(quanHeGiaDinh) : null
-                );
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, quanHeGiaDinh != null ? mapToResQuanHeGiaDinh(quanHeGiaDinh) : null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1945,11 +1609,7 @@ public class SoYeuLyLichChiTietServices {
                     ).findFirst().orElseThrow(() -> new RuntimeException("Khong tin thay"));
                     quanHeGiaDinhRepository.delete(quanHeGiaDinh);
                 }
-                return new ResDTO<>(
-                        ResEnum.XOA_THANH_CONG.getStatusCode(),
-                        ResEnum.XOA_THANH_CONG,
-                        ResEnum.XOA_THANH_CONG.name()
-                );
+                return ResDTO.response(ResEnum.XOA_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1962,17 +1622,9 @@ public class SoYeuLyLichChiTietServices {
                         quanHeGiaDinhRepository.listQuanHeGiaDinh(UUID.fromString(id)).stream().map(
                                 this::mapToResQuanHeGiaDinh
                         ).toList();
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        resQuanHeGiaDinhs
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, resQuanHeGiaDinhs);
             } catch (IllegalArgumentException e) {
-                return new ResDTO<>(
-                        ResEnum.HONG_TIM_THAY.getStatusCode(),
-                        ResEnum.HONG_TIM_THAY,
-                        null
-                );
+                return ResDTO.response(ResEnum.HONG_TIM_THAY, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -2021,11 +1673,7 @@ public class SoYeuLyLichChiTietServices {
                             this::mapToResQuaTrinhCongTac
                     ).toList();
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        quaTrinhCongTacs
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, quaTrinhCongTacs);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -2043,11 +1691,7 @@ public class SoYeuLyLichChiTietServices {
                             cu -> cu.id() == id
                     ).findFirst().orElse(null);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        quaTrinhCongTac
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, quaTrinhCongTac);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -2062,11 +1706,7 @@ public class SoYeuLyLichChiTietServices {
                     quaTrinhCongTac = mapToQuaTrinhCongTac(-1, taiKhoan.getSoYeuLyLich(), cu);
                     quaTrinhCongTacRepository.save(quaTrinhCongTac);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        quaTrinhCongTac
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, quaTrinhCongTac);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -2083,11 +1723,7 @@ public class SoYeuLyLichChiTietServices {
                     quaTrinhCongTac.setUpdate_at();
                     quaTrinhCongTacRepository.save(quaTrinhCongTac);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        quaTrinhCongTac != null ? mapToResQuaTrinhCongTac(quaTrinhCongTac) : null
-                );
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, quaTrinhCongTac != null ? mapToResQuaTrinhCongTac(quaTrinhCongTac) : null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -2104,11 +1740,7 @@ public class SoYeuLyLichChiTietServices {
                     ).findFirst().orElseThrow(() -> new RuntimeException("Khong tin thay"));
                     quaTrinhCongTacRepository.delete(quaTrinhCongTac);
                 }
-                return new ResDTO<>(
-                        ResEnum.XOA_THANH_CONG.getStatusCode(),
-                        ResEnum.XOA_THANH_CONG,
-                        ResEnum.XOA_THANH_CONG.name()
-                );
+                return ResDTO.response(ResEnum.XOA_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -2121,17 +1753,9 @@ public class SoYeuLyLichChiTietServices {
                         quaTrinhCongTacRepository.listQuaTrinhCongTac(UUID.fromString(id)).stream().map(
                                 this::mapToResQuaTrinhCongTac
                         ).toList();
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        resQuaTrinhCongTacs
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, resQuaTrinhCongTacs);
             } catch (IllegalArgumentException e) {
-                return new ResDTO<>(
-                        ResEnum.HONG_TIM_THAY.getStatusCode(),
-                        ResEnum.HONG_TIM_THAY,
-                        null
-                );
+                return ResDTO.response(ResEnum.HONG_TIM_THAY, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -2180,11 +1804,7 @@ public class SoYeuLyLichChiTietServices {
                             this::mapToResTinHoc
                     ).toList();
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        tinHocs
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, tinHocs);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -2202,11 +1822,7 @@ public class SoYeuLyLichChiTietServices {
                             cu -> cu.id() == id
                     ).findFirst().orElse(null);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        tinHoc
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, tinHoc);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -2221,11 +1837,7 @@ public class SoYeuLyLichChiTietServices {
                     tinHoc = mapToTinHoc(-1, taiKhoan.getSoYeuLyLich(), cu);
                     tinHocRepository.save(tinHoc);
                 }
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        tinHoc
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, tinHoc);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -2242,11 +1854,7 @@ public class SoYeuLyLichChiTietServices {
                     tinHoc.setUpdate_at();
                     tinHocRepository.save(tinHoc);
                 }
-                return new ResDTO<>(
-                        ResEnum.CAP_NHAT_THANH_CONG.getStatusCode(),
-                        ResEnum.CAP_NHAT_THANH_CONG,
-                        tinHoc != null ? mapToResTinHoc(tinHoc) : null
-                );
+                return ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, tinHoc != null ? mapToResTinHoc(tinHoc) : null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -2263,11 +1871,7 @@ public class SoYeuLyLichChiTietServices {
                     ).findFirst().orElseThrow(() -> new RuntimeException("Khong tin thay"));
                     tinHocRepository.delete(tinHoc);
                 }
-                return new ResDTO<>(
-                        ResEnum.XOA_THANH_CONG.getStatusCode(),
-                        ResEnum.XOA_THANH_CONG,
-                        ResEnum.XOA_THANH_CONG.name()
-                );
+                return ResDTO.response(ResEnum.XOA_THANH_CONG, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -2280,17 +1884,9 @@ public class SoYeuLyLichChiTietServices {
                         tinHocRepository.listTinHoc(UUID.fromString(id)).stream().map(
                                 this::mapToResTinHoc
                         ).toList();
-                return new ResDTO<>(
-                        ResEnum.THANH_CONG.getStatusCode(),
-                        ResEnum.THANH_CONG,
-                        resTinHocs
-                );
+                return ResDTO.response(ResEnum.THANH_CONG, resTinHocs);
             } catch (IllegalArgumentException e) {
-                return new ResDTO<>(
-                        ResEnum.HONG_TIM_THAY.getStatusCode(),
-                        ResEnum.HONG_TIM_THAY,
-                        null
-                );
+                return ResDTO.response(ResEnum.HONG_TIM_THAY, "");
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
