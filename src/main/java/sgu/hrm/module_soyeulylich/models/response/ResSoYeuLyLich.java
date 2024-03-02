@@ -76,7 +76,7 @@ public record ResSoYeuLyLich(
 
         String chucVuKiemNhiem,
 
-        String chucVuDangHienTai,
+        String chucVuDangHienTai, //ChucDanhDang chucDanhDang
 
         String chucVuDangKiemNhiem,
 

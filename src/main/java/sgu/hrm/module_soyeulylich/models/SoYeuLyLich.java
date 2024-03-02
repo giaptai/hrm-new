@@ -32,6 +32,7 @@ import sgu.hrm.module_taikhoan.models.TaiKhoan;
 import sgu.hrm.module_utilities.models.CapBacLoaiQuanHamQuanDoi;
 import sgu.hrm.module_utilities.models.ChucDanhDang;
 import sgu.hrm.module_utilities.models.ChucVu;
+import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 import sgu.hrm.module_utilities.models.DanToc;
 import sgu.hrm.module_utilities.models.DanhHieuNhaNuocPhongTang;
 import sgu.hrm.models.DateTimeObject;
@@ -135,8 +136,9 @@ public class SoYeuLyLich extends DateTimeObject {
     LocalDateTime ngayDuocTuyenDungLanDau;
 
     //coquan_tochuc_donvi (dang lam vien), 1 collection rieng
-    @Column(name = "coquan_tochuc_donvi_tuyendung", columnDefinition = "varchar(250) default''")
-    String coQuanToChucDonViTuyenDung;
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "coquan_tochuc_donvi_fk"), name = "coquan_tochuc_donvi_tuyendung", columnDefinition = "INTEGER")
+    CoQuanToChucDonVi coQuanToChucDonViTuyenDung;
 
     @Column(name = "ngay_vao_co_quan_hien_dang_cong_tac", columnDefinition = "datetime")
     LocalDateTime ngayVaoCoQuanHienDangCongTac;
@@ -192,9 +194,6 @@ public class SoYeuLyLich extends DateTimeObject {
 
     @Column(name = "duoc_quy_hoach_chuc_danh", columnDefinition = "varchar(50) default ''")
     String duocQuyHoacChucDanh;
-
-//    @Column(name = "chuc_vu_kiem_nhiem", columnDefinition = "varchar(150) default ''")
-//    String chucVuKiemNhiem;
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "chuc_vu_kiem_nhiem_fk"), name = "chuc_vu_kiem_nhiem", referencedColumnName = "id", columnDefinition = "integer")
