@@ -15,6 +15,7 @@ public interface ITaiKhoanService {
     ResDTO<ResTaiKhoan> xemThongTinTaiKhoan();
 
     ResDTO<?> doiMatKhau(String matkhau);
+    ResDTO<?> doiEmail(String email);
 
     public ResDTO<?> xemDanhSachTaiKhoan(); //admin
 
@@ -58,8 +59,4 @@ public interface ITaiKhoanService {
         }
         return newS.toString();
     }
-
-//    void suaTrangThaiTaiKhoan(int id); //admin
-//    public ResDTO<TaiKhoan> suaMathauTaiKhosn(int id, String matKhau);
-//    public void xoaTaiKhoan();
 }

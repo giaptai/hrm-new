@@ -95,10 +95,23 @@ public class TaiKhoanService implements ITaiKhoanService {
             if (taiKhoan != null) {
                 taiKhoan.setUpdate_at();
                 taiKhoan.setPassword(matkhau);
-                taiKhoanRepository.save(taiKhoan);
-            }
-            ResTaiKhoan resTaiKhoan = Optional.ofNullable(taiKhoan).map(this::mapToResTaiKhoan).orElse(null);
-            return ResDTO.response(ResEnum.DOI_MAT_KHAU_THANH_CONG, "");
+                ResTaiKhoan resTaiKhoan = mapToResTaiKhoan(taiKhoanRepository.save(taiKhoan));
+                return ResDTO.response(ResEnum.DOI_MAT_KHAU_THANH_CONG, resTaiKhoan);
+            } else return ResDTO.response(ResEnum.KHONG_HOP_LE, "");
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getCause());
+        }
+    }
+
+    @Override
+    public ResDTO<?> doiEmail(String email) {
+        try {
+            TaiKhoan taiKhoan = crush_em_t();
+            if (taiKhoan != null) {
+                taiKhoan.setUpdate_at();
+                taiKhoan.setEmail(email);
+                return ResDTO.response(ResEnum.DOI_MAT_KHAU_THANH_CONG, mapToResTaiKhoan(taiKhoanRepository.save(taiKhoan)));
+            } else return ResDTO.response(ResEnum.KHONG_HOP_LE, "");
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }

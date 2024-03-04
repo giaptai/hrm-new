@@ -21,7 +21,6 @@ import sgu.hrm.module_soyeulylich.repository.SoYeuLyLichRepository;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_soyeulylich.models.response.ResSoYeuLyLich;
 import sgu.hrm.module_taikhoan.models.TaiKhoan;
-import sgu.hrm.module_utilities.models.BacLuong;
 import sgu.hrm.module_utilities.models.CapBacLoaiQuanHamQuanDoi;
 // import sgu.hrm.models.CoQuanToChucDonViTuyenDung;
 import sgu.hrm.module_utilities.models.ChucDanhDang;
@@ -40,7 +39,6 @@ import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
 import sgu.hrm.module_utilities.models.ViTriViecLam;
 import sgu.hrm.module_utilities.repositories.BacLuongRepository;
 import sgu.hrm.module_utilities.repositories.CapBacLoaiQuanHamQuanDoiRepository;
-//import sgu.hrm.repository.CoQuanToChucDonViTuyenDungRepository;
 import sgu.hrm.module_utilities.repositories.ChucDanhDangRepository;
 import sgu.hrm.module_utilities.repositories.ChucVuRepository;
 import sgu.hrm.module_utilities.repositories.CoQuanToChucDonViRepository;
@@ -88,7 +86,9 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
     public ResDTO<?> xemThongTinSoYeuLyLich() {
         try {
             SoYeuLyLich soYeuLyLich = get_Info_SoYeuLyLich();
-            return ResDTO.response(ResEnum.THANH_CONG, soYeuLyLich != null ? ISoYeuLyLichService.mapToResSoYeuLyLich(soYeuLyLich) : "");
+            return soYeuLyLich != null ?
+                    ResDTO.response(ResEnum.THANH_CONG, ISoYeuLyLichService.mapToResSoYeuLyLich(soYeuLyLich)) :
+                    ResDTO.response(ResEnum.HONG_TIM_THAY, "");
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
@@ -99,16 +99,15 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
         try {
             SoYeuLyLich soYeuLyLich = get_Info_SoYeuLyLich();
             if (soYeuLyLich != null) {
-                SoYeuLyLich soYeuLyLichNew = mapToSoYeuLyLich(reqSoYeuLyLich);
-                soYeuLyLichNew.setId(soYeuLyLich.getId());
-                soYeuLyLichNew.setCreate_at(soYeuLyLich.getCreate_at());
-                soYeuLyLichNew.setUpdate_at();
-                soYeuLyLichRepository.save(soYeuLyLichNew);
-                return ResDTO.response(ResEnum.THANH_CONG, ISoYeuLyLichService.mapToResSoYeuLyLich(soYeuLyLichNew));
+                SoYeuLyLich syllNew = mapToSoYeuLyLich(reqSoYeuLyLich);
+                syllNew.setId(soYeuLyLich.getId());
+                syllNew.setCreate_at(soYeuLyLich.getCreate_at());
+                syllNew.setUpdate_at();
+                soYeuLyLichRepository.save(syllNew);
+                return ResDTO.response(ResEnum.THANH_CONG, ISoYeuLyLichService.mapToResSoYeuLyLich(syllNew));
             } else return ResDTO.response(ResEnum.HONG_TIM_THAY, null);
         } catch (RuntimeException e) {
-            throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
-//            throw new RuntimeException(e.getCause());
+            throw new RuntimeException(e.getCause());
         }
     }
 

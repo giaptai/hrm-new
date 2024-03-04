@@ -7,7 +7,6 @@ public record ReqLamViecONuocNgoai(
         LocalDateTime ketThuc,
         String toChucDiaChiCongViec,
         String loaiSoYeuLyLichChiTiet,
-        String soYeuLyLich,
-        LocalDateTime create_at
+        String soYeuLyLich
 ) {
 }

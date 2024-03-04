@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import sgu.hrm.module_response.ResDTO;
+import sgu.hrm.module_taikhoan.models.request.ReqEmail;
 import sgu.hrm.module_taikhoan.models.request.ReqMatKhau;
 import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoan;
 import sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoan;
@@ -39,11 +40,13 @@ public class TaiKhoanController {
         return taiKhoanService.doiMatKhau(reqMatKhau.matkhau());
     }
 
-    /*
-     * ADMIN
-     * ADMIN
-     * ADMIN
-     * */
+    @PatchMapping("/ca-nhan/tai-khoan/doi-email")
+    @Transactional
+    public ResDTO<?> doi_email(@RequestBody ReqEmail email) {
+        return taiKhoanService.doiEmail(email.email());
+    }
+
+    /* ADMIN | ADMIN | ADMIN */
     @GetMapping("/nhan-vien/tai-khoan")
     public ResDTO<?> getAllTaiKhoan() {
         return taiKhoanService.xemDanhSachTaiKhoan();

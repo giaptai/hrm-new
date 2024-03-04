@@ -22,7 +22,7 @@ public class DateTimeObject {
     @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime create_at;
 
-    @Getter
+    @Column(columnDefinition = "DATETIME ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime update_at;
 
     @Column(columnDefinition = "boolean default 1")

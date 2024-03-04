@@ -8,10 +8,9 @@ import java.time.LocalDateTime;
 public record ReqKhenThuong(LocalDateTime nam,
                             String xepLoaiChuyenMon,
                             String xepLoaiThiDua,
-                            String hinhThucKhenThuong,
+                            int hinhThucKhenThuong,
                             String lyDo,
                             String loaiSoYeuLyLichChiTiet,
-                            String soYeuLyLich,
-                            LocalDateTime create_at
+                            String soYeuLyLich
 ) {
 }
