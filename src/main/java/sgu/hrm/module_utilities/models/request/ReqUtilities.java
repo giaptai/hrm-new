@@ -1,4 +1,9 @@
 package sgu.hrm.module_utilities.models.request;
 
-public record ReqUtilities(String name) {
+import sgu.hrm.module_utilities.models.CapBacLoaiQuanHamQuanDoi;
+
+public record ReqUtilities(
+        String name,
+        int loaiQuanHamQuanDoi
+) {
 }

@@ -20,7 +20,7 @@ public interface IUtilitiesService<T, R> {
         return true;
     }
 
-    default CapBacLoaiQuanHamQuanDoi themCapBacLoaiQuanHamQuanDoi(String name, String loaiQuanHamName) {
+    default CapBacLoaiQuanHamQuanDoi themCapBacLoaiQuanHamQuanDoi(String name, int loaiQuanHamName) {
         return null;
     }
 }

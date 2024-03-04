@@ -292,7 +292,7 @@ public class SoYeuLyLich extends DateTimeObject {
     double canNang;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "nhom_mau_fk"), name = "nhom_mau", columnDefinition = "tinyint")
+    @JoinColumn(foreignKey = @ForeignKey(name = "nhom_mau_fk"), name = "nhom_mau",referencedColumnName = "id", columnDefinition = "INTEGER")
     NhomMau nhomMau;
 
     // liên kết 2 chiều

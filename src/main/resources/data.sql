@@ -7,11 +7,11 @@ INSERT INTO taikhoan (`username`, `password`, `status`)
 VALUES ('ThuNTM', '001225145523', 1),
        ('TaiNG', '001478111451', 1);
 -- nhóm máu
-INSERT INTO nhom_mau (id, name)
-values (0, 'A'),
-       (1, 'B'),
-       (2, 'AB'),
-       (3, 'O');
+-- INSERT INTO nhom_mau (id, name)
+-- values (0, 'A'),
+--        (1, 'B'),
+--        (2, 'AB'),
+--        (3, 'O');
 -- tinh_trang_suc_khoe
 INSERT into tinh_trang_suc_khoe (title)
 VALUES ('YẾU'),

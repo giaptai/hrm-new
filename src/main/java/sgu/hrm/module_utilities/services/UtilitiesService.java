@@ -133,37 +133,56 @@ public class UtilitiesService {
         }
     }
 
-//    @Service
-//    public class CapBacLoaiQuanHamQuanDoiService implements IUtilitiesService<CapBacLoaiQuanHamQuanDoi, ReqUtilities> {
-//        @Override
-//        public List<CapBacLoaiQuanHamQuanDoi> xemDS() {
-//            return capBacLoaiQuanHamQuanDoiRepository.findAll();
-//        }
-//
-//        @Override
-//        public CapBacLoaiQuanHamQuanDoi themCapBacLoaiQuanHamQuanDoi(String name, String loaiQuanHamName) {
-//            LoaiQuanHamQuanDoi loaiQuanHamQuanDoi = loaiQuanHamQuanDoiRepository.findByName(loaiQuanHamName);
-//            CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi = new CapBacLoaiQuanHamQuanDoi(name, loaiQuanHamQuanDoi);
-//            try {
-//                return capBacLoaiQuanHamQuanDoiRepository.save(capBacLoaiQuanHamQuanDoi);
-//            } catch (RuntimeException e) {
-//                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
-//            }
-//        }
-//
-//        @Override
-//        public CapBacLoaiQuanHamQuanDoi sua(int id, ReqUtilities doi) {
-//            Optional<CapBacLoaiQuanHamQuanDoi> optional = capBacLoaiQuanHamQuanDoiRepository.findById(capBacLoaiQuanHamQuanDoi.getId());
-//            try {
-//                return capBacLoaiQuanHamQuanDoiRepository.findById(id).map(e -> {
-//                    e.set(doi.name());
-//                    return bacLuongRepository.save(e);
-//                }).orElse(null);
-//            } catch (RuntimeException e) {
-//                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
-//            }
-//        }
-//    }
+    @Service
+    public class CapBacLoaiQuanHamQuanDoiService implements IUtilitiesService<CapBacLoaiQuanHamQuanDoi, ReqUtilities> {
+        @Override
+        public List<CapBacLoaiQuanHamQuanDoi> xemDS() {
+            return capBacLoaiQuanHamQuanDoiRepository.findAll();
+        }
+
+        @Override
+        public Optional<CapBacLoaiQuanHamQuanDoi> xemTheoId(int id) {
+            return capBacLoaiQuanHamQuanDoiRepository.findById(id);
+        }
+
+        @Override
+        public CapBacLoaiQuanHamQuanDoi them(String name) {
+            return null;
+        }
+
+        @Override
+        public CapBacLoaiQuanHamQuanDoi themCapBacLoaiQuanHamQuanDoi(String name, int loaiQuanHamName) {
+            CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi = capBacLoaiQuanHamQuanDoiRepository.findByName(name).orElse(null);
+            LoaiQuanHamQuanDoi loaiQuanHamQuanDoi = loaiQuanHamQuanDoiRepository.findById(loaiQuanHamName).orElse(null);
+            try {
+                if (capBacLoaiQuanHamQuanDoi == null) {
+                    return capBacLoaiQuanHamQuanDoiRepository.save(new CapBacLoaiQuanHamQuanDoi(name, loaiQuanHamQuanDoi));
+                }
+                return capBacLoaiQuanHamQuanDoi;
+            } catch (RuntimeException e) {
+                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+            }
+        }
+
+        @Override
+        public CapBacLoaiQuanHamQuanDoi sua(int id, ReqUtilities doi) {
+            LoaiQuanHamQuanDoi loaiQuanHamQuanDoi = loaiQuanHamQuanDoiRepository.findById(doi.loaiQuanHamQuanDoi()).orElse(null);
+            try {
+                return capBacLoaiQuanHamQuanDoiRepository.findById(id).map(e -> {
+                    e.setName(doi.name());
+                    e.setLoaiQuanHamQuanDoi(loaiQuanHamQuanDoi);
+                    return capBacLoaiQuanHamQuanDoiRepository.save(e);
+                }).orElse(null);
+            } catch (RuntimeException e) {
+                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+            }
+        }
+
+        @Override
+        public boolean xoa(int id) {
+            return IUtilitiesService.super.xoa(id);
+        }
+    }
 
     @Service
     public class CapNhomChucDanhDangService implements IUtilitiesService<CapNhomChucDanhDang, ReqUtilities> {

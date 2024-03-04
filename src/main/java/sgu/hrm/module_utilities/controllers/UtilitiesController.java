@@ -49,7 +49,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UtilitiesController {
     private final IUtilitiesService<BacLuong, ReqUtilities> bacLuongService;
-    //    private final IUtilitiesService<CapBacLoaiQuanHamQuanDoi, ReqUtilities> capBacLoaiQuanHamQuanDoiService;
+    private final IUtilitiesService<CapBacLoaiQuanHamQuanDoi, ReqUtilities> capBacLoaiQuanHamQuanDoiService;
     private final IUtilitiesService<CapNhomChucDanhDang, ReqUtilities> capNhomChucDanhDangService;
     private final IUtilitiesService<ChucDanhDang, ReqUtilities> chucDanhDangService;
     private final IUtilitiesService<ChucVu, ReqUtilities> chucVuService;
@@ -100,24 +100,33 @@ public class UtilitiesController {
         }
     }
 
-//    @RestController
-//    class CapBacLoaiQuanHamQuanDoiController {
-//        @GetMapping("/cap-bac-loai-quan-ham-quan-doi")
-//        public ResDTO<?> getAllCapBacLoaiQuanHamQuanDoi() {
-//            return capBacLoaiQuanHamQuanDoiService.xemDS();
-//        }
-//
-//        @PostMapping("/cap-bac-loai-quan-ham-quan-doi/them")
-//        public ResDTO<?> addCapBacLoaiQuanHamQuanDoi(@RequestBody ReqCapBacQuanHamQuanDoi capBacQuanHamQuanDoi) {
-//            return capBacLoaiQuanHamQuanDoiService.themCapBacLoaiQuanHamQuanDoi(capBacQuanHamQuanDoi.capBacQuanHamQuanDoi(),
-//                    capBacQuanHamQuanDoi.nameLoaiQuanHam());
-//        }
-//
-//        @PatchMapping("/cap-bac-loai-quan-ham-quan-doi/sua")
-//        public ResDTO<?> editCapBacLoaiQuanHamQuanDoi(CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi) {
-//            return capBacLoaiQuanHamQuanDoiService.sua(capBacLoaiQuanHamQuanDoi);
-//        }
-//    }
+    @RestController
+    class CapBacLoaiQuanHamQuanDoiController {
+        @GetMapping("/cap-bac-loai-quan-ham-quan-doi")
+        public ResponseEntity<ResDTO<List<CapBacLoaiQuanHamQuanDoi>>> getAllCapBacLoaiQuanHamQuanDoi() {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, capBacLoaiQuanHamQuanDoiService.xemDS()), HttpStatus.OK);
+        }
+
+        @GetMapping("/cap-bac-loai-quan-ham-quan-doi/{id}")
+        public ResponseEntity<ResDTO<CapBacLoaiQuanHamQuanDoi>> getCapBacLoaiQuanHamQuanDoiById(@PathVariable int id) {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, capBacLoaiQuanHamQuanDoiService.xemTheoId(id).orElse(null)), HttpStatus.OK);
+        }
+
+        @PostMapping("/cap-bac-loai-quan-ham-quan-doi")
+        public ResponseEntity<ResDTO<CapBacLoaiQuanHamQuanDoi>> addCapBacLoaiQuanHamQuanDoi(@RequestBody ReqUtilities utilities) {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, capBacLoaiQuanHamQuanDoiService.themCapBacLoaiQuanHamQuanDoi(utilities.name(), utilities.loaiQuanHamQuanDoi())), HttpStatus.OK);
+        }
+
+        @PatchMapping("/cap-bac-loai-quan-ham-quan-doi/{id}")
+        public ResponseEntity<ResDTO<CapBacLoaiQuanHamQuanDoi>> editCapBacLoaiQuanHamQuanDoi(@PathVariable int id, @RequestBody ReqUtilities luong) {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, capBacLoaiQuanHamQuanDoiService.sua(id, luong)), HttpStatus.OK);
+        }
+
+        @DeleteMapping("/cap-bac-loai-quan-ham-quan-doi/{id}")
+        public ResponseEntity<ResDTO<Boolean>> delCapBacLoaiQuanHamQuanDoi(@PathVariable int id) {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.XOA_THANH_CONG, capBacLoaiQuanHamQuanDoiService.xoa(id)), HttpStatus.OK);
+        }
+    }
 
     @RestController
     class CapNhomChucDanhDangController {
