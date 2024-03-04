@@ -6,8 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import sgu.hrm.module_utilities.models.TrinhDoChuyenMon;
 
+import java.util.Optional;
+
 @Repository
 public interface TrinhDoChuyenMonRepository extends JpaRepository<TrinhDoChuyenMon, Integer> {
     @Query
-    TrinhDoChuyenMon findByName(String name);
+    Optional<TrinhDoChuyenMon> findByName(String name);
 }

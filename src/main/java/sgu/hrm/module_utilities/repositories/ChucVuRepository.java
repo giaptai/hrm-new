@@ -5,8 +5,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import sgu.hrm.module_utilities.models.ChucVu;
 
+import java.util.Optional;
+
 @Repository
 public interface ChucVuRepository extends JpaRepository<ChucVu, Integer> {
     @Query
-    ChucVu findByName(String name);
+    Optional<ChucVu> findByName(String name);
 }

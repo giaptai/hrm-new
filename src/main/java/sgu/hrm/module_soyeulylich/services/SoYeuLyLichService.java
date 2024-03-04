@@ -102,7 +102,6 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
                 SoYeuLyLich syllNew = mapToSoYeuLyLich(reqSoYeuLyLich);
                 syllNew.setId(soYeuLyLich.getId());
                 syllNew.setCreate_at(soYeuLyLich.getCreate_at());
-                syllNew.setUpdate_at();
                 soYeuLyLichRepository.save(syllNew);
                 return ResDTO.response(ResEnum.THANH_CONG, ISoYeuLyLichService.mapToResSoYeuLyLich(syllNew));
             } else return ResDTO.response(ResEnum.HONG_TIM_THAY, null);

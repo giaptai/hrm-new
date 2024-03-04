@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -28,6 +30,7 @@ import sgu.hrm.models.DateTimeObject;
 @JsonIgnoreProperties({"nhomChucDanhDang"})
 public class CapNhomChucDanhDang extends DateTimeObject {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INTEGER AUTO_INCREMENT")
     int id;
 

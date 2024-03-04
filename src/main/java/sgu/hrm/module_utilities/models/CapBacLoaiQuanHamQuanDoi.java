@@ -3,6 +3,8 @@ package sgu.hrm.module_utilities.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -24,6 +26,7 @@ import sgu.hrm.models.DateTimeObject;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CapBacLoaiQuanHamQuanDoi extends DateTimeObject {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "integer auto_increment")
     int id;
 

@@ -373,7 +373,7 @@ public class SoYeuLyLichChiTietServices {
                         )).toList();
                 khenThuongRepository.saveAll(khenThuongs);
                 List<ResKhenThuong> resKT = khenThuongs.stream().map(this::mapToResKhenThuong).toList();
-                return ResDTO.response(ResEnum.KHEN_THUONG_THANH_CONG, khenThuongs.stream().map(this::mapToResKhenThuong).toList());
+                return ResDTO.response(ResEnum.KHEN_THUONG_THANH_CONG, resKT);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -602,12 +602,13 @@ public class SoYeuLyLichChiTietServices {
         @Override
         public ResDTO<?> kyLuatNhanVien(List<ReqKyLuatNhanVien> ky) {
             try {
-//                List<KyLuat> kyLuats = ky.stream().flatMap(
-//                        reqNV -> reqNV.nhanVienUUIDs().stream().map(
-//                                nvId -> mapToKyLuat(reqNV.kyLuat())
-//                        )).toList();
-//                kyLuatRepository.saveAll(kyLuats);
-                return ResDTO.response(ResEnum.KY_LUAT_THANH_CONG, "");
+                List<KyLuat> kyLuats = ky.stream().flatMap(
+                        reqNV -> reqNV.nhanVienUUIDs().stream().map(
+                                nvId -> mapToKyLuat(reqNV.kyLuat())
+                        )).toList();
+                List<ResKyLuat> resKL = kyLuats.stream().map(this::mapToResKyLuat).toList();
+                kyLuatRepository.saveAll(kyLuats);
+                return ResDTO.response(ResEnum.KY_LUAT_THANH_CONG, resKL);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }

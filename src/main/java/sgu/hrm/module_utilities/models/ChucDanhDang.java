@@ -30,7 +30,7 @@ import sgu.hrm.models.DateTimeObject;
 @JsonIgnoreProperties({"capNhomChucDanhDang"})
 public class ChucDanhDang extends DateTimeObject {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "INTEGER")
     int id;
 

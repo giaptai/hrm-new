@@ -6,9 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import sgu.hrm.module_utilities.models.NhomMau;
 
+import java.util.Optional;
+
 
 @Repository
 public interface NhomMauRepository extends JpaRepository<NhomMau, Integer> {
     @Query
-    NhomMau findByName(String name);
+    Optional<NhomMau> findByName(String name);
 }

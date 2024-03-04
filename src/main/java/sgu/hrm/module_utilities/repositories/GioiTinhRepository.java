@@ -5,8 +5,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import sgu.hrm.module_utilities.models.GioiTinh;
 
+import java.util.Optional;
+
 @Repository
 public interface GioiTinhRepository extends JpaRepository<GioiTinh, Integer> {
     @Query
-    public GioiTinh findByName(String name);
+    Optional<GioiTinh> findByName(String name);
 }

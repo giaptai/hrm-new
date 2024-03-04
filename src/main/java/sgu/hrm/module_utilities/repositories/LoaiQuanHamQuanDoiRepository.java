@@ -5,8 +5,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import sgu.hrm.module_utilities.models.LoaiQuanHamQuanDoi;
 
+import java.util.Optional;
+
 @Repository
 public interface LoaiQuanHamQuanDoiRepository extends JpaRepository<LoaiQuanHamQuanDoi, Integer> {
     @Query
-    LoaiQuanHamQuanDoi findByName(String name);
+    Optional<LoaiQuanHamQuanDoi> findByName(String name);
 }
