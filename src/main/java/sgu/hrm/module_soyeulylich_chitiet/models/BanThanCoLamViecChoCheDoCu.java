@@ -66,7 +66,7 @@ public class BanThanCoLamViecChoCheDoCu extends DateTimeObject {
     }
 
     public BanThanCoLamViecChoCheDoCu(LocalDateTime batDau, LocalDateTime ketThuc, String chucDanhDonViDiaDiem, SoYeuLyLich soYeuLyLich) {
-//        this.setUpdate_at();
+        super();
         this.batDau = batDau;
         this.ketThuc = ketThuc;
         this.chucDanhDonViDiaDiem = chucDanhDonViDiaDiem;

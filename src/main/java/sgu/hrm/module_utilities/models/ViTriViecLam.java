@@ -38,10 +38,13 @@ public class ViTriViecLam extends DateTimeObject {
     @Column(columnDefinition = "double default 0")
     double tienLuong;
 
-    public ViTriViecLam(String name) {
-        super(); // goi thi moi set chu
+    public ViTriViecLam(String name, int bacLuong, double tienLuong) {
+        super();
         this.name = name;
+        this.bacLuong = bacLuong;
+        this.tienLuong = tienLuong;
     }
+
     //danh cho edit
 
     @Override

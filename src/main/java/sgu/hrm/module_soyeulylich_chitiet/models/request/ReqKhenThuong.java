@@ -9,8 +9,6 @@ public record ReqKhenThuong(LocalDateTime nam,
                             String xepLoaiChuyenMon,
                             String xepLoaiThiDua,
                             int hinhThucKhenThuong,
-                            String lyDo,
-                            String loaiSoYeuLyLichChiTiet,
-                            String soYeuLyLich
+                            String lyDo
 ) {
 }

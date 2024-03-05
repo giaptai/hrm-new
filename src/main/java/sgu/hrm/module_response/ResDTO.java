@@ -26,12 +26,6 @@ public class ResDTO<T> {
         this.time_stamp = LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
     }
 
-    public ResDTO(int status_code, ResEnum message, T data, LocalDateTime timeStamp) {
-        this.status_code = status_code;
-        this.message = message.name();
-        this.data = data;
-        this.time_stamp = timeStamp;
-    }
 
     public static <T> ResDTO<T> response(ResEnum resEnum, T data) {
         return new ResDTO<>(resEnum, data);

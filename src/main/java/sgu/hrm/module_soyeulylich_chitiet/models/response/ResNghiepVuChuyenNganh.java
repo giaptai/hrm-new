@@ -1,5 +1,7 @@
 package sgu.hrm.module_soyeulylich_chitiet.models.response;
 
+import sgu.hrm.module_soyeulylich_chitiet.models.NghiepVuChuyenNganh;
+
 import java.time.LocalDateTime;
 
 public record ResNghiepVuChuyenNganh(
@@ -11,4 +13,16 @@ public record ResNghiepVuChuyenNganh(
         LocalDateTime create_at,
         LocalDateTime update_at
 ) {
+    public static ResNghiepVuChuyenNganh mapToResNghiepVuChuyenNganh(NghiepVuChuyenNganh nganh) {
+        return nganh != null ? new ResNghiepVuChuyenNganh(
+                nganh.getId(),
+                nganh.getBatDau(),
+                nganh.getKetThuc(),
+                nganh.getTenCoSoDaoTao(),
+                nganh.getChungChiDuocCap(),
+                nganh.getCreate_at(),
+                nganh.getUpdate_at()
+        ) : null;
+    }
+
 }

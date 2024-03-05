@@ -28,7 +28,7 @@ public interface BanThanCoLamViecChoCheDoCuRepository extends JpaRepository<BanT
 
     //READ SPECIFIC
     @Query(value = "SELECT c FROM BanThanCoLamViecChoCheDoCu c WHERE c.id = ?1 AND c.soYeuLyLich.id = ?2")
-    Optional<BanThanCoLamViecChoCheDoCu> findByIdAndSyll(int id, UUID uuid);
+    BanThanCoLamViecChoCheDoCu findByIdAndSyll(int id, UUID uuid);
 
     //UPDATE
     @Transactional

@@ -9,8 +9,6 @@ public record ReqKyLuat(
         String hanhViViPhamChinh,
         String coQuanQuyetDinh,
         String loaiSoYeuLyLichChiTiet,
-        String soYeuLyLich,
-        LocalDateTime create_at
-
+        String soYeuLyLich
 ) {
 }

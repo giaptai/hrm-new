@@ -34,7 +34,7 @@ public class DateTimeObject {
     }
 
     public DateTimeObject() {
-        this.create_at = LocalDateTime.now();
+        this.create_at = LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
         this.trangThai = true;
     }
 

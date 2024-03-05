@@ -10,7 +10,6 @@ public record ReqNgoaiNgu(
         String chungChiDuocCap,
         float diemSo,
         String loaiSoYeuLyLichChiTiet,
-        String soYeuLyLich,
-        LocalDateTime create_at
+        String soYeuLyLich
 ) {
 }

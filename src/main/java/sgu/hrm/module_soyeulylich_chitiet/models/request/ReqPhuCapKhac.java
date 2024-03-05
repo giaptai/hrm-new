@@ -11,7 +11,6 @@ public record ReqPhuCapKhac(
         String hinhThucThuong,
         double giaTri,
         String loaiSoYeuLyLichChiTiet,
-        String soYeuLyLich,
-        LocalDateTime create_at
+        String soYeuLyLich
 ) {
 }

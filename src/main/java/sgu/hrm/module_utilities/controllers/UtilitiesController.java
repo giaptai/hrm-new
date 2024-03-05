@@ -41,9 +41,14 @@ import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
 import sgu.hrm.module_utilities.models.ViTriViecLam;
 import sgu.hrm.module_utilities.models.request.ReqCapBacQuanHamQuanDoi;
 import sgu.hrm.module_utilities.models.request.ReqUtilities;
+import sgu.hrm.module_utilities.models.response.ResCapBacLoaiHamQuanDoi;
+import sgu.hrm.module_utilities.models.response.ResCapNhomChucDanhDang;
+import sgu.hrm.module_utilities.models.response.ResChucDanhDang;
 import sgu.hrm.module_utilities.services.IUtilitiesService;
 
 import java.util.List;
+
+import static sgu.hrm.module_utilities.models.response.ResCapBacLoaiHamQuanDoi.mapToResCapBacLoaiHamQuanDoi;
 
 @Controller
 @RequiredArgsConstructor
@@ -85,7 +90,7 @@ public class UtilitiesController {
 
         @PostMapping("/bac-luong")
         public ResponseEntity<ResDTO<BacLuong>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, bacLuongService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, bacLuongService.them(utilities)), HttpStatus.OK);
         }
 
         // khong co requestbody van ok, van hieu do la request body
@@ -103,23 +108,27 @@ public class UtilitiesController {
     @RestController
     class CapBacLoaiQuanHamQuanDoiController {
         @GetMapping("/cap-bac-loai-quan-ham-quan-doi")
-        public ResponseEntity<ResDTO<List<CapBacLoaiQuanHamQuanDoi>>> getAllCapBacLoaiQuanHamQuanDoi() {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, capBacLoaiQuanHamQuanDoiService.xemDS()), HttpStatus.OK);
+        public ResponseEntity<ResDTO<List<ResCapBacLoaiHamQuanDoi>>> getAllCapBacLoaiQuanHamQuanDoi() {
+            List<ResCapBacLoaiHamQuanDoi> resCapBacLoaiHamQuanDois = capBacLoaiQuanHamQuanDoiService.xemDS().stream().map(ResCapBacLoaiHamQuanDoi::mapToResCapBacLoaiHamQuanDoi).toList();
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resCapBacLoaiHamQuanDois), HttpStatus.OK);
         }
 
         @GetMapping("/cap-bac-loai-quan-ham-quan-doi/{id}")
-        public ResponseEntity<ResDTO<CapBacLoaiQuanHamQuanDoi>> getCapBacLoaiQuanHamQuanDoiById(@PathVariable int id) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, capBacLoaiQuanHamQuanDoiService.xemTheoId(id).orElse(null)), HttpStatus.OK);
+        public ResponseEntity<ResDTO<ResCapBacLoaiHamQuanDoi>> getCapBacLoaiQuanHamQuanDoiById(@PathVariable int id) {
+            ResCapBacLoaiHamQuanDoi resCapBacLoaiHamQuanDoi = ResCapBacLoaiHamQuanDoi.mapToResCapBacLoaiHamQuanDoi(capBacLoaiQuanHamQuanDoiService.xemTheoId(id).orElse(null));
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resCapBacLoaiHamQuanDoi), HttpStatus.OK);
         }
 
         @PostMapping("/cap-bac-loai-quan-ham-quan-doi")
-        public ResponseEntity<ResDTO<CapBacLoaiQuanHamQuanDoi>> addCapBacLoaiQuanHamQuanDoi(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, capBacLoaiQuanHamQuanDoiService.themCapBacLoaiQuanHamQuanDoi(utilities.name(), utilities.loaiQuanHamQuanDoi())), HttpStatus.OK);
+        public ResponseEntity<ResDTO<ResCapBacLoaiHamQuanDoi>> addCapBacLoaiQuanHamQuanDoi(@RequestBody ReqUtilities utilities) {
+            ResCapBacLoaiHamQuanDoi resCapBacLoaiHamQuanDoi = ResCapBacLoaiHamQuanDoi.mapToResCapBacLoaiHamQuanDoi(capBacLoaiQuanHamQuanDoiService.them(utilities));
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, resCapBacLoaiHamQuanDoi), HttpStatus.OK);
         }
 
         @PatchMapping("/cap-bac-loai-quan-ham-quan-doi/{id}")
-        public ResponseEntity<ResDTO<CapBacLoaiQuanHamQuanDoi>> editCapBacLoaiQuanHamQuanDoi(@PathVariable int id, @RequestBody ReqUtilities luong) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, capBacLoaiQuanHamQuanDoiService.sua(id, luong)), HttpStatus.OK);
+        public ResponseEntity<ResDTO<ResCapBacLoaiHamQuanDoi>> editCapBacLoaiQuanHamQuanDoi(@PathVariable int id, @RequestBody ReqUtilities luong) {
+            ResCapBacLoaiHamQuanDoi resCapBacLoaiHamQuanDoi = ResCapBacLoaiHamQuanDoi.mapToResCapBacLoaiHamQuanDoi(capBacLoaiQuanHamQuanDoiService.sua(id, luong));
+            return new ResponseEntity<>(ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, resCapBacLoaiHamQuanDoi), HttpStatus.OK);
         }
 
         @DeleteMapping("/cap-bac-loai-quan-ham-quan-doi/{id}")
@@ -131,24 +140,28 @@ public class UtilitiesController {
     @RestController
     class CapNhomChucDanhDangController {
         @GetMapping("/cap-nhom-chuc-danh-dang")
-        public ResponseEntity<ResDTO<List<CapNhomChucDanhDang>>> getAllBacLuong() {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, capNhomChucDanhDangService.xemDS()), HttpStatus.OK);
+        public ResponseEntity<ResDTO<List<ResCapNhomChucDanhDang>>> getAllBacLuong() {
+            List<ResCapNhomChucDanhDang> resCapNhomChucDanhDangs = capNhomChucDanhDangService.xemDS().stream().map(ResCapNhomChucDanhDang::mapToResCapNhomChucDanhDang).toList();
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resCapNhomChucDanhDangs), HttpStatus.OK);
         }
 
         @GetMapping("/cap-nhom-chuc-danh-dang/{id}")
-        public ResponseEntity<ResDTO<CapNhomChucDanhDang>> getBacLuongById(@PathVariable int id) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, capNhomChucDanhDangService.xemTheoId(id).orElse(null)), HttpStatus.OK);
+        public ResponseEntity<ResDTO<ResCapNhomChucDanhDang>> getBacLuongById(@PathVariable int id) {
+            ResCapNhomChucDanhDang resCapNhomChucDanhDang = ResCapNhomChucDanhDang.mapToResCapNhomChucDanhDang(capNhomChucDanhDangService.xemTheoId(id).orElse(null));
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resCapNhomChucDanhDang), HttpStatus.OK);
         }
 
         @PostMapping("/cap-nhom-chuc-danh-dang")
-        public ResponseEntity<ResDTO<CapNhomChucDanhDang>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, capNhomChucDanhDangService.them(utilities.name())), HttpStatus.OK);
+        public ResponseEntity<ResDTO<ResCapNhomChucDanhDang>> addBacLuong(@RequestBody ReqUtilities utilities) {
+            ResCapNhomChucDanhDang resCapNhomChucDanhDang = ResCapNhomChucDanhDang.mapToResCapNhomChucDanhDang(capNhomChucDanhDangService.them(utilities));
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, resCapNhomChucDanhDang), HttpStatus.OK);
         }
 
         // khong co requestbody van ok, van hieu do la request body
         @PatchMapping("/cap-nhom-chuc-danh-dang/{id}")
-        public ResponseEntity<ResDTO<CapNhomChucDanhDang>> editBacLuong(@PathVariable int id, @RequestBody ReqUtilities luong) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, capNhomChucDanhDangService.sua(id, luong)), HttpStatus.OK);
+        public ResponseEntity<ResDTO<ResCapNhomChucDanhDang>> editBacLuong(@PathVariable int id, @RequestBody ReqUtilities luong) {
+            ResCapNhomChucDanhDang resCapNhomChucDanhDang = ResCapNhomChucDanhDang.mapToResCapNhomChucDanhDang(capNhomChucDanhDangService.sua(id, luong));
+            return new ResponseEntity<>(ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, resCapNhomChucDanhDang), HttpStatus.OK);
         }
 
         @DeleteMapping("/cap-nhom-chuc-danh-dang/{id}")
@@ -160,23 +173,27 @@ public class UtilitiesController {
     @RestController
     class ChucDanhDangController {
         @GetMapping("/chuc-danh-dang")
-        public ResponseEntity<ResDTO<List<ChucDanhDang>>> getAllBacLuong() {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, chucDanhDangService.xemDS()), HttpStatus.OK);
+        public ResponseEntity<ResDTO<List<ResChucDanhDang>>> getAllBacLuong() {
+            List<ResChucDanhDang> resChucDanhDangs = chucDanhDangService.xemDS().stream().map(ResChucDanhDang::mapToResChucDanhDang).toList();
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resChucDanhDangs), HttpStatus.OK);
         }
 
         @GetMapping("/chuc-danh-dang/{id}")
-        public ResponseEntity<ResDTO<ChucDanhDang>> getBacLuongById(@PathVariable int id) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, chucDanhDangService.xemTheoId(id).orElse(null)), HttpStatus.OK);
+        public ResponseEntity<ResDTO<ResChucDanhDang>> getBacLuongById(@PathVariable int id) {
+            ResChucDanhDang resChucDanhDang = ResChucDanhDang.mapToResChucDanhDang(chucDanhDangService.xemTheoId(id).orElse(null));
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resChucDanhDang), HttpStatus.OK);
         }
 
         @PostMapping("/chuc-danh-dang")
-        public ResponseEntity<ResDTO<ChucDanhDang>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, chucDanhDangService.them(utilities.name())), HttpStatus.OK);
+        public ResponseEntity<ResDTO<ResChucDanhDang>> addBacLuong(@RequestBody ReqUtilities utilities) {
+            ResChucDanhDang resChucDanhDang = ResChucDanhDang.mapToResChucDanhDang(chucDanhDangService.them(utilities));
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, resChucDanhDang), HttpStatus.OK);
         }
 
         @PatchMapping("/chuc-danh-dang/{id}")
-        public ResponseEntity<ResDTO<ChucDanhDang>> editBacLuong(@PathVariable int id, @RequestBody ReqUtilities luong) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, chucDanhDangService.sua(id, luong)), HttpStatus.OK);
+        public ResponseEntity<ResDTO<ResChucDanhDang>> editBacLuong(@PathVariable int id, @RequestBody ReqUtilities luong) {
+            ResChucDanhDang resChucDanhDang = ResChucDanhDang.mapToResChucDanhDang(chucDanhDangService.sua(id, luong));
+            return new ResponseEntity<>(ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, resChucDanhDang), HttpStatus.OK);
         }
 
         @DeleteMapping("/chuc-danh-dang/{id}")
@@ -199,7 +216,7 @@ public class UtilitiesController {
 
         @PostMapping("/chuc-vu")
         public ResponseEntity<ResDTO<ChucVu>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, chucVuService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, chucVuService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/chuc-vu/{id}")
@@ -227,7 +244,7 @@ public class UtilitiesController {
 
         @PostMapping("/coquan-tochuc-donvi")
         public ResponseEntity<ResDTO<CoQuanToChucDonVi>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, coQuanToChucDonViService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, coQuanToChucDonViService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/coquan-tochuc-donvi/{id}")
@@ -255,7 +272,7 @@ public class UtilitiesController {
 
         @PostMapping("/danh-hieu-nha-nuoc-phong")
         public ResponseEntity<ResDTO<DanhHieuNhaNuocPhongTang>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, danhHieuNhaNuocPhongTangService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, danhHieuNhaNuocPhongTangService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/danh-hieu-nha-nuoc-phong/{id}")
@@ -283,7 +300,7 @@ public class UtilitiesController {
 
         @PostMapping("/dan-toc")
         public ResponseEntity<ResDTO<DanToc>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, danTocService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, danTocService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/dan-toc/{id}")
@@ -311,7 +328,7 @@ public class UtilitiesController {
 
         @PostMapping("/doi-tuong-chinh-sach")
         public ResponseEntity<ResDTO<DoiTuongChinhSach>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, doiTuongChinhSachService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, doiTuongChinhSachService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/doi-tuong-chinh-sach/{id}")
@@ -339,7 +356,7 @@ public class UtilitiesController {
 
         @PostMapping("/gioi-tinh")
         public ResponseEntity<ResDTO<GioiTinh>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, gioiTinhService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, gioiTinhService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/gioi-tinh/{id}")
@@ -368,7 +385,7 @@ public class UtilitiesController {
 
         @PostMapping("/hinh-thuc-khen-thuong")
         public ResponseEntity<ResDTO<HinhThucKhenThuong>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, hinhThucKhenThuongService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, hinhThucKhenThuongService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/hinh-thuc-khen-thuong/{id}")
@@ -396,7 +413,7 @@ public class UtilitiesController {
 
         @PostMapping("/hoc-ham")
         public ResponseEntity<ResDTO<HocHam>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, hocHamService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, hocHamService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/hoc-ham/{id}")
@@ -424,7 +441,7 @@ public class UtilitiesController {
 
         @PostMapping("/loai-quan-ham-quan-doi")
         public ResponseEntity<ResDTO<LoaiQuanHamQuanDoi>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, loaiQuanHamQuanDoiService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, loaiQuanHamQuanDoiService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/loai-quan-ham-quan-doi/{id}")
@@ -452,7 +469,7 @@ public class UtilitiesController {
 
         @PostMapping("/nhom-chuc-danh-dang")
         public ResponseEntity<ResDTO<NhomChucDanhDang>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, nhomChucDanhDangService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, nhomChucDanhDangService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/nhom-chuc-danh-dang/{id}")
@@ -480,7 +497,7 @@ public class UtilitiesController {
 
         @PostMapping("/nhom-mau")
         public ResponseEntity<ResDTO<NhomMau>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, nhomMauService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, nhomMauService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/nhom-mau/{id}")
@@ -508,7 +525,7 @@ public class UtilitiesController {
 
         @PostMapping("/thanh-phan-gia-dinh")
         public ResponseEntity<ResDTO<ThanhPhanGiaDinh>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, thanhPhanGiaDinhService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, thanhPhanGiaDinhService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/thanh-phan-gia-dinh/{id}")
@@ -536,7 +553,7 @@ public class UtilitiesController {
 
         @PostMapping("/tinh-trang-suc-khoe")
         public ResponseEntity<ResDTO<TinhTrangSucKhoe>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, tinhTrangSucKhoeService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, tinhTrangSucKhoeService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/tinh-trang-suc-khoe/{id}")
@@ -564,7 +581,7 @@ public class UtilitiesController {
 
         @PostMapping("/ton-giao")
         public ResponseEntity<ResDTO<TonGiao>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, tonGiaoService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, tonGiaoService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/ton-giao/{id}")
@@ -592,7 +609,7 @@ public class UtilitiesController {
 
         @PostMapping("/trinh-do-chuyen-mon")
         public ResponseEntity<ResDTO<TrinhDoChuyenMon>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, trinhDoChuyenMonService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, trinhDoChuyenMonService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/trinh-do-chuyen-mon/{id}")
@@ -620,7 +637,7 @@ public class UtilitiesController {
 
         @PostMapping("/trinh-do-giao-duc-pho-thong")
         public ResponseEntity<ResDTO<TrinhDoGiaoDucPhoThong>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, trinhDoGiaoDucPhoThongService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, trinhDoGiaoDucPhoThongService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/trinh-do-giao-duc-pho-thong/{id}")
@@ -648,7 +665,7 @@ public class UtilitiesController {
 
         @PostMapping("/vi-tri-viec-lam")
         public ResponseEntity<ResDTO<ViTriViecLam>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, viTriViecLamService.them(utilities.name())), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, viTriViecLamService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/vi-tri-viec-lam/{id}")

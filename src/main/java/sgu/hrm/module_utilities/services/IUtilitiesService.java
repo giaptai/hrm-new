@@ -1,9 +1,5 @@
 package sgu.hrm.module_utilities.services;
 
-import sgu.hrm.module_response.ResDTO;
-import sgu.hrm.module_utilities.models.CapBacLoaiQuanHamQuanDoi;
-import sgu.hrm.module_utilities.models.request.ReqUtilities;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -12,15 +8,11 @@ public interface IUtilitiesService<T, R> {
 
     Optional<T> xemTheoId(int id);
 
-    T them(String name);
+    T them(R name);
 
     T sua(int id, R req);
 
     default boolean xoa(int id) {
         return true;
-    }
-
-    default CapBacLoaiQuanHamQuanDoi themCapBacLoaiQuanHamQuanDoi(String name, int loaiQuanHamName) {
-        return null;
     }
 }

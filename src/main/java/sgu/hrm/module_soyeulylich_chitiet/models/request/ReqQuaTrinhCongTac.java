@@ -8,7 +8,6 @@ public record ReqQuaTrinhCongTac(
         String donViCongTac,
         String chucDanh,
         String loaiSoYeuLyLichChiTiet,
-        String soYeuLyLich,
-        LocalDateTime create_at
+        String soYeuLyLich
 ) {
 }

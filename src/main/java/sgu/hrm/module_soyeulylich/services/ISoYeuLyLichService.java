@@ -20,20 +20,21 @@ import sgu.hrm.module_utilities.models.ThanhPhanGiaDinh;
 import sgu.hrm.module_utilities.models.TinhTrangSucKhoe;
 import sgu.hrm.module_utilities.models.TrinhDoChuyenMon;
 import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
-import sgu.hrm.module_utilities.models.ViTriViecLam;;import java.util.Optional;
+import sgu.hrm.module_utilities.models.ViTriViecLam;;import java.util.List;
+import java.util.Optional;
 
 public interface ISoYeuLyLichService {
-    ResDTO<?> xemThongTinSoYeuLyLich();
+    SoYeuLyLich xemThongTinSoYeuLyLich();
 
-    public ResDTO<ResSoYeuLyLich> capNhatSoYeuLyLich(ReqSoYeuLyLich reqSoYeuLyLich);
+    public SoYeuLyLich capNhatSoYeuLyLich(ReqSoYeuLyLich reqSoYeuLyLich);
 
-    public ResDTO<?> xemDanhSachSoYeuLyLich();
+    public List<SoYeuLyLich> xemDanhSachSoYeuLyLich();
 
-    ResDTO<ResSoYeuLyLich> xemSoYeuLyLichTheoSoCCCDHoacID(String q);
+    SoYeuLyLich xemSoYeuLyLichTheoSoCCCDHoacID(String q);
 
-    ResDTO<?> xemSoYeuLyLichTheoId(String id);
+    SoYeuLyLich xemSoYeuLyLichTheoId(String id);
 
-    ResDTO<?> pheDuyetSoYeuLyLich(String id, ReqDSSoYeuLyLich reqDSSoYeuLyLich);
+    boolean pheDuyetSoYeuLyLich(String id, ReqDSSoYeuLyLich reqDSSoYeuLyLich);
 
     static ResSoYeuLyLich mapToResSoYeuLyLich(SoYeuLyLich soYeuLyLich) {
         return ResSoYeuLyLich.builder()

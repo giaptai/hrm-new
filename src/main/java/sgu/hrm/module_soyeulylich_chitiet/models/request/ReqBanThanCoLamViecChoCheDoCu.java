@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 public record ReqBanThanCoLamViecChoCheDoCu(
         LocalDateTime batDau,
         LocalDateTime ketThuc,
-        String chucDanhDonViDiaDiem,
-        LocalDateTime create_at
+        String chucDanhDonViDiaDiem
 ) {
 }

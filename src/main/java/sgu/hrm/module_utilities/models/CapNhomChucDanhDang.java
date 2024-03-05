@@ -41,9 +41,10 @@ public class CapNhomChucDanhDang extends DateTimeObject {
     @JoinColumn(foreignKey = @ForeignKey(name = "nhom_chuc_danh_dang_fk"), name = "nhom_chuc_danh_dang", referencedColumnName = "id", columnDefinition = "integer")
     NhomChucDanhDang nhomChucDanhDang;
 
-    public CapNhomChucDanhDang(String name) {
+    public CapNhomChucDanhDang(String name, NhomChucDanhDang nhomChucDanhDang) {
         super(); // goi thi moi set chu
         this.name = name;
+        this.nhomChucDanhDang = nhomChucDanhDang;
     }
     //danh cho edit
 

@@ -2,6 +2,8 @@ package sgu.hrm.module_security;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,7 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import sgu.hrm.module_response.ResDTO;
 import sgu.hrm.module_response.ResEnum;
 import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoanLogin;
+import sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoan;
+import sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoanLogin;
 import sgu.hrm.module_taikhoan.service.ITaiKhoanService;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,8 +29,8 @@ public class SercurityController {
     }
 
     @PostMapping("/dang-nhap")
-    public ResDTO<?> dangNhap(@RequestBody ReqTaiKhoanLogin reqTaiKhoanLogin) {
-        return taiKhoanService.dangNhap(reqTaiKhoanLogin);
+    public ResponseEntity<ResTaiKhoanLogin> dangNhap(@RequestBody ReqTaiKhoanLogin reqTaiKhoanLogin) {
+        return new ResponseEntity<>(taiKhoanService.dangNhap(reqTaiKhoanLogin), HttpStatus.OK);
     }
 
     @GetMapping("/dang-xuat")

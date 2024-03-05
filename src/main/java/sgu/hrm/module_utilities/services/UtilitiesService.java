@@ -94,11 +94,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public BacLuong them(String name) {
+        public BacLuong them(ReqUtilities name) {
             try {
-                BacLuong bl = bacLuongRepository.findByName(name).orElse(null);
+                BacLuong bl = bacLuongRepository.findByName(name.name()).orElse(null);
                 if (bl == null) {
-                    return bacLuongRepository.save(new BacLuong(name));
+                    return bacLuongRepository.save(new BacLuong(name.name()));
                 }
                 return bl;
             } catch (RuntimeException e) {
@@ -146,11 +146,19 @@ public class UtilitiesService {
         }
 
         @Override
-        public CapBacLoaiQuanHamQuanDoi them(String name) {
-            return null;
+        public CapBacLoaiQuanHamQuanDoi them(ReqUtilities req) {
+            CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi = capBacLoaiQuanHamQuanDoiRepository.findByName(req.name()).orElse(null);
+            LoaiQuanHamQuanDoi loaiQuanHamQuanDoi = loaiQuanHamQuanDoiRepository.findById(req.loaiQuanHamQuanDoi()).orElse(null);
+            try {
+                if (capBacLoaiQuanHamQuanDoi == null) {
+                    return capBacLoaiQuanHamQuanDoiRepository.save(new CapBacLoaiQuanHamQuanDoi(req.name(), loaiQuanHamQuanDoi));
+                }
+                return capBacLoaiQuanHamQuanDoi;
+            } catch (RuntimeException e) {
+                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+            }
         }
 
-        @Override
         public CapBacLoaiQuanHamQuanDoi themCapBacLoaiQuanHamQuanDoi(String name, int loaiQuanHamName) {
             CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi = capBacLoaiQuanHamQuanDoiRepository.findByName(name).orElse(null);
             LoaiQuanHamQuanDoi loaiQuanHamQuanDoi = loaiQuanHamQuanDoiRepository.findById(loaiQuanHamName).orElse(null);
@@ -169,8 +177,9 @@ public class UtilitiesService {
             LoaiQuanHamQuanDoi loaiQuanHamQuanDoi = loaiQuanHamQuanDoiRepository.findById(doi.loaiQuanHamQuanDoi()).orElse(null);
             try {
                 return capBacLoaiQuanHamQuanDoiRepository.findById(id).map(e -> {
-                    e.setName(doi.name());
+                    e.setName(doi.name() != null ? doi.name() : e.getName());
                     e.setLoaiQuanHamQuanDoi(loaiQuanHamQuanDoi);
+                    e.setUpdate_at();
                     return capBacLoaiQuanHamQuanDoiRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
@@ -197,11 +206,12 @@ public class UtilitiesService {
         }
 
         @Override
-        public CapNhomChucDanhDang them(String name) {
-            CapNhomChucDanhDang capNhomChucDanhDang = capNhomChucDanhDangRepository.findByName(name).orElse(null);
+        public CapNhomChucDanhDang them(ReqUtilities req) {
+            CapNhomChucDanhDang capNhomChucDanhDang = capNhomChucDanhDangRepository.findByName(req.name()).orElse(null);
+            NhomChucDanhDang nhomChucDanhDang = nhomChucDanhDangRepository.findById(req.nhomChucDanhDang()).orElse(null);
             try {
                 if (capNhomChucDanhDang == null) {
-                    return capNhomChucDanhDangRepository.save(new CapNhomChucDanhDang(name));
+                    return capNhomChucDanhDangRepository.save(new CapNhomChucDanhDang(req.name(), nhomChucDanhDang));
                 }
                 return capNhomChucDanhDang;
             } catch (RuntimeException e) {
@@ -211,9 +221,11 @@ public class UtilitiesService {
 
         @Override
         public CapNhomChucDanhDang sua(int id, ReqUtilities dang) {
+            NhomChucDanhDang nhomChucDanhDang = nhomChucDanhDangRepository.findById(dang.nhomChucDanhDang()).orElse(null);
             try {
                 return capNhomChucDanhDangRepository.findById(id).map(e -> {
-                    e.setName(dang.name());
+                    e.setName(dang.name() != null ? dang.name() : e.getName());
+                    e.setNhomChucDanhDang(nhomChucDanhDang);
                     e.setUpdate_at();
                     return capNhomChucDanhDangRepository.save(e);
                 }).orElse(null);
@@ -249,11 +261,12 @@ public class UtilitiesService {
         }
 
         @Override
-        public ChucDanhDang them(String name) {
-            ChucDanhDang chucDanhDang = chucDanhDangRepository.findByName(name).orElse(null);
+        public ChucDanhDang them(ReqUtilities req) {
+            ChucDanhDang chucDanhDang = chucDanhDangRepository.findByName(req.name()).orElse(null);
+            CapNhomChucDanhDang capNhomChucDanhDang = capNhomChucDanhDangRepository.findById(req.capNhomChucDanhDang()).orElse(null);
             try {
                 if (chucDanhDang == null) {
-                    return chucDanhDangRepository.save(new ChucDanhDang(name));
+                    return chucDanhDangRepository.save(new ChucDanhDang(req.name(), capNhomChucDanhDang));
                 }
                 return chucDanhDang;
             } catch (RuntimeException e) {
@@ -263,9 +276,11 @@ public class UtilitiesService {
 
         @Override
         public ChucDanhDang sua(int id, ReqUtilities dang) {
+            CapNhomChucDanhDang capNhomChucDanhDang = capNhomChucDanhDangRepository.findById(dang.capNhomChucDanhDang()).orElse(null);
             try {
                 return chucDanhDangRepository.findById(id).map(e -> {
-                    e.setName(dang.name());
+                    e.setName(dang.name() != null ? dang.name() : e.getName());
+                    e.setCapNhomChucDanhDang(capNhomChucDanhDang);
                     e.setUpdate_at();
                     return chucDanhDangRepository.save(e);
                 }).orElse(null);
@@ -301,11 +316,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public ChucVu them(String name) {
-            ChucVu vu = chucVuRepository.findByName(name).orElse(null);
+        public ChucVu them(ReqUtilities req) {
+            ChucVu vu = chucVuRepository.findByName(req.name()).orElse(null);
             try {
                 if (vu == null) {
-                    return chucVuRepository.save(new ChucVu(name));
+                    return chucVuRepository.save(new ChucVu(req.name()));
                 }
                 return vu;
             } catch (RuntimeException e) {
@@ -353,11 +368,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public CoQuanToChucDonVi them(String name) {
-            CoQuanToChucDonVi co = coQuanToChucDonViRepository.findByName(name).orElse(null);
+        public CoQuanToChucDonVi them(ReqUtilities req) {
+            CoQuanToChucDonVi co = coQuanToChucDonViRepository.findByName(req.name()).orElse(null);
             try {
                 if (co == null) {
-                    return coQuanToChucDonViRepository.save(new CoQuanToChucDonVi(name));
+                    return coQuanToChucDonViRepository.save(new CoQuanToChucDonVi(req.name()));
                 }
                 return co;
             } catch (RuntimeException e) {
@@ -405,11 +420,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public DanhHieuNhaNuocPhongTang them(String name) {
-            DanhHieuNhaNuocPhongTang danh = danhHieuNhaNuocPhongTangRepository.findByName(name).orElse(null);
+        public DanhHieuNhaNuocPhongTang them(ReqUtilities req) {
+            DanhHieuNhaNuocPhongTang danh = danhHieuNhaNuocPhongTangRepository.findByName(req.name()).orElse(null);
             try {
                 if (danh == null) {
-                    return danhHieuNhaNuocPhongTangRepository.save(new DanhHieuNhaNuocPhongTang(name));
+                    return danhHieuNhaNuocPhongTangRepository.save(new DanhHieuNhaNuocPhongTang(req.name()));
                 }
                 return danh;
             } catch (RuntimeException e) {
@@ -457,11 +472,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public DanToc them(String name) {
-            DanToc toc = danTocRepository.findByName(name).orElse(null);
+        public DanToc them(ReqUtilities req) {
+            DanToc toc = danTocRepository.findByName(req.name()).orElse(null);
             try {
                 if (toc == null) {
-                    return danTocRepository.save(new DanToc(name));
+                    return danTocRepository.save(new DanToc(req.name()));
                 }
                 return toc;
             } catch (RuntimeException e) {
@@ -509,11 +524,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public DoiTuongChinhSach them(String name) {
-            DoiTuongChinhSach sach = doiTuongChinhSachRepository.findByName(name).orElse(null);
+        public DoiTuongChinhSach them(ReqUtilities req) {
+            DoiTuongChinhSach sach = doiTuongChinhSachRepository.findByName(req.name()).orElse(null);
             try {
                 if (sach == null) {
-                    return doiTuongChinhSachRepository.save(new DoiTuongChinhSach(name));
+                    return doiTuongChinhSachRepository.save(new DoiTuongChinhSach(req.name()));
                 }
                 return sach;
             } catch (RuntimeException e) {
@@ -561,11 +576,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public GioiTinh them(String name) {
-            GioiTinh tinh = gioiTinhRepository.findByName(name).orElse(null);
+        public GioiTinh them(ReqUtilities req) {
+            GioiTinh tinh = gioiTinhRepository.findByName(req.name()).orElse(null);
             try {
                 if (tinh == null) {
-                    return gioiTinhRepository.save(new GioiTinh(name));
+                    return gioiTinhRepository.save(new GioiTinh(req.name()));
                 }
                 return tinh;
             } catch (RuntimeException e) {
@@ -613,11 +628,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public HinhThucKhenThuong them(String name) {
-            HinhThucKhenThuong thuc = hinhThucKhenThuongRepository.findByName(name).orElse(null);
+        public HinhThucKhenThuong them(ReqUtilities req) {
+            HinhThucKhenThuong thuc = hinhThucKhenThuongRepository.findByName(req.name()).orElse(null);
             try {
                 if (thuc == null) {
-                    return hinhThucKhenThuongRepository.save(new HinhThucKhenThuong(name));
+                    return hinhThucKhenThuongRepository.save(new HinhThucKhenThuong(req.name()));
                 }
                 return thuc;
             } catch (RuntimeException e) {
@@ -666,11 +681,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public HocHam them(String name) {
-            HocHam ham = hocHamRepository.findByName(name).orElse(null);
+        public HocHam them(ReqUtilities req) {
+            HocHam ham = hocHamRepository.findByName(req.name()).orElse(null);
             try {
                 if (ham == null) {
-                    return hocHamRepository.save(new HocHam(name));
+                    return hocHamRepository.save(new HocHam(req.name()));
                 }
                 return ham;
             } catch (RuntimeException e) {
@@ -719,11 +734,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public LoaiQuanHamQuanDoi them(String name) {
-            LoaiQuanHamQuanDoi ham = loaiQuanHamQuanDoiRepository.findByName(name).orElse(null);
+        public LoaiQuanHamQuanDoi them(ReqUtilities req) {
+            LoaiQuanHamQuanDoi ham = loaiQuanHamQuanDoiRepository.findByName(req.name()).orElse(null);
             try {
                 if (ham == null) {
-                    return loaiQuanHamQuanDoiRepository.save(new LoaiQuanHamQuanDoi(name));
+                    return loaiQuanHamQuanDoiRepository.save(new LoaiQuanHamQuanDoi(req.name()));
                 }
                 return ham;
             } catch (RuntimeException e) {
@@ -772,11 +787,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public NhomChucDanhDang them(String name) {
-            NhomChucDanhDang dang = nhomChucDanhDangRepository.findByName(name).orElse(null);
+        public NhomChucDanhDang them(ReqUtilities req) {
+            NhomChucDanhDang dang = nhomChucDanhDangRepository.findByName(req.name()).orElse(null);
             try {
                 if (dang == null) {
-                    return nhomChucDanhDangRepository.save(new NhomChucDanhDang(name));
+                    return nhomChucDanhDangRepository.save(new NhomChucDanhDang(req.name()));
                 }
                 return dang;
             } catch (RuntimeException e) {
@@ -825,11 +840,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public NhomMau them(String name) {
-            NhomMau mau = nhomMauRepository.findByName(name).orElse(null);
+        public NhomMau them(ReqUtilities req) {
+            NhomMau mau = nhomMauRepository.findByName(req.name()).orElse(null);
             try {
                 if (mau == null) {
-                    return nhomMauRepository.save(new NhomMau(name));
+                    return nhomMauRepository.save(new NhomMau(req.name()));
                 }
                 return mau;
             } catch (RuntimeException e) {
@@ -878,11 +893,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public ThanhPhanGiaDinh them(String name) {
-            ThanhPhanGiaDinh gia = thanhPhanGiaDinhRepository.findByName(name).orElse(null);
+        public ThanhPhanGiaDinh them(ReqUtilities req) {
+            ThanhPhanGiaDinh gia = thanhPhanGiaDinhRepository.findByName(req.name()).orElse(null);
             try {
                 if (gia == null) {
-                    return thanhPhanGiaDinhRepository.save(new ThanhPhanGiaDinh(name));
+                    return thanhPhanGiaDinhRepository.save(new ThanhPhanGiaDinh(req.name()));
                 }
                 return gia;
             } catch (RuntimeException e) {
@@ -931,11 +946,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public TinhTrangSucKhoe them(String name) {
-            TinhTrangSucKhoe khoe = tinhTrangSucKhoeRepository.findByTitle(name).orElse(null);
+        public TinhTrangSucKhoe them(ReqUtilities req) {
+            TinhTrangSucKhoe khoe = tinhTrangSucKhoeRepository.findByTitle(req.name()).orElse(null);
             try {
                 if (khoe == null) {
-                    return tinhTrangSucKhoeRepository.save(new TinhTrangSucKhoe(name));
+                    return tinhTrangSucKhoeRepository.save(new TinhTrangSucKhoe(req.name()));
                 }
                 return khoe;
             } catch (RuntimeException e) {
@@ -984,11 +999,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public TonGiao them(String name) {
-            TonGiao giao = tonGiaoRepository.findByName(name).orElse(null);
+        public TonGiao them(ReqUtilities req) {
+            TonGiao giao = tonGiaoRepository.findByName(req.name()).orElse(null);
             try {
                 if (giao == null) {
-                    return tonGiaoRepository.save(new TonGiao(name));
+                    return tonGiaoRepository.save(new TonGiao(req.name()));
                 }
                 return giao;
             } catch (RuntimeException e) {
@@ -1037,11 +1052,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public TrinhDoChuyenMon them(String name) {
-            TrinhDoChuyenMon mon = trinhDoChuyenMonRepository.findByName(name).orElse(null);
+        public TrinhDoChuyenMon them(ReqUtilities req) {
+            TrinhDoChuyenMon mon = trinhDoChuyenMonRepository.findByName(req.name()).orElse(null);
             try {
                 if (mon == null) {
-                    return trinhDoChuyenMonRepository.save(new TrinhDoChuyenMon(name));
+                    return trinhDoChuyenMonRepository.save(new TrinhDoChuyenMon(req.name()));
                 }
                 return mon;
             } catch (RuntimeException e) {
@@ -1090,11 +1105,11 @@ public class UtilitiesService {
         }
 
         @Override
-        public TrinhDoGiaoDucPhoThong them(String name) {
-            TrinhDoGiaoDucPhoThong thong = trinhDoGiaoDucPhoThongRepository.findByName(name).orElse(null);
+        public TrinhDoGiaoDucPhoThong them(ReqUtilities req) {
+            TrinhDoGiaoDucPhoThong thong = trinhDoGiaoDucPhoThongRepository.findByName(req.name()).orElse(null);
             try {
                 if (thong == null) {
-                    return trinhDoGiaoDucPhoThongRepository.save(new TrinhDoGiaoDucPhoThong(name));
+                    return trinhDoGiaoDucPhoThongRepository.save(new TrinhDoGiaoDucPhoThong(req.name()));
                 }
                 return thong;
             } catch (RuntimeException e) {
@@ -1143,15 +1158,15 @@ public class UtilitiesService {
         }
 
         @Override
-        public ViTriViecLam them(String name) {
-            ViTriViecLam viec = viTriViecLamRepository.findByName(name);
+        public ViTriViecLam them(ReqUtilities req) {
+            ViTriViecLam viec = viTriViecLamRepository.findByName(req.name());
             try {
                 if (viec == null) {
-                    return viTriViecLamRepository.save(new ViTriViecLam(name));
+                    return viTriViecLamRepository.save(new ViTriViecLam(req.name(), req.bacLuong(), req.tienLuong()));
                 }
                 return viec;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 

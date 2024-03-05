@@ -83,45 +83,41 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
     final ViTriViecLamRepository viTriViecLamRepository;
 
     @Override
-    public ResDTO<?> xemThongTinSoYeuLyLich() {
+    public SoYeuLyLich xemThongTinSoYeuLyLich() {
         try {
-            SoYeuLyLich soYeuLyLich = get_Info_SoYeuLyLich();
-            return soYeuLyLich != null ?
-                    ResDTO.response(ResEnum.THANH_CONG, ISoYeuLyLichService.mapToResSoYeuLyLich(soYeuLyLich)) :
-                    ResDTO.response(ResEnum.HONG_TIM_THAY, "");
+            return get_Info_SoYeuLyLich();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
     }
 
     @Override
-    public ResDTO<ResSoYeuLyLich> capNhatSoYeuLyLich(ReqSoYeuLyLich reqSoYeuLyLich) {
+    public SoYeuLyLich capNhatSoYeuLyLich(ReqSoYeuLyLich reqSoYeuLyLich) {
         try {
             SoYeuLyLich soYeuLyLich = get_Info_SoYeuLyLich();
             if (soYeuLyLich != null) {
                 SoYeuLyLich syllNew = mapToSoYeuLyLich(reqSoYeuLyLich);
                 syllNew.setId(soYeuLyLich.getId());
                 syllNew.setCreate_at(soYeuLyLich.getCreate_at());
-                soYeuLyLichRepository.save(syllNew);
-                return ResDTO.response(ResEnum.THANH_CONG, ISoYeuLyLichService.mapToResSoYeuLyLich(syllNew));
-            } else return ResDTO.response(ResEnum.HONG_TIM_THAY, null);
+                return soYeuLyLichRepository.save(syllNew);
+            }
+            return null;
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
     }
 
     @Override
-    public ResDTO<?> xemDanhSachSoYeuLyLich() {
+    public List<SoYeuLyLich> xemDanhSachSoYeuLyLich() {
         try {
-            List<ResSoYeuLyLich> soYeuLyLichs = soYeuLyLichRepository.findAll().stream().map(ISoYeuLyLichService::mapToResSoYeuLyLich).toList();
-            return ResDTO.response(ResEnum.THANH_CONG, soYeuLyLichs);
+            return soYeuLyLichRepository.findAll();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
     }
 
     @Override
-    public ResDTO<ResSoYeuLyLich> xemSoYeuLyLichTheoSoCCCDHoacID(String q) {
+    public SoYeuLyLich xemSoYeuLyLichTheoSoCCCDHoacID(String q) {
         try {
             SoYeuLyLich resSoYeuLyLichSoCCCD = soYeuLyLichRepository.findFirstBySoCCCD(q).orElse(null);
             SoYeuLyLich resSoYeuLyLichId = null;
@@ -129,38 +125,32 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
             if (UUID_REGEX.matcher(q).matches()) {
                 resSoYeuLyLichId = soYeuLyLichRepository.findById(UUID.fromString(q)).orElse(null);
             }
-            return ResDTO.response(ResEnum.THANH_CONG, (resSoYeuLyLichSoCCCD != null ? ISoYeuLyLichService.mapToResSoYeuLyLich(resSoYeuLyLichSoCCCD) :
-                    resSoYeuLyLichId != null ? ISoYeuLyLichService.mapToResSoYeuLyLich(resSoYeuLyLichId) : null));
+            return resSoYeuLyLichSoCCCD != null ? resSoYeuLyLichSoCCCD : resSoYeuLyLichId;
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
     }
 
     @Override
-    public ResDTO<?> xemSoYeuLyLichTheoId(String id) {
+    public SoYeuLyLich xemSoYeuLyLichTheoId(String id) {
         try {
-            SoYeuLyLich soYeuLyLich = soYeuLyLichRepository.findById(UUID.fromString(id)).orElse(null);
-            return ResDTO.response(ResEnum.THANH_CONG, soYeuLyLich != null ? ISoYeuLyLichService.mapToResSoYeuLyLich(soYeuLyLich) : null);
-        } catch (IllegalArgumentException e) {
-            return ResDTO.response(ResEnum.KHONG_HOP_LE, "");
+            return soYeuLyLichRepository.findById(UUID.fromString(id)).orElse(null);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
     }
 
     @Override
-    public ResDTO<?> pheDuyetSoYeuLyLich(String id, ReqDSSoYeuLyLich reqDSSoYeuLyLich) {
+    public boolean pheDuyetSoYeuLyLich(String id, ReqDSSoYeuLyLich reqDSSoYeuLyLich) {
         try {
             SoYeuLyLich soYeuLyLich = soYeuLyLichRepository.findById(UUID.fromString(id)).orElse(null);
             if (soYeuLyLich != null) {
                 soYeuLyLich.setTrangThai(reqDSSoYeuLyLich.trang_thai());
                 soYeuLyLich.setUpdate_at();
                 soYeuLyLichRepository.save(soYeuLyLich);
-                // ISoYeuLyLichService.RES_DS_SO_YEU_LY_LICH(soYeuLyLich)
-                return ResDTO.response(ResEnum.THANH_CONG, ISoYeuLyLichService.mapToResSoYeuLyLich(soYeuLyLich));
-
+                return true;
             }
-            return ResDTO.response(ResEnum.HONG_TIM_THAY, "");
+            return false;
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
