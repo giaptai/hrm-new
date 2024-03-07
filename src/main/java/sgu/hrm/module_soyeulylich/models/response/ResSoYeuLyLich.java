@@ -1,6 +1,8 @@
 package sgu.hrm.module_soyeulylich.models.response;
 
 import lombok.Builder;
+import sgu.hrm.module_heso_luong_ngach.models.HeSoLuongCongChuc;
+import sgu.hrm.module_heso_luong_ngach.models.NgachCongChuc;
 import sgu.hrm.module_heso_luong_ngach.models.NgachVienChuc;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_utilities.enums.GioiTinh;
@@ -157,6 +159,20 @@ public record ResSoYeuLyLich(
         LocalDateTime update_at
 ) {
     public static ResSoYeuLyLich mapToResSoYeuLyLich(SoYeuLyLich soYeuLyLich) {
+        String bacLuongName = Optional.ofNullable(soYeuLyLich.getNgachCongChuc())
+                .map(nagcCongChuc -> nagcCongChuc.getHeSoLuongCongChuc())
+                .map(heSoLuong -> Optional.ofNullable(heSoLuong.getBacLuong())
+                        .map(bacLuong -> bacLuong.getName())
+                        .orElse(""))
+                .orElseGet(() ->
+                        Optional.ofNullable(soYeuLyLich.getNgachVienChuc())
+                                .map(ngachVienChuc -> ngachVienChuc.getHeSoLuongVienChuc())
+                                .map(heSoLuong -> Optional.ofNullable(heSoLuong.getBacLuong())
+                                        .map(bacLuong -> bacLuong.getName())
+                                        .orElse(""))
+                                .orElse("")
+                );
+
         return ResSoYeuLyLich.builder()
                 .id(soYeuLyLich.getId())
                 .hoVaTen(soYeuLyLich.getHoVaTen())
@@ -202,8 +218,8 @@ public record ResSoYeuLyLich(
                 .ngach(soYeuLyLich.getNgachCongChuc() != null ? soYeuLyLich.getNgachCongChuc().getName() : (Optional.ofNullable(soYeuLyLich.getNgachVienChuc()).map(NgachVienChuc::getName).orElse("")))
                 .maSoNgach(soYeuLyLich.getNgachCongChuc() != null ? soYeuLyLich.getNgachCongChuc().getId() : (Optional.ofNullable(soYeuLyLich.getNgachVienChuc()).map(NgachVienChuc::getId).orElse("")))
                 .ngayBoNhiemNgach(soYeuLyLich.getNgayBoNhiemNgach())
-                .bacLuong(soYeuLyLich.getNgachCongChuc() != null ? soYeuLyLich.getNgachCongChuc().getHeSoLuongCongChuc().getBacLuong().getName() : (Optional.ofNullable(soYeuLyLich.getNgachVienChuc()).map(ngachVienChuc -> ngachVienChuc.getHeSoLuongVienChuc().getBacLuong().getName()).orElse("")))
-                .heSoLuongNgach(soYeuLyLich.getNgachCongChuc() != null ? soYeuLyLich.getNgachCongChuc().getHeSoLuongCongChuc().getHeSo() : (Optional.ofNullable(soYeuLyLich.getNgachVienChuc()).map(ngachVienChuc -> ngachVienChuc.getHeSoLuongVienChuc().getHeSo()).orElse(0.0f)))
+                .bacLuong(bacLuongName)
+                .heSoLuongNgach(soYeuLyLich.getNgachCongChuc() != null ? Optional.ofNullable(soYeuLyLich.getNgachCongChuc().getHeSoLuongCongChuc()).map(HeSoLuongCongChuc::getHeSo).orElse(0.0f) : (Optional.ofNullable(soYeuLyLich.getNgachVienChuc()).map(ngachVienChuc -> ngachVienChuc.getHeSoLuongVienChuc().getHeSo()).orElse(0.0f)))
                 .ngayHuongLuongNgach(soYeuLyLich.getNgayHuongLuongNgach())
                 .phanTramHuongLuongNgach(soYeuLyLich.getPhanTramHuongLuongNgach())
                 .phuCapThamNienVuotKhungNgach(soYeuLyLich.getPhuCapThamNienVuotKhungNgach())
