@@ -5,9 +5,11 @@ import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 public record ResKhenThuong(
         int id,
+        UUID maSyll,
         LocalDateTime nam,
         String xepLoaiChuyenMon,
         String xepLoaiThiDua,
@@ -18,6 +20,7 @@ public record ResKhenThuong(
     public static ResKhenThuong maptoResKhenThuong(KhenThuong thuong) {
         return thuong != null ? new ResKhenThuong(
                 thuong.getId(),
+                thuong.getSoYeuLyLich().getId(),
                 thuong.getNam(),
                 thuong.getXepLoaiChuyenMon(),
                 thuong.getXepLoaiThiDua(),

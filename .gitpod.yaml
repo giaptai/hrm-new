@@ -1,0 +1,7 @@
+tasks:
+  - init: ./mvnw install -DskipTests=false
+
+image:
+  file: .gitpod.dockerfile
+
+port:

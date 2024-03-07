@@ -17,11 +17,10 @@ public class TaiKhoanUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        TaiKhoan taiKhoan = taiKhoanRepository.findByUsername(username);
+        UserDetails taiKhoan = taiKhoanRepository.findByUsername(username);
         if (taiKhoan == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
         return taiKhoan;
     }
-
 }

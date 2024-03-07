@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_soyeulylich_chitiet.models.KienThucAnNinhQuocPhong;
 
 import java.time.LocalDateTime;
@@ -21,6 +22,8 @@ public interface KienThucAnNinhQuocPhongRepository extends JpaRepository<KienThu
     //READ ALL
     @Query(value = "SELECT c FROM KienThucAnNinhQuocPhong c WHERE c.soYeuLyLich.id = ?1")
     List<KienThucAnNinhQuocPhong> getAllBySyll(UUID uuid);
+
+    List<KienThucAnNinhQuocPhong> getAllBySoYeuLyLich(SoYeuLyLich syll);
 
     //READ SPECIFIC
     @Query(value = "SELECT c FROM KienThucAnNinhQuocPhong c WHERE c.id = ?1 AND c.soYeuLyLich.id = ?2")

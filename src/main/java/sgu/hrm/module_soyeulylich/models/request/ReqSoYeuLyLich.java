@@ -1,11 +1,14 @@
 package sgu.hrm.module_soyeulylich.models.request;
 
+import sgu.hrm.module_utilities.enums.GioiTinh;
+import sgu.hrm.module_utilities.enums.TinhTrangSucKhoe;
+
 import java.time.LocalDateTime;
 
 public record ReqSoYeuLyLich(
         String hovaten,
 
-        int gioiTinh,
+        GioiTinh gioiTinh,
 
         String cacTenGoiKhac,
 
@@ -35,7 +38,7 @@ public record ReqSoYeuLyLich(
 
         LocalDateTime ngayDuocTuyenDungLanDau,
 
-        int coQuanToChucDonViTuyenDung, //CoQuanToChucDonViTuyenDung coQuanToChucDonViTuyenDung,
+        int coQuanToChucDonViTuyenDung, //CoQuanToChucDonVi coQuanToChucDonViTuyenDung,
 
         LocalDateTime ngayVaoCoQuanHienDangCongTac,
 
@@ -89,33 +92,33 @@ public record ReqSoYeuLyLich(
 
         LocalDateTime ngayHuongLuongNgachNgheNghiep,
 
-        double phanTramHuongLuongNgachNgheNghiep,
+        float phanTramHuongLuongNgachNgheNghiep,
 
         float phuCapThamNienVuotKhungNgachNgheNghiep,
 
         LocalDateTime ngayHuongPCTNVKNgachNgheNghiep,
 
-        float phuCapChucVu,
+        double phuCapChucVu,
 
-        float phuCapKiemNhiem,
+        double phuCapKiemNhiem,
 
-        float phuCapKhac,
+        double phuCapKhac,
 
         int viTriViecLam,
 
         LocalDateTime ngayHuongLuongTheoViTriViecLam,
 
-        double phamTramHuongLuong,
+        float phamTramHuongLuong,
 
         double phuCapThamNienVuotKhung,
 
         LocalDateTime ngayHuongPCTNVK,
 
-        int tinhTrangSucKhoe, //TinhTrangSucKhoe tinhTrangSucKhoe,
+        TinhTrangSucKhoe tinhTrangSucKhoe, //enum,
 
-        double chieuCao,
+        float chieuCao,
 
-        double canNang,
+        float canNang,
 
         int nhomMau //NhomMau nhomMau
 ) {

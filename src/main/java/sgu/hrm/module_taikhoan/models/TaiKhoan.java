@@ -2,33 +2,38 @@ package sgu.hrm.module_taikhoan.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ForeignKey;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import sgu.hrm.models.DateTimeObject;
+import sgu.hrm.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
+import sgu.hrm.module_utilities.enums.RoleTaiKhoan;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "taikhoan")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
@@ -55,8 +60,8 @@ public class TaiKhoan extends DateTimeObject implements UserDetails {
     @Column(columnDefinition = "varchar(250) not null default ''")
     String email;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "role_tai_khoan_fk"), name = "role", referencedColumnName = "id", columnDefinition = "tinyint")
+    @Column(name = "role", columnDefinition = "ENUM('ADMIN', 'EMPLOYEE')")
+    @Enumerated(value = EnumType.STRING)
     RoleTaiKhoan roleTaiKhoan;
 
     @OneToOne()
@@ -65,7 +70,10 @@ public class TaiKhoan extends DateTimeObject implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(roleTaiKhoan.getTitle()));
+//        return List.of(new SimpleGrantedAuthority(roleTaiKhoan.getName()));
+        return Arrays.stream(RoleTaiKhoan.values())
+                .map(role -> new SimpleGrantedAuthority(role.name()))
+                .collect(Collectors.toList());
     }
 
     //ko can getPassword getUsername do @Data no lam roi
@@ -108,8 +116,8 @@ public class TaiKhoan extends DateTimeObject implements UserDetails {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", roleTaiKhoan=" + roleTaiKhoan.toString() +
-                ", soYeuLyLich=" + soYeuLyLich.toString() +
+                ", roleTaiKhoan=" + roleTaiKhoan +
+                ", soYeuLyLich=" + soYeuLyLich +
                 '}';
     }
 }

@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import sgu.hrm.models.DateTimeObject;
+import sgu.hrm.DateTimeObject;
 
 @Entity
 @Table(name = "hinh_thuc_khen_thuong")
@@ -29,7 +29,7 @@ public class HinhThucKhenThuong extends DateTimeObject {
     @Column(columnDefinition = "INTEGER AUTO_INCREMENT")
     int id;
 
-    @Column(length = 30, unique = true)
+    @Column(length = 30, unique = true, name = "name")
     String name;
 
     public HinhThucKhenThuong(String name) {
