@@ -7,8 +7,6 @@ public record ReqKienThucAnNinhQuocPhong(LocalDateTime batDau,
                                          String tenCoSoDaoTao,
                                          String chungChiDuocCap,
                                          String loaiSoYeuLyLichChiTiet,
-                                         String soYeuLyLich,
-                                         LocalDateTime create_at
-
+                                         String soYeuLyLich
 ) {
 }

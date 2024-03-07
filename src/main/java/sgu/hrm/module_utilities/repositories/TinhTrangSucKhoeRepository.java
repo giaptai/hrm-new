@@ -6,8 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import sgu.hrm.module_utilities.models.TinhTrangSucKhoe;
 
+import java.util.Optional;
+
 @Repository
 public interface TinhTrangSucKhoeRepository extends JpaRepository<TinhTrangSucKhoe, Integer> {
     @Query
-    TinhTrangSucKhoe findByTitle(String title);
+    Optional<TinhTrangSucKhoe> findByTitle(String title);
 }

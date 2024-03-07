@@ -5,8 +5,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import sgu.hrm.module_utilities.models.DoiTuongChinhSach;
 
+import java.util.Optional;
+
 @Repository
 public interface DoiTuongChinhSachRepository extends JpaRepository<DoiTuongChinhSach, Integer> {
     @Query
-    DoiTuongChinhSach findByName(String name);
+    Optional<DoiTuongChinhSach> findByName(String name);
 }

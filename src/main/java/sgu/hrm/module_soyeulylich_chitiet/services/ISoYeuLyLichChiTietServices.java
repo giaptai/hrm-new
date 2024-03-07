@@ -35,17 +35,17 @@ import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqTinHoc;
 import java.util.List;
 
 public interface ISoYeuLyLichChiTietServices<T, H> {
-    ResDTO<List<?>> xemDanhSachThongTin();
+    List<T> xemDanhSachThongTin();
 
-    ResDTO<?> xemThongTin(int id);
+    T xemThongTin(int id);
 
-    ResDTO<?> themThongTin(H cu);
+    T themThongTin(H cu);
 
-    ResDTO<?> suaThongTin(int id, H cu);
+    T suaThongTin(int id, H cu);
 
-    ResDTO<?> xoaThongTin(int id);
+    boolean xoaThongTin(int id);
 
-    ResDTO<?> xemDanhSach(String id);
+    List<T> xemDanhSach(String id);
 
 
     interface ILoaiSoYeuLyLichChiTietSefvice {

@@ -6,8 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import sgu.hrm.module_utilities.models.DanhHieuNhaNuocPhongTang;
 
+import java.util.Optional;
+
 @Repository
 public interface DanhHieuNhaNuocPhongTangRepository extends JpaRepository<DanhHieuNhaNuocPhongTang, Integer> {
     @Query
-    DanhHieuNhaNuocPhongTang findByName(String name);
+    Optional<DanhHieuNhaNuocPhongTang> findByName(String name);
 }

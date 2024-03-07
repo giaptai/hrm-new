@@ -37,6 +37,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoan.mapToResTaiKhoan;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -56,35 +58,6 @@ public class TaiKhoanService implements ITaiKhoanService {
 
     final AuthenticationManager authenticationManager;
 
-    @Override
-    public ResDTO<ResTaiKhoan> xemThongTinTaiKhoan() {
-        try {
-            ResTaiKhoan resTaiKhoan = Optional.ofNullable(crush_em_t()).map(this::mapToResTaiKhoan).orElse(null);
-            return new ResDTO<>(
-                    ResEnum.THANH_CONG.getStatusCode(),
-                    ResEnum.THANH_CONG,
-                    resTaiKhoan
-            );
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e.getCause());
-        }
-    }
-
-    private ResTaiKhoan mapToResTaiKhoan(TaiKhoan taiKhoan) {
-        return new ResTaiKhoan(
-                taiKhoan.getId(),
-                taiKhoan.getHoVaTen(),
-                taiKhoan.getSoCCCD(),
-                taiKhoan.getUsername(),
-                taiKhoan.getEmail(),
-                Optional.ofNullable(taiKhoan.getSoYeuLyLich()).map(SoYeuLyLich::getId).orElse(null),
-                (taiKhoan.getRoleTaiKhoan().getId() == 1) ? "EMPLOYEE" : "ADMIN",
-                taiKhoan.isTrangThai(),
-                taiKhoan.getCreate_at(),
-                taiKhoan.getUpdate_at()
-        );
-    }
-
     private TaiKhoan crush_em_t() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -93,92 +66,77 @@ public class TaiKhoanService implements ITaiKhoanService {
     }
 
     @Override
-    public ResDTO<?> doiMatKhau(String matkhau) {
+    public TaiKhoan xemThongTinTaiKhoan() {
+        try {
+            return crush_em_t();
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getCause());
+        }
+    }
+
+    @Override
+    public boolean doiMatKhau(String matkhau) {
+        try {
+            TaiKhoan taiKhoan = crush_em_t();
+            if (taiKhoan != null) {
+                taiKhoan.setPassword(matkhau);
+                taiKhoan.setUpdate_at();
+                taiKhoanRepository.save(taiKhoan);
+                return true;
+            } else return false;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getCause());
+        }
+    }
+
+    @Override
+    public boolean doiEmail(String email) {
         try {
             TaiKhoan taiKhoan = crush_em_t();
             if (taiKhoan != null) {
                 taiKhoan.setUpdate_at();
-                taiKhoan.setPassword(matkhau);
-                taiKhoanRepository.save(taiKhoan);
-            }
-            ResTaiKhoan resTaiKhoan = Optional.ofNullable(taiKhoan).map(this::mapToResTaiKhoan).orElse(null);
-            return new ResDTO<>(
-                    ResEnum.DOI_MAT_KHAU_THANH_CONG.getStatusCode(),
-                    ResEnum.DOI_MAT_KHAU_THANH_CONG,
-                    ResEnum.DOI_MAT_KHAU_THANH_CONG.name()
-            );
+                taiKhoan.setEmail(email);
+                return true;
+            } else return false;
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
     }
 
+    /* ADMIN - ADMIN - ADMIN*/
     @Override
-    public ResDTO<?> xemDanhSachTaiKhoan() {
+    public List<TaiKhoan> xemDanhSachTaiKhoan() {
         try {
-            TaiKhoan taiKhoan = crush_em_t();
-            List<ResTaiKhoan> khoanResponseDTOs = List.of();
-            if (taiKhoan != null) {
-                List<TaiKhoan> taiKhoans = taiKhoanRepository.findAll();
-                if (!taiKhoans.isEmpty()) {
-                    khoanResponseDTOs = taiKhoans.stream().map(this::mapToResTaiKhoan).toList();
-                }
-            }
-            return new ResDTO<>(
-                    ResEnum.THANH_CONG.getStatusCode(),
-                    ResEnum.THANH_CONG,
-                    khoanResponseDTOs
-            );
+            return taiKhoanRepository.findAll();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
     }
 
     @Override
-    public ResDTO<ResTaiKhoan> xemTaiKhoanTheoSoCCCDOrUsername(String number) {
+    public TaiKhoan xemTaiKhoanTheoSoCCCDOrUsername(String number) {
         try {
-            TaiKhoan taiKhoan = crush_em_t();
-            ResTaiKhoan resTaiKhoan = null;
-            if (taiKhoan != null) {
-                TaiKhoan taiKhoanSoCCCD = taiKhoanRepository.findBySoCCCD(number);
-                TaiKhoan taiKhoanUsername = taiKhoanRepository.findByUsername(number);
-                if (taiKhoanSoCCCD != null) {
-                    resTaiKhoan = mapToResTaiKhoan(taiKhoanSoCCCD);
-                }
-                if (taiKhoanUsername != null) {
-                    resTaiKhoan = mapToResTaiKhoan(taiKhoanUsername);
-                }
-            }
-            return new ResDTO<>(
-                    ResEnum.THANH_CONG.getStatusCode(),
-                    ResEnum.THANH_CONG,
-                    resTaiKhoan
-            );
+            TaiKhoan taiKhoanSoCCCD = taiKhoanRepository.findBySoCCCD(number);
+            TaiKhoan taiKhoanUsername = taiKhoanRepository.findByUsername(number);
+            if (taiKhoanSoCCCD != null) {
+                return taiKhoanSoCCCD;
+            } else return taiKhoanUsername;
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
     }
 
     @Override
-    public ResDTO<ResTaiKhoan> xemTaiKhoanTheoId(int id) {
+    public TaiKhoan xemTaiKhoanTheoId(int id) {
         try {
-            TaiKhoan taiKhoan = crush_em_t();
-            ResTaiKhoan resTaiKhoan = null;
-            if (taiKhoan != null) {
-                resTaiKhoan = taiKhoanRepository.findById(id).map(tk -> mapToResTaiKhoan(tk)).orElse(null);
-
-            }
-            return new ResDTO<>(
-                    ResEnum.THANH_CONG.getStatusCode(),
-                    ResEnum.THANH_CONG,
-                    resTaiKhoan
-            );
+            return taiKhoanRepository.findById(id).orElse(null);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
     }
 
     @Override
-    public ResDTO<?> themTaiKhoan(ReqTaiKhoan reqTaiKhoan) {
+    public TaiKhoan themTaiKhoan(ReqTaiKhoan reqTaiKhoan) {
         TaiKhoan taiKhoan = null;
         SoYeuLyLich soYeuLyLich = null;
         try {
@@ -204,32 +162,8 @@ public class TaiKhoanService implements ITaiKhoanService {
                         .build();
                 soYeuLyLichRepository.save(soYeuLyLich);
                 taiKhoan.setSoYeuLyLich(soYeuLyLich);
-                taiKhoanRepository.save(taiKhoan);
-//                return new ResDTO<>(
-//                        ResEnum.TAO_THANH_CONG.getStatusCode(),
-//                        ResEnum.TAO_THANH_CONG,
-//                        Optional.of(soYeuLyLich).map(tk -> new ResDSSoYeuLyLich(
-//                                tk.getId(),
-//                                tk.getHovaten(),
-//                                tk.getSinhNgay() != null ? tk.getSinhNgay() : null,
-//                                tk.getChucVuHienTai() != null ? tk.getChucVuHienTai() : null,
-//                                tk.getTrinhDoChuyenMon() != null ? tk.getTrinhDoChuyenMon().getName() : null,
-//                                tk.getNgachNgheNghiep() != null ? tk.getNgachNgheNghiep() : null,
-//                                tk.getCreate_at(),
-//                                tk.getUpdate_at(),
-//                                tk.isTrangThai()
-//                        )).orElse(null)
-//                );
-                return new ResDTO<>(
-                        ResEnum.TAO_THANH_CONG.getStatusCode(),
-                        ResEnum.TAO_THANH_CONG,
-                        ""
-                );
-            } else return new ResDTO<>(
-                    ResEnum.KHONG_HOP_LE.getStatusCode(),
-                    ResEnum.KHONG_HOP_LE,
-                    null
-            );
+                return taiKhoanRepository.save(taiKhoan);
+            } else return null;
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         } finally {
@@ -259,33 +193,21 @@ public class TaiKhoanService implements ITaiKhoanService {
     }
 
     @Override
-    public ResDTO<?> dangNhap(ReqTaiKhoanLogin reqTaiKhoanLogin) {
+    public ResTaiKhoanLogin dangNhap(ReqTaiKhoanLogin reqTaiKhoanLogin) {
         try {
             TaiKhoan taiKhoanLogin = taiKhoanRepository.findByUsername(reqTaiKhoanLogin.username());
             if (taiKhoanLogin != null) {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(reqTaiKhoanLogin.username(), reqTaiKhoanLogin.password()));
                 System.out.printf("USER IS: %s", taiKhoanLogin.getUsername());
-                return new ResDTO<>(
-                        ResEnum.DANG_NHAP_THANH_CONG.getStatusCode(),
-                        ResEnum.DANG_NHAP_THANH_CONG,
-                        new ResTaiKhoanLogin(
-                                mapToResTaiKhoan(taiKhoanLogin),
-                                jwtUtilities.generationToken(taiKhoanLogin)
-                        )
+                return new ResTaiKhoanLogin(
+                        mapToResTaiKhoan(taiKhoanLogin),
+                        jwtUtilities.generationToken(taiKhoanLogin)
                 );
             }
             //không tạo refresh token ok
-            return new ResDTO<>(
-                    ResEnum.HONG_TIM_THAY.getStatusCode(),
-                    ResEnum.HONG_TIM_THAY,
-                    ResEnum.HONG_TIM_THAY.name()
-            );
+            return null;
         } catch (AuthenticationException e) {
-            return new ResDTO<>(
-                    ResEnum.DANG_NHAP_THAT_BAI.getStatusCode(),
-                    ResEnum.DANG_NHAP_THAT_BAI,
-                    ResEnum.DANG_NHAP_THAT_BAI.name()
-            );
+            return null;
         } catch (Exception e) {
             throw new RuntimeException(e.getCause());
         }

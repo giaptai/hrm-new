@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -32,6 +34,7 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BanThanCoLamViecChoCheDoCu extends DateTimeObject {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INTEGER AUTO_INCREMENT")
     int id;
 
@@ -63,7 +66,7 @@ public class BanThanCoLamViecChoCheDoCu extends DateTimeObject {
     }
 
     public BanThanCoLamViecChoCheDoCu(LocalDateTime batDau, LocalDateTime ketThuc, String chucDanhDonViDiaDiem, SoYeuLyLich soYeuLyLich) {
-//        this.setUpdate_at();
+        super();
         this.batDau = batDau;
         this.ketThuc = ketThuc;
         this.chucDanhDonViDiaDiem = chucDanhDonViDiaDiem;

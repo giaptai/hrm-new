@@ -10,7 +10,6 @@ public record ReqLuongBanThan(
         float heSoLuong,
         float tienLuongTheoViTri,
         String loaiSoYeuLyLichChiTiet,
-        String soYeuLyLich,
-        LocalDateTime create_at
+        String soYeuLyLich
 ) {
 }

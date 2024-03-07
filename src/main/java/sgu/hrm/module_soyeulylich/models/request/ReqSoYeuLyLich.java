@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public record ReqSoYeuLyLich(
         String hovaten,
 
-        String gioiTinh,
+        int gioiTinh,
 
         String cacTenGoiKhac,
 
@@ -15,7 +15,7 @@ public record ReqSoYeuLyLich(
 
         String queQuan,
 
-        String danToc, //DanToc danToc,
+        int danToc, //DanToc danToc,
 
         String soCCCD,
 
@@ -29,13 +29,13 @@ public record ReqSoYeuLyLich(
 
         String noiOHienNay,
 
-        String thanhPhanGiaDinh, //ThanhPhanGiaDinh thanhPhanGiaDinh,
+        int thanhPhanGiaDinh, //ThanhPhanGiaDinh thanhPhanGiaDinh,
 
         String ngheNghiepTruocKhiTuyenDung,
 
         LocalDateTime ngayDuocTuyenDungLanDau,
 
-        String coQuanToChucDonViTuyenDung, //CoQuanToChucDonViTuyenDung coQuanToChucDonViTuyenDung,
+        int coQuanToChucDonViTuyenDung, //CoQuanToChucDonViTuyenDung coQuanToChucDonViTuyenDung,
 
         LocalDateTime ngayVaoCoQuanHienDangCongTac,
 
@@ -49,19 +49,19 @@ public record ReqSoYeuLyLich(
 
         LocalDateTime ngayXuatNgu,
 
-        String capBacLoaiQuanHamQuanDoi, //CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi,
+        int capBacLoaiQuanHamQuanDoi, //CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi,
 
-        String doiTuongChinhSach, //DoiTuongChinhSach doiTuongChinhSach,
+        int doiTuongChinhSach, //DoiTuongChinhSach doiTuongChinhSach,
 
-        String trinhDoGiaoDucPhoThong, //TrinhDoGiaoDucPhoThong trinhDoGiaoDucPhoThong,
+        int trinhDoGiaoDucPhoThong, //TrinhDoGiaoDucPhoThong trinhDoGiaoDucPhoThong,
 
-        String trinhDoChuyenMon, //TrinhDoChuyenMon trinhDoChuyenMon,
+        int trinhDoChuyenMon, //TrinhDoChuyenMon trinhDoChuyenMon,
 
-        String hocHam, //HocHam hocHam,
+        int hocHam, //HocHam hocHam,
 
-        String danhHieuNhaNuocPhongTang, //DanhHieuNhaNuocPhongTang danhHieuNhaNuocPhongTang,
+        int danhHieuNhaNuocPhongTang, //DanhHieuNhaNuocPhongTang danhHieuNhaNuocPhongTang,
 
-        String chucVuHienTai,
+        int chucVuHienTai, //ChucVu chucVuHienTai
 
         LocalDateTime ngayBoNhiem,
 
@@ -69,11 +69,11 @@ public record ReqSoYeuLyLich(
 
         String duocQuyHoacChucDanh,
 
-        String chucVuKiemNhiem,
+        int chucVuKiemNhiem, //ChucVu chucVuKiemNhiem
 
-        String chucVuDangHienTai,
+        int chucVuDangHienTai, //ChucDanhDang chucVuDangHienTai;
 
-        String chucVuDangKiemNhiem,
+        int chucVuDangKiemNhiem, ////ChucDanhDang chucVuDangKiemNhiem;
 
         String congViecChinhDuocGiao,
 
@@ -83,15 +83,9 @@ public record ReqSoYeuLyLich(
 
         double tienLuong,
 
-        String ngachNgheNghiep,
-
-        String maSoNgachNgheNghiep,
+        String ngachNgheNghiep, //NgachCongChuc ngachCongChuc;  NgachVienChuc ngachVienChuc;
 
         LocalDateTime ngayBoNhiemNgachNgheNghiep,
-
-        String bacLuong, //BacLuong bacLuong,
-
-        float heSoLuongNgachNgheNghiep,
 
         LocalDateTime ngayHuongLuongNgachNgheNghiep,
 
@@ -107,13 +101,7 @@ public record ReqSoYeuLyLich(
 
         float phuCapKhac,
 
-        String viTriViecLam,
-
-        String maSoViTriViecLam,
-
-        double bacLuongTriViecLam,
-
-        double luongTheoMucTien,
+        int viTriViecLam,
 
         LocalDateTime ngayHuongLuongTheoViTriViecLam,
 
@@ -123,12 +111,12 @@ public record ReqSoYeuLyLich(
 
         LocalDateTime ngayHuongPCTNVK,
 
-        String tinhTrangSucKhoe, //TinhTrangSucKhoe tinhTrangSucKhoe,
+        int tinhTrangSucKhoe, //TinhTrangSucKhoe tinhTrangSucKhoe,
 
         double chieuCao,
 
         double canNang,
 
-        String nhomMau //NhomMau nhomMau
+        int nhomMau //NhomMau nhomMau
 ) {
 }

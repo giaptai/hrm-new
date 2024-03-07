@@ -1,21 +1,18 @@
 package sgu.hrm.module_utilities.services;
 
-import sgu.hrm.module_response.ResDTO;
+import java.util.List;
+import java.util.Optional;
 
-public interface IUtilitiesService<T> {
-    ResDTO<?> xemDS();
+public interface IUtilitiesService<T, R> {
+    List<T> xemDS();
 
-    default ResDTO<?> them(String name) {
-        return null;
-    }
+    Optional<T> xemTheoId(int id);
 
-    ResDTO<?> sua(T object);
+    T them(R name);
 
-    default ResDTO<?> xoa(T object) {
-        return null;
-    }
+    T sua(int id, R req);
 
-    default ResDTO<?> themCapBacLoaiQuanHamQuanDoi(String name, String loaiQuanHamName) {
-        return null;
+    default boolean xoa(int id) {
+        return true;
     }
 }

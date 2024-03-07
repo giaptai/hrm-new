@@ -5,8 +5,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
 
+import java.util.Optional;
+
 @Repository
 public interface TrinhDoGiaoDucPhoThongRepository extends JpaRepository<TrinhDoGiaoDucPhoThong, Integer> {
     @Query
-    TrinhDoGiaoDucPhoThong findByName(String name);
+    Optional<TrinhDoGiaoDucPhoThong> findByName(String name);
 }

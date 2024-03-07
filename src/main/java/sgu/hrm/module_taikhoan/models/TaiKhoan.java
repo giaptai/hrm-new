@@ -69,6 +69,15 @@ public class TaiKhoan extends DateTimeObject implements UserDetails {
     }
 
     //ko can getPassword getUsername do @Data no lam roi
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
 
     @Override
     public boolean isAccountNonExpired() {

@@ -10,6 +10,8 @@ import sgu.hrm.module_congchuc_vienchuc.models.BacNgachCongChuc;
 import sgu.hrm.module_congchuc_vienchuc.models.BacNgachVienChuc;
 import sgu.hrm.module_congchuc_vienchuc.models.NgachCongChuc;
 import sgu.hrm.module_congchuc_vienchuc.models.NgachVienChuc;
+import sgu.hrm.module_congchuc_vienchuc.models.response.ResNgachCongChuc;
+import sgu.hrm.module_congchuc_vienchuc.models.response.ResNgachVienChuc;
 import sgu.hrm.module_congchuc_vienchuc.services.ICongChucVienChucService;
 
 import sgu.hrm.module_response.ResDTO;
@@ -36,12 +38,12 @@ public class CongChucVienChucControllers {
     }
 
     @GetMapping("/ngach-cong-chuc")
-    public ResDTO<List<NgachCongChuc>> getAllNgachCongChuc() {
+    public ResDTO<List<ResNgachCongChuc>> getAllNgachCongChuc() {
         return ngachCongChucService.xemNgachCongChuc();
     }
 
     @GetMapping("/ngach-vien-chuc")
-    public ResDTO<List<NgachVienChuc>> getAllNgachVienChuc() {
+    public ResDTO<List<ResNgachVienChuc>> getAllNgachVienChuc() {
         return ngachVienChucService.xemNgachVienChuc();
     }
 }

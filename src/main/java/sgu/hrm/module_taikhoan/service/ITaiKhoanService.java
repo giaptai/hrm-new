@@ -5,6 +5,7 @@ import sgu.hrm.module_taikhoan.models.TaiKhoan;
 import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoan;
 import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoanLogin;
 import sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoan;
+import sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoanLogin;
 
 import java.text.Normalizer;
 import java.util.List;
@@ -12,19 +13,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public interface ITaiKhoanService {
-    ResDTO<ResTaiKhoan> xemThongTinTaiKhoan();
+    TaiKhoan xemThongTinTaiKhoan();
 
-    ResDTO<?> doiMatKhau(String matkhau);
+    boolean doiMatKhau(String matkhau);
 
-    public ResDTO<?> xemDanhSachTaiKhoan(); //admin
+    boolean doiEmail(String email);
 
-    public ResDTO<ResTaiKhoan> xemTaiKhoanTheoSoCCCDOrUsername(String soCCCD); //admin user
+    List<TaiKhoan> xemDanhSachTaiKhoan(); //admin
 
-    ResDTO<ResTaiKhoan> xemTaiKhoanTheoId(int id); //admin user
+    TaiKhoan xemTaiKhoanTheoSoCCCDOrUsername(String soCCCD); //admin user
 
-    ResDTO<?> themTaiKhoan(ReqTaiKhoan taiKhoan);
+    TaiKhoan xemTaiKhoanTheoId(int id); //admin user
 
-    ResDTO<?> dangNhap(ReqTaiKhoanLogin reqTaiKhoanLogin);
+    TaiKhoan themTaiKhoan(ReqTaiKhoan taiKhoan);
+
+    ResTaiKhoanLogin dangNhap(ReqTaiKhoanLogin reqTaiKhoanLogin);
 
     static boolean checkMatKhau(String matkhau) {
         Pattern pattern = Pattern.compile("^[\\p{Lower}\\p{Upper}\\d\\S]{6,15}$");
@@ -58,8 +61,4 @@ public interface ITaiKhoanService {
         }
         return newS.toString();
     }
-
-//    void suaTrangThaiTaiKhoan(int id); //admin
-//    public ResDTO<TaiKhoan> suaMathauTaiKhosn(int id, String matKhau);
-//    public void xoaTaiKhoan();
 }

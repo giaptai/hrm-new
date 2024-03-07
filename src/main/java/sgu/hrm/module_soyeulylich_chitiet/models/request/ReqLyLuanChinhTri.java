@@ -9,8 +9,6 @@ public record ReqLyLuanChinhTri(
         String hinhThucDaoTao,
         String vanBangDuocCap,
         String loaiSoYeuLyLichChiTiet,
-        String soYeuLyLich,
-        LocalDateTime create_at
-
+        String soYeuLyLich
 ) {
 }

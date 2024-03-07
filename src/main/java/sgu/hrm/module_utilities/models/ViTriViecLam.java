@@ -2,6 +2,8 @@ package sgu.hrm.module_utilities.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -23,6 +25,7 @@ import sgu.hrm.models.DateTimeObject;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ViTriViecLam extends DateTimeObject {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INTEGER AUTO_INCREMENT")
     int id;
 
@@ -35,10 +38,13 @@ public class ViTriViecLam extends DateTimeObject {
     @Column(columnDefinition = "double default 0")
     double tienLuong;
 
-    public ViTriViecLam(String name) {
-        super(); // goi thi moi set chu
+    public ViTriViecLam(String name, int bacLuong, double tienLuong) {
+        super();
         this.name = name;
+        this.bacLuong = bacLuong;
+        this.tienLuong = tienLuong;
     }
+
     //danh cho edit
 
     @Override

@@ -30,7 +30,7 @@ import sgu.hrm.models.DateTimeObject;
 @JsonIgnoreProperties({"capNhomChucDanhDang"})
 public class ChucDanhDang extends DateTimeObject {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", columnDefinition = "INTEGER")
     int id;
 
@@ -41,9 +41,10 @@ public class ChucDanhDang extends DateTimeObject {
     @JoinColumn(foreignKey = @ForeignKey(name = "cap_nhom_chuc_danh_dang_fk"), name = "cap_nhom_chuc_danh_dang", referencedColumnName = "id", columnDefinition = "integer")
     CapNhomChucDanhDang capNhomChucDanhDang;
 
-    public ChucDanhDang(String name) {
+    public ChucDanhDang(String name, CapNhomChucDanhDang capNhomChucDanhDang) {
         super(); // goi thi moi set chu
         this.name = name;
+        this.capNhomChucDanhDang = capNhomChucDanhDang;
     }
     //danh cho edit
 

@@ -63,6 +63,16 @@ public class KhenThuong extends DateTimeObject {
     @JoinColumn(foreignKey = @ForeignKey(name = "so_yeu_ly_lich_khthuong_fk"), name = "so_yeu_ly_lich", referencedColumnName = "id", columnDefinition = "binary(16)")
     SoYeuLyLich soYeuLyLich;
 
+    public KhenThuong(int id, LocalDateTime nam, String xepLoaiChuyenMon, String xepLoaiThiDua, HinhThucKhenThuong hinhThucKhenThuong, String lyDo, SoYeuLyLich soYeuLyLich) {
+        this.id = id;
+        this.nam = nam;
+        this.xepLoaiChuyenMon = xepLoaiChuyenMon;
+        this.xepLoaiThiDua = xepLoaiThiDua;
+        this.hinhThucKhenThuong = hinhThucKhenThuong;
+        this.lyDo = lyDo;
+        this.soYeuLyLich = soYeuLyLich;
+    }
+
     public KhenThuong(LocalDateTime nam, String xepLoaiChuyenMon, String xepLoaiThiDua, HinhThucKhenThuong hinhThucKhenThuong, String lyDo, LoaiSoYeuLyLichChiTiet loaiSoYeuLyLichChiTiet, SoYeuLyLich soYeuLyLich) {
         super();
         this.nam = nam;

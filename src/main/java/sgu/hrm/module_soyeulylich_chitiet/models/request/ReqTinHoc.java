@@ -8,8 +8,6 @@ public record ReqTinHoc(
         String tenCoSoDaoTao,
         String chungChiDuocCap,
         String loaiSoYeuLyLichChiTiet,
-        String soYeuLyLich,
-        LocalDateTime create_at
-
+        String soYeuLyLich
 ) {
 }

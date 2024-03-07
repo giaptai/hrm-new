@@ -10,7 +10,6 @@ public record ReqQuanHeGiaDinh(
         short namSinh,
         String thongTinThanNhan,
         String loaiSoYeuLyLichChiTiet,
-        String soYeuLyLich,
-        LocalDateTime create_at
+        String soYeuLyLich
 ) {
 }

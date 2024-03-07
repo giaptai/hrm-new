@@ -22,7 +22,7 @@ public class DateTimeObject {
     @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime create_at;
 
-    @Getter
+    @Column(columnDefinition = "DATETIME ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime update_at;
 
     @Column(columnDefinition = "boolean default 1")
@@ -34,7 +34,7 @@ public class DateTimeObject {
     }
 
     public DateTimeObject() {
-        this.create_at = LocalDateTime.now();
+        this.create_at = LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
         this.trangThai = true;
     }
 
