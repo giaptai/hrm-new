@@ -30,24 +30,24 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         final String userName;
         if (authHeader == null || authHeader.isBlank()) {
             filterChain.doFilter(request, response);
-//            return;
+            return;
         }
-        else {
-            jwtToken = authHeader.substring(7); //bỏ "Bearer "
-            userName = jwtUtilities.extractUsername(jwtToken);
-            if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = taiKhoanUserDetailsService.loadUserByUsername(userName);
-                if (jwtUtilities.isTokenValid(jwtToken, userDetails)) {
-                    SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-                    UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities()
-                    );
-                    token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    securityContext.setAuthentication(token);
-                    SecurityContextHolder.setContext(securityContext);
-                }
+//        else {
+        jwtToken = authHeader.substring(7); //bỏ "Bearer "
+        userName = jwtUtilities.extractUsername(jwtToken);
+        if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = taiKhoanUserDetailsService.loadUserByUsername(userName);
+            if (jwtUtilities.isTokenValid(jwtToken, userDetails)) {
+                SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities()
+                );
+                token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                securityContext.setAuthentication(token);
+                SecurityContextHolder.setContext(securityContext);
             }
-            filterChain.doFilter(request, response);
         }
+        filterChain.doFilter(request, response);
+//    }
     }
 }

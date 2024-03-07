@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import sgu.hrm.models.DateTimeObject;
+import sgu.hrm.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 
 import java.time.LocalDateTime;
@@ -55,24 +56,18 @@ public class LyLuanChinhTri extends DateTimeObject {
     @Column(name = "van_bang_duoc_cap", columnDefinition = "varchar(50)")
     String vanBangDuocCap;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(foreignKey = @ForeignKey(name = "loai_so_yeu_ly_lich_chitiet_llct_fk"), name = "loai_so_yeu_ly_lich_chitiet", referencedColumnName = "id", columnDefinition = "INTEGER")
-    LoaiSoYeuLyLichChiTiet loaiSoYeuLyLichChiTiet;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
 //    @JsonIgnore // error ok, nho hoi thầy
     @JoinColumn(foreignKey = @ForeignKey(name = "so_yeu_ly_lich_llct_fk"), name = "so_yeu_ly_lich", referencedColumnName = "id", columnDefinition = "binary(16)")
     SoYeuLyLich soYeuLyLich;
 
-    public LyLuanChinhTri(LocalDateTime batDau, LocalDateTime ketThuc, String tenCoSoDaoTao, String hinhThucDaoTao, String vanBangDuocCap, LoaiSoYeuLyLichChiTiet loaiSoYeuLyLichChiTiet, SoYeuLyLich soYeuLyLich) {
+    public LyLuanChinhTri(LocalDateTime batDau, LocalDateTime ketThuc, String tenCoSoDaoTao, String hinhThucDaoTao, String vanBangDuocCap, SoYeuLyLich soYeuLyLich) {
         super();
         this.batDau = batDau;
         this.ketThuc = ketThuc;
         this.tenCoSoDaoTao = tenCoSoDaoTao;
         this.hinhThucDaoTao = hinhThucDaoTao;
         this.vanBangDuocCap = vanBangDuocCap;
-        this.loaiSoYeuLyLichChiTiet = loaiSoYeuLyLichChiTiet;
         this.soYeuLyLich = soYeuLyLich;
     }
 }

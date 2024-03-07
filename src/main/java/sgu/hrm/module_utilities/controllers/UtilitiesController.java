@@ -2,7 +2,6 @@ package sgu.hrm.module_utilities.controllers;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.web.servlet.function.EntityResponse;
 import sgu.hrm.module_response.ResDTO;
 
 import sgu.hrm.module_response.ResEnum;
@@ -27,19 +25,18 @@ import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 import sgu.hrm.module_utilities.models.DanToc;
 import sgu.hrm.module_utilities.models.DanhHieuNhaNuocPhongTang;
 import sgu.hrm.module_utilities.models.DoiTuongChinhSach;
-import sgu.hrm.module_utilities.models.GioiTinh;
+import sgu.hrm.module_utilities.enums.GioiTinh;
 import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
 import sgu.hrm.module_utilities.models.HocHam;
 import sgu.hrm.module_utilities.models.LoaiQuanHamQuanDoi;
 import sgu.hrm.module_utilities.models.NhomChucDanhDang;
 import sgu.hrm.module_utilities.models.NhomMau;
 import sgu.hrm.module_utilities.models.ThanhPhanGiaDinh;
-import sgu.hrm.module_utilities.models.TinhTrangSucKhoe;
+import sgu.hrm.module_utilities.enums.TinhTrangSucKhoe;
 import sgu.hrm.module_utilities.models.TonGiao;
 import sgu.hrm.module_utilities.models.TrinhDoChuyenMon;
 import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
 import sgu.hrm.module_utilities.models.ViTriViecLam;
-import sgu.hrm.module_utilities.models.request.ReqCapBacQuanHamQuanDoi;
 import sgu.hrm.module_utilities.models.request.ReqUtilities;
 import sgu.hrm.module_utilities.models.response.ResCapBacLoaiHamQuanDoi;
 import sgu.hrm.module_utilities.models.response.ResCapNhomChucDanhDang;
@@ -47,8 +44,6 @@ import sgu.hrm.module_utilities.models.response.ResChucDanhDang;
 import sgu.hrm.module_utilities.services.IUtilitiesService;
 
 import java.util.List;
-
-import static sgu.hrm.module_utilities.models.response.ResCapBacLoaiHamQuanDoi.mapToResCapBacLoaiHamQuanDoi;
 
 @Controller
 @RequiredArgsConstructor
@@ -62,14 +57,12 @@ public class UtilitiesController {
     private final IUtilitiesService<DanhHieuNhaNuocPhongTang, ReqUtilities> danhHieuNhaNuocPhongTangService;
     private final IUtilitiesService<DanToc, ReqUtilities> danTocService;
     private final IUtilitiesService<DoiTuongChinhSach, ReqUtilities> doiTuongChinhSachService;
-    private final IUtilitiesService<GioiTinh, ReqUtilities> gioiTinhService;
     private final IUtilitiesService<HinhThucKhenThuong, ReqUtilities> hinhThucKhenThuongService;
     private final IUtilitiesService<HocHam, ReqUtilities> hocHamService;
     private final IUtilitiesService<LoaiQuanHamQuanDoi, ReqUtilities> loaiQuanHamQuanDoiService;
     private final IUtilitiesService<NhomChucDanhDang, ReqUtilities> nhomChucDanhDangService;
     private final IUtilitiesService<NhomMau, ReqUtilities> nhomMauService;
     private final IUtilitiesService<ThanhPhanGiaDinh, ReqUtilities> thanhPhanGiaDinhService;
-    private final IUtilitiesService<TinhTrangSucKhoe, ReqUtilities> tinhTrangSucKhoeService;
     private final IUtilitiesService<TonGiao, ReqUtilities> tonGiaoService;
     private final IUtilitiesService<TrinhDoChuyenMon, ReqUtilities> trinhDoChuyenMonService;
     private final IUtilitiesService<TrinhDoGiaoDucPhoThong, ReqUtilities> trinhDoGiaoDucPhoThongService;
@@ -342,34 +335,6 @@ public class UtilitiesController {
         }
     }
 
-    @RestController
-    class GioiTinhController {
-        @GetMapping("/gioi-tinh")
-        public ResponseEntity<ResDTO<List<GioiTinh>>> getAllBacLuong() {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, gioiTinhService.xemDS()), HttpStatus.OK);
-        }
-
-        @GetMapping("/gioi-tinh/{id}")
-        public ResponseEntity<ResDTO<GioiTinh>> getBacLuongById(@PathVariable int id) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, gioiTinhService.xemTheoId(id).orElse(null)), HttpStatus.OK);
-        }
-
-        @PostMapping("/gioi-tinh")
-        public ResponseEntity<ResDTO<GioiTinh>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, gioiTinhService.them(utilities)), HttpStatus.OK);
-        }
-
-        @PatchMapping("/gioi-tinh/{id}")
-        public ResponseEntity<ResDTO<GioiTinh>> editBacLuong(@PathVariable int id, @RequestBody ReqUtilities luong) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, gioiTinhService.sua(id, luong)), HttpStatus.OK);
-        }
-
-        @DeleteMapping("/gioi-tinh/{id}")
-        public ResponseEntity<ResDTO<Boolean>> delBacLuong(@PathVariable int id) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.XOA_THANH_CONG, gioiTinhService.xoa(id)), HttpStatus.OK);
-        }
-    }
-
     //
     @RestController
     class HinhThucKhenThuongController {
@@ -536,34 +501,6 @@ public class UtilitiesController {
         @DeleteMapping("/thanh-phan-gia-dinh/{id}")
         public ResponseEntity<ResDTO<Boolean>> delBacLuong(@PathVariable int id) {
             return new ResponseEntity<>(ResDTO.response(ResEnum.XOA_THANH_CONG, thanhPhanGiaDinhService.xoa(id)), HttpStatus.OK);
-        }
-    }
-
-    @RestController
-    class TinhTrangSucKhoeController {
-        @GetMapping("/tinh-trang-suc-khoe")
-        public ResponseEntity<ResDTO<List<TinhTrangSucKhoe>>> getAllBacLuong() {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, tinhTrangSucKhoeService.xemDS()), HttpStatus.OK);
-        }
-
-        @GetMapping("/tinh-trang-suc-khoe/{id}")
-        public ResponseEntity<ResDTO<TinhTrangSucKhoe>> getBacLuongById(@PathVariable int id) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, tinhTrangSucKhoeService.xemTheoId(id).orElse(null)), HttpStatus.OK);
-        }
-
-        @PostMapping("/tinh-trang-suc-khoe")
-        public ResponseEntity<ResDTO<TinhTrangSucKhoe>> addBacLuong(@RequestBody ReqUtilities utilities) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, tinhTrangSucKhoeService.them(utilities)), HttpStatus.OK);
-        }
-
-        @PatchMapping("/tinh-trang-suc-khoe/{id}")
-        public ResponseEntity<ResDTO<TinhTrangSucKhoe>> editBacLuong(@PathVariable int id, @RequestBody ReqUtilities luong) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, tinhTrangSucKhoeService.sua(id, luong)), HttpStatus.OK);
-        }
-
-        @DeleteMapping("/tinh-trang-suc-khoe/{id}")
-        public ResponseEntity<ResDTO<Boolean>> delBacLuong(@PathVariable int id) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.XOA_THANH_CONG, tinhTrangSucKhoeService.xoa(id)), HttpStatus.OK);
         }
     }
 

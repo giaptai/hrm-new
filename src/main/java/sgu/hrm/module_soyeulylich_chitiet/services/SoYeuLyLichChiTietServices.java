@@ -4,14 +4,14 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import org.springframework.web.server.ResponseStatusException;
 import sgu.hrm.module_response.ResDTO;
 import sgu.hrm.module_response.ResEnum;
 
+import sgu.hrm.module_security.IAuthenticationFacade;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_soyeulylich.repository.SoYeuLyLichRepository;
 import sgu.hrm.module_soyeulylich_chitiet.models.BanThanCoLamViecChoCheDoCu;
@@ -30,34 +30,26 @@ import sgu.hrm.module_soyeulylich_chitiet.models.QuanHeGiaDinh;
 import sgu.hrm.module_soyeulylich_chitiet.models.TinHoc;
 
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqBanThanCoLamViecChoCheDoCu;
+import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqQuaTrinhCongTacNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKhenThuong;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKhenThuongNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKienThucAnNinhQuocPhong;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKyLuat;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKyLuatNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLamViecONuocNgoai;
+import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLamViecONuocNgoaiNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLoaiSoYeuLyLichChiTiet;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLuongBanThan;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLyLuanChinhTri;
+import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLyLuanChinhTriNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqNghiepVuChuyenNganh;
+import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqNghiepVuChuyenNganhNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqNgoaiNgu;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqPhuCapKhac;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqQuaTrinhCongTac;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqQuanHeGiaDinh;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqTinHoc;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResBanThanCoLamViecChoCheDoCu;
 import sgu.hrm.module_soyeulylich_chitiet.models.response.ResKhenThuong;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResKienThucAnNinhQuocPhong;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResKyLuat;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResLamViecONuocNgoai;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResLuongBanThan;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResLyLuanChinhTri;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResNghiepVuChuyenNganh;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResNgoaiNgu;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResPhuCapKhac;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResQuaTrinhCongTac;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResQuanHeGiaDinh;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResTinHoc;
 import sgu.hrm.module_soyeulylich_chitiet.repositories.BanThanCoLamViecChoCheDoCuRepository;
 import sgu.hrm.module_soyeulylich_chitiet.repositories.KhenThuongRepository;
 import sgu.hrm.module_soyeulylich_chitiet.repositories.KienThucAnNinhQuocPhongRepository;
@@ -73,9 +65,9 @@ import sgu.hrm.module_soyeulylich_chitiet.repositories.QuaTrinhCongTacRepository
 import sgu.hrm.module_soyeulylich_chitiet.repositories.QuanHeGiaDinhRepository;
 import sgu.hrm.module_soyeulylich_chitiet.repositories.TinHocRepository;
 
-import sgu.hrm.module_taikhoan.models.TaiKhoan;
-
+import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
+import sgu.hrm.module_utilities.repositories.CoQuanToChucDonViRepository;
 import sgu.hrm.module_utilities.repositories.HinhThucKhenThuongRepository;
 
 import java.util.ArrayList;
@@ -104,16 +96,11 @@ public class SoYeuLyLichChiTietServices {
     final QuanHeGiaDinhRepository quanHeGiaDinhRepository;
     final QuaTrinhCongTacRepository quaTrinhCongTacRepository;
     final TinHocRepository tinHocRepository;
-
-    private TaiKhoan crush_em_T() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            return ((TaiKhoan) auth.getPrincipal());
-        } else return null;
-    }
+    final CoQuanToChucDonViRepository coQuanToChucDonViRepository;
+    final IAuthenticationFacade facadeEmployee; //lay thong tin employee hien tai
 
     private SoYeuLyLich syll() {
-        return crush_em_T() != null ? (crush_em_T().getSoYeuLyLich() != null ? crush_em_T().getSoYeuLyLich() : null) : null;
+        return facadeEmployee.getSoYeuLyLich();
     }
 
     @Service
@@ -155,7 +142,6 @@ public class SoYeuLyLichChiTietServices {
                     cu.batDau(),
                     cu.ketThuc(),
                     cu.chucDanhDonViDiaDiem(),
-                    null,
                     syll());
         }
 
@@ -178,13 +164,13 @@ public class SoYeuLyLichChiTietServices {
             BanThanCoLamViecChoCheDoCu cu = null;
             SoYeuLyLich syll = syll();
             try {
-                if (syll != null) {
-                    cu = banThanCoLamViecChoCheDoCuRepository.findByIdAndSyll(id, syll.getId());
-//                    return banThanCoLamViecChoCheDoCuRepository.findById(id).filter(c ->
-//                            c.getSoYeuLyLich().getId().equals(syll.getId())
-//                    ).orElse(null);
-                }
-                return cu;
+//                if (syll != null) {
+//                    cu = banThanCoLamViecChoCheDoCuRepository.findByIdAndSyll(id, syll.getId());
+                return banThanCoLamViecChoCheDoCuRepository.findById(id).filter(c ->
+                        c.getSoYeuLyLich().getId().equals(syll.getId())
+                ).orElse(null);
+//                }
+//                return cu;
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -217,6 +203,31 @@ public class SoYeuLyLichChiTietServices {
 //                    banThanCoLamViecChoCheDoCuRepository.updateByIdAndSyll(req.batDau(), req.ketThuc(), req.chucDanhDonViDiaDiem(), id, syll.getId());
                 }
                 return null;
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e.getCause());
+            }
+        }
+
+        @Override
+        public List<BanThanCoLamViecChoCheDoCu> suaDanhSachThongTin(List<ReqBanThanCoLamViecChoCheDoCu> listReq) {
+            SoYeuLyLich syll = syll();
+            List<BanThanCoLamViecChoCheDoCu> cus = new ArrayList<>();
+            try {
+                if (syll != null) {
+                    cus = listReq.stream().map(c -> {
+                        BanThanCoLamViecChoCheDoCu cu = xemThongTin(c.id());
+                        if (cu != null) {
+                            cu.setBatDau(c.batDau());
+                            cu.setKetThuc(c.ketThuc());
+                            cu.setChucDanhDonViDiaDiem(c.chucDanhDonViDiaDiem());
+                            cu.setUpdate_at();
+                        } else {
+                            cu = new BanThanCoLamViecChoCheDoCu(c.batDau(), c.ketThuc(), c.chucDanhDonViDiaDiem(), syll);
+                        }
+                        return cu;
+                    }).toList();
+                }
+                return banThanCoLamViecChoCheDoCuRepository.saveAll(cus);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -261,6 +272,11 @@ public class SoYeuLyLichChiTietServices {
                 throw new RuntimeException(e.getCause());
             }
         }
+
+        @Override
+        public List<BanThanCoLamViecChoCheDoCu> xemDanhSachEmployee() {
+            return banThanCoLamViecChoCheDoCuRepository.findAll();
+        }
     }
 
     @Service
@@ -268,6 +284,7 @@ public class SoYeuLyLichChiTietServices {
         private ResKhenThuong mapToResKhenThuong(KhenThuong thuong) {
             return thuong != null ? new ResKhenThuong(
                     thuong.getId(),
+                    thuong.getSoYeuLyLich().getId(),
                     thuong.getNam(),
                     thuong.getXepLoaiChuyenMon(),
                     thuong.getXepLoaiThiDua(),
@@ -284,7 +301,6 @@ public class SoYeuLyLichChiTietServices {
                     cu.xepLoaiThiDua(),
                     hinhThucKhenThuongRepository.findById(cu.hinhThucKhenThuong()).orElse(null),
                     cu.lyDo(),
-                    null,
                     syll());
         }
 
@@ -379,15 +395,23 @@ public class SoYeuLyLichChiTietServices {
         }
 
         @Override
-        public ResDTO<?> khenThuongNhanVien(List<ReqKhenThuongNhanVien> vien) {
+        public List<KhenThuong> xemDanhSachEmployee() {
+            return khenThuongRepository.findAll();
+        }
+
+        @Override
+        public List<KhenThuong> khenThuongNhanVien(List<ReqKhenThuongNhanVien> vien) {
             try {
                 List<KhenThuong> khenThuongs = vien.stream().flatMap(
-                        reqNV -> reqNV.nhanVienUUIDs().stream().map(
-                                nvId -> mapToKhenThuong(reqNV.khenThuong())
+                        reqNV -> reqNV.danhSachMaHoSo().stream().map(
+                                nvId -> {
+                                    ReqKhenThuong req = reqNV.khenThuong();
+                                    HinhThucKhenThuong hinhThuc = hinhThucKhenThuongRepository.findById(req.hinhThucKhenThuong()).orElse(null);
+                                    SoYeuLyLich syll = soYeuLyLichRepository.findById(nvId).orElseThrow();
+                                    return new KhenThuong(req.nam(), req.xepLoaiChuyenMon(), req.xepLoaiThiDua(), hinhThuc, "", syll);
+                                }
                         )).toList();
-                khenThuongRepository.saveAll(khenThuongs);
-                List<ResKhenThuong> resKT = khenThuongs.stream().map(this::mapToResKhenThuong).toList();
-                return ResDTO.response(ResEnum.KHEN_THUONG_THANH_CONG, resKT);
+                return khenThuongRepository.saveAll(khenThuongs);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -402,22 +426,17 @@ public class SoYeuLyLichChiTietServices {
                     cu.ketThuc(),
                     cu.tenCoSoDaoTao(),
                     cu.chungChiDuocCap(),
-                    null,
                     syll());
         }
 
         @Override
         public List<KienThucAnNinhQuocPhong> xemDanhSachThongTin() {
             SoYeuLyLich syll = syll();
-            List<KienThucAnNinhQuocPhong> resKien = new ArrayList<>();
             try {
-                if (syll != null) {
-                    resKien = kienThucAnNinhQuocPhongRepository.getAllBySyll(syll.getId());
-                }
+                return kienThucAnNinhQuocPhongRepository.getAllBySoYeuLyLich(syll);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
-            return resKien;
         }
 
         @Override
@@ -489,23 +508,15 @@ public class SoYeuLyLichChiTietServices {
                 throw new RuntimeException(e.getCause());
             }
         }
+
+        @Override
+        public List<KienThucAnNinhQuocPhong> xemDanhSachEmployee() {
+            return kienThucAnNinhQuocPhongRepository.findAll();
+        }
     }
 
     @Service
     public class KyLuatService extends ISoYeuLyLichChiTietServices.IKyLuatSefvice {
-        private ResKyLuat mapToResKyLuat(KyLuat luat) {
-            return luat != null ? new ResKyLuat(
-                    luat.getId(),
-                    luat.getBatDau(),
-                    luat.getKetThuc(),
-                    luat.getHinhThuc(),
-                    luat.getHanhViViPhamChinh(),
-                    luat.getCoQuanQuyetDinh(),
-                    luat.getCreate_at(),
-                    luat.getUpdate_at()
-            ) : null;
-        }
-
         private KyLuat mapToKyLuat(ReqKyLuat cu) {
             return new KyLuat(
                     cu.batDau(),
@@ -513,7 +524,6 @@ public class SoYeuLyLichChiTietServices {
                     cu.hinhThuc(),
                     cu.hanhViViPhamChinh(),
                     cu.coQuanQuyetDinh(),
-                    null,
                     syll());
         }
 
@@ -606,15 +616,22 @@ public class SoYeuLyLichChiTietServices {
         }
 
         @Override
-        public ResDTO<?> kyLuatNhanVien(List<ReqKyLuatNhanVien> ky) {
+        public List<KyLuat> xemDanhSachEmployee() {
+            return kyLuatRepository.findAll();
+        }
+
+        @Override
+        public List<KyLuat> kyLuatNhanVien(List<ReqKyLuatNhanVien> ky) {
             try {
                 List<KyLuat> kyLuats = ky.stream().flatMap(
-                        reqNV -> reqNV.nhanVienUUIDs().stream().map(
-                                nvId -> mapToKyLuat(reqNV.kyLuat())
+                        reqNV -> reqNV.danhSachMaHoSo().stream().map(
+                                nvId -> {
+                                    ReqKyLuat req = reqNV.kyLuat();
+                                    SoYeuLyLich syll = soYeuLyLichRepository.findById(nvId).orElseThrow();
+                                    return new KyLuat(req.batDau(), req.ketThuc(), req.hinhThuc(), req.hanhViViPhamChinh(), req.coQuanQuyetDinh(), syll);
+                                }
                         )).toList();
-                List<ResKyLuat> resKL = kyLuats.stream().map(this::mapToResKyLuat).toList();
-                kyLuatRepository.saveAll(kyLuats);
-                return ResDTO.response(ResEnum.KY_LUAT_THANH_CONG, resKL);
+                return kyLuatRepository.saveAll(kyLuats);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -628,7 +645,6 @@ public class SoYeuLyLichChiTietServices {
                     cu.batDau(),
                     cu.ketThuc(),
                     cu.toChucDiaChiCongViec(),
-                    null,
                     syll());
         }
 
@@ -717,6 +733,24 @@ public class SoYeuLyLichChiTietServices {
                 throw new RuntimeException(e.getCause());
             }
         }
+
+        @Override
+        public List<LamViecONuocNgoai> xemDanhSachEmployee() {
+            return lamViecONuocNgoaiRepository.findAll();
+        }
+
+        @Override
+        public List<LamViecONuocNgoai> lamViecONUocNgoaiNhanVien(List<ReqLamViecONuocNgoaiNhanVien> vien) {
+            List<LamViecONuocNgoai> lamViecONuocNgoais = vien.stream().flatMap(
+                    reqNV -> reqNV.danhSachMaHoSo().stream().map(
+                            nvId -> {
+                                ReqLamViecONuocNgoai req = reqNV.lamViecONuocNgoai();
+                                SoYeuLyLich syll = soYeuLyLichRepository.findById(nvId).orElseThrow();
+                                return new LamViecONuocNgoai(req.batDau(), req.ketThuc(), req.toChucDiaChiCongViec(), syll);
+                            }
+                    )).toList();
+            return lamViecONuocNgoaiRepository.saveAll(lamViecONuocNgoais);
+        }
     }
 
     @Service
@@ -729,7 +763,6 @@ public class SoYeuLyLichChiTietServices {
                     cu.bacLuong(),
                     cu.heSoLuong(),
                     cu.tienLuongTheoViTri(),
-                    null,
                     syll());
         }
 
@@ -821,6 +854,11 @@ public class SoYeuLyLichChiTietServices {
                 throw new RuntimeException(e.getCause());
             }
         }
+
+        @Override
+        public List<LuongBanThan> xemDanhSachEmployee() {
+            return luongBanThanRepository.findAll();
+        }
     }
 
     @Service
@@ -832,7 +870,6 @@ public class SoYeuLyLichChiTietServices {
                     cu.tenCoSoDaoTao(),
                     cu.hinhThucDaoTao(),
                     cu.vanBangDuocCap(),
-                    null,
                     syll());
         }
 
@@ -923,6 +960,25 @@ public class SoYeuLyLichChiTietServices {
                 throw new RuntimeException(e.getCause());
             }
         }
+
+        @Override
+        public List<LyLuanChinhTri> xemDanhSachEmployee() {
+            return lyLuanChinhTriRepository.findAll();
+        }
+
+        @Override
+        public List<LyLuanChinhTri> lyLuanChinhTriNhanVien(List<ReqLyLuanChinhTriNhanVien> ly) {
+            List<LyLuanChinhTri> lyLuanChinhTris = ly.stream().flatMap(
+                    reqNV -> reqNV.danhSachMaHoSo().stream().map(
+                            nvId -> {
+                                ReqLyLuanChinhTri req = reqNV.lyLuanChinhTri();
+                                SoYeuLyLich syll = soYeuLyLichRepository.findById(nvId).orElseThrow();
+                                return new LyLuanChinhTri(req.batDau(), req.ketThuc(), req.tenCoSoDaoTao(),
+                                        req.hinhThucDaoTao(), req.vanBangDuocCap(), syll);
+                            }
+                    )).toList();
+            return lyLuanChinhTriRepository.saveAll(lyLuanChinhTris);
+        }
     }
 
     @Service
@@ -934,7 +990,6 @@ public class SoYeuLyLichChiTietServices {
                     cu.ketThuc(),
                     cu.tenCoSoDaoTao(),
                     cu.chungChiDuocCap(),
-                    null,
                     syll());
         }
 
@@ -1024,6 +1079,24 @@ public class SoYeuLyLichChiTietServices {
                 throw new RuntimeException(e.getCause());
             }
         }
+
+        @Override
+        public List<NghiepVuChuyenNganh> xemDanhSachEmployee() {
+            return nghiepVuChuyenNganhRepository.findAll();
+        }
+
+        @Override
+        public List<NghiepVuChuyenNganh> nghiepVuChuyenNganhNhanVien(List<ReqNghiepVuChuyenNganhNhanVien> nghiep) {
+            List<NghiepVuChuyenNganh> nghiepVuChuyenNganhs = nghiep.stream().flatMap(
+                    reqNV -> reqNV.danhSachMaHoSo().stream().map(
+                            nvId -> {
+                                ReqNghiepVuChuyenNganh req = reqNV.nghiepVuChuyenNganh();
+                                SoYeuLyLich syll = soYeuLyLichRepository.findById(nvId).orElseThrow();
+                                return new NghiepVuChuyenNganh(req.batDau(), req.ketThuc(), req.tenCoSoDaoTao(), req.chungChiDuocCap(), syll);
+                            }
+                    )).toList();
+            return nghiepVuChuyenNganhRepository.saveAll(nghiepVuChuyenNganhs);
+        }
     }
 
     @Service
@@ -1037,7 +1110,6 @@ public class SoYeuLyLichChiTietServices {
                     cu.tenNgoaiNgu(),
                     cu.chungChiDuocCap(),
                     cu.diemSo(),
-                    null,
                     syll());
         }
 
@@ -1126,6 +1198,11 @@ public class SoYeuLyLichChiTietServices {
                 throw new RuntimeException(e.getCause());
             }
         }
+
+        @Override
+        public List<NgoaiNgu> xemDanhSachEmployee() {
+            return ngoaiNguRepository.findAll();
+        }
     }
 
     @Service
@@ -1139,7 +1216,6 @@ public class SoYeuLyLichChiTietServices {
                     cu.heSoPhuCap(),
                     cu.hinhThucThuong(),
                     cu.giaTri(),
-                    null,
                     syll());
         }
 
@@ -1232,7 +1308,13 @@ public class SoYeuLyLichChiTietServices {
                 throw new RuntimeException(e.getCause());
             }
         }
+
+        @Override
+        public List<PhuCapKhac> xemDanhSachEmployee() {
+            return phuCapKhacRepository.findAll();
+        }
     }
+
     @Service
     public class QuanHeGiaDinhService extends ISoYeuLyLichChiTietServices.IQuanHeGiaDinhSefvice {
         private QuanHeGiaDinh mapToQuanHeGiaDinh(ReqQuanHeGiaDinh cu) {
@@ -1241,7 +1323,6 @@ public class SoYeuLyLichChiTietServices {
                     cu.hoVaTen(),
                     cu.namSinh(),
                     cu.thongTinThanNhan(),
-                    null,
                     syll());
         }
 
@@ -1331,6 +1412,11 @@ public class SoYeuLyLichChiTietServices {
                 throw new RuntimeException(e.getCause());
             }
         }
+
+        @Override
+        public List<QuanHeGiaDinh> xemDanhSachEmployee() {
+            return quanHeGiaDinhRepository.findAll();
+        }
     }
 
     @Service
@@ -1342,7 +1428,6 @@ public class SoYeuLyLichChiTietServices {
                     cu.ketThuc(),
                     cu.donViCongTac(),
                     cu.chucDanh(),
-                    null,
                     syll());
         }
 
@@ -1432,6 +1517,36 @@ public class SoYeuLyLichChiTietServices {
                 throw new RuntimeException(e.getCause());
             }
         }
+
+        @Override
+        public List<QuaTrinhCongTac> xemDanhSachEmployee() {
+            return quaTrinhCongTacRepository.findAll();
+        }
+
+        @Override
+        public List<QuaTrinhCongTac> chuyenCongTacNhanVien(List<ReqQuaTrinhCongTacNhanVien> congtac) {
+            List<QuaTrinhCongTac> congTacs = new ArrayList<>();
+            try {
+                congTacs = congtac.stream().flatMap(
+                        reqNV -> reqNV.danhSachMaHoSo().stream().map(
+                                nvId -> {
+                                    CoQuanToChucDonVi vi = coQuanToChucDonViRepository.findByName(reqNV.quaTrinhCongTac().donViCongTac())
+                                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Foo Not Found"));
+//                                    soYeuLyLichRepository.upadtecoQuanToChucDonVi(vi, nvId);
+//                                    return mapToQuaTrinhCongTac(reqNV.quaTrinhCongTac());
+                                    return new QuaTrinhCongTac(reqNV.quaTrinhCongTac().batDau(),
+                                            reqNV.quaTrinhCongTac().ketThuc(),
+                                            vi != null ? vi.getName() : null,
+                                            reqNV.quaTrinhCongTac().chucDanh(),
+                                            soYeuLyLichRepository.findById(nvId).orElse(null)
+                                    );
+                                }
+                        )).toList();
+                return congTacs;
+            } catch (RuntimeException e) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Foo Not Found");
+            }
+        }
     }
 
     @Service
@@ -1442,7 +1557,6 @@ public class SoYeuLyLichChiTietServices {
                     cu.ketThuc(),
                     cu.tenCoSoDaoTao(),
                     cu.chungChiDuocCap(),
-                    null,
                     syll());
         }
 
@@ -1531,6 +1645,11 @@ public class SoYeuLyLichChiTietServices {
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
+        }
+
+        @Override
+        public List<TinHoc> xemDanhSachEmployee() {
+            return tinHocRepository.findAll();
         }
     }
 }

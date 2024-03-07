@@ -29,7 +29,7 @@ public record ResTaiKhoan(
                 taiKhoan.getUsername(),
                 taiKhoan.getEmail(),
                 Optional.ofNullable(taiKhoan.getSoYeuLyLich()).map(SoYeuLyLich::getId).orElse(null),
-                (taiKhoan.getRoleTaiKhoan().getId() == 1) ? "EMPLOYEE" : "ADMIN",
+                taiKhoan.getRoleTaiKhoan().getName(),
                 taiKhoan.isTrangThai(),
                 taiKhoan.getCreate_at(),
                 taiKhoan.getUpdate_at()

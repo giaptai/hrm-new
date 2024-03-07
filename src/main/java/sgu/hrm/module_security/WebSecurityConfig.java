@@ -23,6 +23,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import sgu.hrm.module_utilities.enums.RoleTaiKhoan;
 
 import java.util.List;
 
@@ -69,8 +70,9 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .authorizeHttpRequests(configure ->
                                 configure
                                         .requestMatchers("/dang-nhap").permitAll()
-                                        .requestMatchers("/ca-nhan/**").hasAuthority("EMPLOYEE")
+                                        .requestMatchers("/ca-nhan/**").hasRole("EMPLOYEE")
                                         .requestMatchers("/nhan-vien/**").hasAuthority("ADMIN")
+                                        .requestMatchers("/admin/**").hasAnyRole(RoleTaiKhoan.ADMIN.name())
                                         .anyRequest().permitAll()
                         //need form with post method
                         //and spring security magic will do the rest

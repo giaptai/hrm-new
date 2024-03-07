@@ -1,7 +1,9 @@
 package sgu.hrm.module_soyeulylich_chitiet.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import sgu.hrm.models.DateTimeObject;
+import sgu.hrm.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 
 import java.time.LocalDateTime;
@@ -31,6 +33,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@JsonIgnoreProperties({"soYeuLyLich"})
 public class KyLuat extends DateTimeObject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,22 +55,17 @@ public class KyLuat extends DateTimeObject {
     @Column(name = "co_quan_quyet_dinh", columnDefinition = "varchar(50) default''")
     String coQuanQuyetDinh;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "loai_so_yeu_ly_lich_chitiet_kyluat_fk"), name = "loai_so_yeu_ly_lich_chitiet", referencedColumnName = "id", columnDefinition = "INTEGER")
-    LoaiSoYeuLyLichChiTiet loaiSoYeuLyLichChiTiet;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "so_yeu_ly_lich_kyluat_fk"), name = "so_yeu_ly_lich", referencedColumnName = "id", columnDefinition = "binary(16)")
     SoYeuLyLich soYeuLyLich;
 
-    public KyLuat(LocalDateTime batDau, LocalDateTime ketThuc, String hinhThuc, String hanhViViPhamChinh, String coQuanQuyetDinh, LoaiSoYeuLyLichChiTiet loaiSoYeuLyLichChiTiet, SoYeuLyLich soYeuLyLich) {
+    public KyLuat(LocalDateTime batDau, LocalDateTime ketThuc, String hinhThuc, String hanhViViPhamChinh, String coQuanQuyetDinh, SoYeuLyLich soYeuLyLich) {
         super();
         this.batDau = batDau;
         this.ketThuc = ketThuc;
         this.hinhThuc = hinhThuc;
         this.hanhViViPhamChinh = hanhViViPhamChinh;
         this.coQuanQuyetDinh = coQuanQuyetDinh;
-        this.loaiSoYeuLyLichChiTiet = loaiSoYeuLyLichChiTiet;
         this.soYeuLyLich = soYeuLyLich;
     }
 }

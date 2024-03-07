@@ -3,9 +3,11 @@ package sgu.hrm.module_soyeulylich_chitiet.models.response;
 import sgu.hrm.module_soyeulylich_chitiet.models.NghiepVuChuyenNganh;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record ResNghiepVuChuyenNganh(
         int id,
+        UUID maSyll,
         LocalDateTime batDau,
         LocalDateTime ketThuc,
         String tenCoSoDaoTao,
@@ -16,6 +18,7 @@ public record ResNghiepVuChuyenNganh(
     public static ResNghiepVuChuyenNganh mapToResNghiepVuChuyenNganh(NghiepVuChuyenNganh nganh) {
         return nganh != null ? new ResNghiepVuChuyenNganh(
                 nganh.getId(),
+                nganh.getSoYeuLyLich().getId(),
                 nganh.getBatDau(),
                 nganh.getKetThuc(),
                 nganh.getTenCoSoDaoTao(),

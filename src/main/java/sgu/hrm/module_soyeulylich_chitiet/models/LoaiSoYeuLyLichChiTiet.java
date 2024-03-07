@@ -14,7 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import sgu.hrm.models.DateTimeObject;
+import sgu.hrm.DateTimeObject;
 
 
 @Entity
@@ -38,43 +38,4 @@ public class LoaiSoYeuLyLichChiTiet extends DateTimeObject {
         super();
         this.name = name;
     }
-
-//    @OneToMany(mappedBy = "loaiSoYeuLyLichChiTiet")
-//    List<BanThanCoLamViecChoCheDoCu> banThanCoLamViecChoCheDoCus;
-//
-//    @OneToMany(mappedBy = "loaiSoYeuLyLichChiTiet")
-//    List<KhenThuong> khenThuongs;
-//
-//    @OneToMany(mappedBy = "loaiSoYeuLyLichChiTiet")
-//    List<KienThucAnNinhQuocPhong> kienThucAnNinhQuocPhongs;
-//
-//    @OneToMany(mappedBy = "loaiSoYeuLyLichChiTiet")
-//    List<KyLuat> kyLuats;
-//
-//    @OneToMany(mappedBy = "loaiSoYeuLyLichChiTiet")
-//    List<LamViecONuocNgoai> lamViecONuocNgoais;
-//
-//    @OneToMany(mappedBy = "loaiSoYeuLyLichChiTiet")
-//    List<LuongBanThan> luongBanThans;
-//
-//    @OneToMany(mappedBy = "loaiSoYeuLyLichChiTiet")
-//    List<LyLuanChinhTri> lyLuanChinhTris;
-//
-//    @OneToMany(mappedBy = "loaiSoYeuLyLichChiTiet")
-//    List<NghiepVuChuyenNganh> nghiepVuChuyenNganhs;
-//
-//    @OneToMany(mappedBy = "loaiSoYeuLyLichChiTiet")
-//    List<NgoaiNgu> ngoaiNgus;
-//
-//    @OneToMany(mappedBy = "loaiSoYeuLyLichChiTiet")
-//    List<PhuCapKhac> phuCapKhacs;
-//
-//    @OneToMany(mappedBy = "loaiSoYeuLyLichChiTiet")
-//    List<QuanHeGiaDinh> quanHeGiaDinhs;
-//
-//    @OneToMany(mappedBy = "loaiSoYeuLyLichChiTiet")
-//    List<QuaTrinhCongTac> quaTrinhCongTacs;
-//
-//    @OneToMany(mappedBy = "loaiSoYeuLyLichChiTiet")
-//    List<TinHoc> tinHocs;
 }

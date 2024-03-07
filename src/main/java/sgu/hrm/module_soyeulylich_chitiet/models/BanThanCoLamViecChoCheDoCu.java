@@ -1,8 +1,10 @@
 package sgu.hrm.module_soyeulylich_chitiet.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import sgu.hrm.models.DateTimeObject;
+import sgu.hrm.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 
 import java.time.LocalDateTime;
@@ -32,6 +34,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@JsonIgnoreProperties({"soYeuLyLich"})
 public class BanThanCoLamViecChoCheDoCu extends DateTimeObject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,26 +47,12 @@ public class BanThanCoLamViecChoCheDoCu extends DateTimeObject {
     @Column(name = "ket_thuc", columnDefinition = "datetime")
     LocalDateTime ketThuc;
 
-    @Column(name = "chuc_danh_don_vi_dia_diem", columnDefinition = "text")
+    @Column(name = "chucdanh_donvi_diadiem", columnDefinition = "text")
     String chucDanhDonViDiaDiem;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "loai_so_yeu_ly_lich_chitiet_btclvccdc_fk"), name = "loai_so_yeu_ly_lich_chitiet", referencedColumnName = "id", columnDefinition = "INTEGER")
-    LoaiSoYeuLyLichChiTiet loaiSoYeuLyLichChiTiet;
-
-    @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "so_yeu_ly_lich_btclvccdc_fk"), name = "so_yeu_ly_lich", referencedColumnName = "id", columnDefinition = "binary(16)")
-    @JsonIgnore
     SoYeuLyLich soYeuLyLich;
-
-    public BanThanCoLamViecChoCheDoCu(LocalDateTime batDau, LocalDateTime ketThuc, String chucDanhDonViDiaDiem, LoaiSoYeuLyLichChiTiet loaiSoYeuLyLichChiTiet, SoYeuLyLich soYeuLyLich) {
-        super();
-        this.batDau = batDau;
-        this.ketThuc = ketThuc;
-        this.chucDanhDonViDiaDiem = chucDanhDonViDiaDiem;
-        this.loaiSoYeuLyLichChiTiet = loaiSoYeuLyLichChiTiet;
-        this.soYeuLyLich = soYeuLyLich;
-    }
 
     public BanThanCoLamViecChoCheDoCu(LocalDateTime batDau, LocalDateTime ketThuc, String chucDanhDonViDiaDiem, SoYeuLyLich soYeuLyLich) {
         super();

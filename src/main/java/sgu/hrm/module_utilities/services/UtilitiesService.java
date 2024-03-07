@@ -16,14 +16,12 @@ import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 import sgu.hrm.module_utilities.models.DanToc;
 import sgu.hrm.module_utilities.models.DanhHieuNhaNuocPhongTang;
 import sgu.hrm.module_utilities.models.DoiTuongChinhSach;
-import sgu.hrm.module_utilities.models.GioiTinh;
 import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
 import sgu.hrm.module_utilities.models.HocHam;
 import sgu.hrm.module_utilities.models.LoaiQuanHamQuanDoi;
 import sgu.hrm.module_utilities.models.NhomChucDanhDang;
 import sgu.hrm.module_utilities.models.NhomMau;
 import sgu.hrm.module_utilities.models.ThanhPhanGiaDinh;
-import sgu.hrm.module_utilities.models.TinhTrangSucKhoe;
 import sgu.hrm.module_utilities.models.TonGiao;
 import sgu.hrm.module_utilities.models.TrinhDoChuyenMon;
 import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
@@ -39,14 +37,12 @@ import sgu.hrm.module_utilities.repositories.CoQuanToChucDonViRepository;
 import sgu.hrm.module_utilities.repositories.DanTocRepository;
 import sgu.hrm.module_utilities.repositories.DanhHieuNhaNuocPhongTangRepository;
 import sgu.hrm.module_utilities.repositories.DoiTuongChinhSachRepository;
-import sgu.hrm.module_utilities.repositories.GioiTinhRepository;
 import sgu.hrm.module_utilities.repositories.HinhThucKhenThuongRepository;
 import sgu.hrm.module_utilities.repositories.HocHamRepository;
 import sgu.hrm.module_utilities.repositories.LoaiQuanHamQuanDoiRepository;
 import sgu.hrm.module_utilities.repositories.NhomChucDanhDangRepository;
 import sgu.hrm.module_utilities.repositories.NhomMauRepository;
 import sgu.hrm.module_utilities.repositories.ThanhPhanGiaDinhRepository;
-import sgu.hrm.module_utilities.repositories.TinhTrangSucKhoeRepository;
 import sgu.hrm.module_utilities.repositories.TonGiaoRepository;
 import sgu.hrm.module_utilities.repositories.TrinhDoChuyenMonRepository;
 import sgu.hrm.module_utilities.repositories.TrinhDoGiaoDucPhoThongRepository;
@@ -67,14 +63,12 @@ public class UtilitiesService {
     private final DanhHieuNhaNuocPhongTangRepository danhHieuNhaNuocPhongTangRepository;
     private final DanTocRepository danTocRepository;
     private final DoiTuongChinhSachRepository doiTuongChinhSachRepository;
-    private final GioiTinhRepository gioiTinhRepository;
     private final HinhThucKhenThuongRepository hinhThucKhenThuongRepository;
     private final HocHamRepository hocHamRepository;
     private final LoaiQuanHamQuanDoiRepository loaiQuanHamQuanDoiRepository;
     private final NhomChucDanhDangRepository nhomChucDanhDangRepository;
     private final NhomMauRepository nhomMauRepository;
     private final ThanhPhanGiaDinhRepository thanhPhanGiaDinhRepository;
-    private final TinhTrangSucKhoeRepository tinhTrangSucKhoeRepository;
     private final TonGiaoRepository tonGiaoRepository;
     private final TrinhDoChuyenMonRepository trinhDoChuyenMonRepository;
     private final TrinhDoGiaoDucPhoThongRepository trinhDoGiaoDucPhoThongRepository;
@@ -115,7 +109,7 @@ public class UtilitiesService {
                     return bacLuongRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -128,7 +122,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -155,7 +149,7 @@ public class UtilitiesService {
                 }
                 return capBacLoaiQuanHamQuanDoi;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -168,7 +162,7 @@ public class UtilitiesService {
                 }
                 return capBacLoaiQuanHamQuanDoi;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -183,7 +177,7 @@ public class UtilitiesService {
                     return capBacLoaiQuanHamQuanDoiRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -215,7 +209,7 @@ public class UtilitiesService {
                 }
                 return capNhomChucDanhDang;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -230,7 +224,7 @@ public class UtilitiesService {
                     return capNhomChucDanhDangRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -243,7 +237,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -270,7 +264,7 @@ public class UtilitiesService {
                 }
                 return chucDanhDang;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -285,7 +279,7 @@ public class UtilitiesService {
                     return chucDanhDangRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -298,7 +292,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -324,7 +318,7 @@ public class UtilitiesService {
                 }
                 return vu;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -337,7 +331,7 @@ public class UtilitiesService {
                     return chucVuRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -350,7 +344,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -376,7 +370,7 @@ public class UtilitiesService {
                 }
                 return co;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -389,7 +383,7 @@ public class UtilitiesService {
                     return coQuanToChucDonViRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -402,7 +396,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -428,7 +422,7 @@ public class UtilitiesService {
                 }
                 return danh;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -441,7 +435,7 @@ public class UtilitiesService {
                     return danhHieuNhaNuocPhongTangRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -454,7 +448,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -480,7 +474,7 @@ public class UtilitiesService {
                 }
                 return toc;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -493,7 +487,7 @@ public class UtilitiesService {
                     return danTocRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -506,7 +500,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -532,7 +526,7 @@ public class UtilitiesService {
                 }
                 return sach;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -545,7 +539,7 @@ public class UtilitiesService {
                     return doiTuongChinhSachRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -558,59 +552,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
-            }
-        }
-    }
-
-    @Service
-    public class GioiTinhService implements IUtilitiesService<GioiTinh, ReqUtilities> {
-        @Override
-        public List<GioiTinh> xemDS() {
-            return gioiTinhRepository.findAll();
-        }
-
-        @Override
-        public Optional<GioiTinh> xemTheoId(int id) {
-            return gioiTinhRepository.findById(id);
-        }
-
-        @Override
-        public GioiTinh them(ReqUtilities req) {
-            GioiTinh tinh = gioiTinhRepository.findByName(req.name()).orElse(null);
-            try {
-                if (tinh == null) {
-                    return gioiTinhRepository.save(new GioiTinh(req.name()));
-                }
-                return tinh;
-            } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
-            }
-        }
-
-        @Override
-        public GioiTinh sua(int id, ReqUtilities tinh) {
-            try {
-                return gioiTinhRepository.findById(id).map(e -> {
-                    e.setName(tinh.name());
-                    e.setUpdate_at();
-                    return gioiTinhRepository.save(e);
-                }).orElse(null);
-            } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
-            }
-        }
-
-        @Override
-        public boolean xoa(int id) {
-            try {
-                if (xemTheoId(id).isPresent()) {
-                    gioiTinhRepository.deleteById(id);
-                    return true;
-                }
-                return false;
-            } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -636,7 +578,7 @@ public class UtilitiesService {
                 }
                 return thuc;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -649,7 +591,7 @@ public class UtilitiesService {
                     return hinhThucKhenThuongRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -662,7 +604,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -689,7 +631,7 @@ public class UtilitiesService {
                 }
                 return ham;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -702,7 +644,7 @@ public class UtilitiesService {
                     return hocHamRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -715,7 +657,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -742,7 +684,7 @@ public class UtilitiesService {
                 }
                 return ham;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -755,7 +697,7 @@ public class UtilitiesService {
                     return loaiQuanHamQuanDoiRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -768,7 +710,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -795,7 +737,7 @@ public class UtilitiesService {
                 }
                 return dang;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -808,7 +750,7 @@ public class UtilitiesService {
                     return nhomChucDanhDangRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -821,7 +763,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -848,7 +790,7 @@ public class UtilitiesService {
                 }
                 return mau;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -861,7 +803,7 @@ public class UtilitiesService {
                     return nhomMauRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -874,7 +816,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -901,7 +843,7 @@ public class UtilitiesService {
                 }
                 return gia;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -914,7 +856,7 @@ public class UtilitiesService {
                     return thanhPhanGiaDinhRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -927,60 +869,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
-            }
-        }
-    }
-
-    @Service
-    public class TinhTrangSucKhoeService implements IUtilitiesService<TinhTrangSucKhoe, ReqUtilities> {
-
-        @Override
-        public List<TinhTrangSucKhoe> xemDS() {
-            return tinhTrangSucKhoeRepository.findAll();
-        }
-
-        @Override
-        public Optional<TinhTrangSucKhoe> xemTheoId(int id) {
-            return tinhTrangSucKhoeRepository.findById(id);
-        }
-
-        @Override
-        public TinhTrangSucKhoe them(ReqUtilities req) {
-            TinhTrangSucKhoe khoe = tinhTrangSucKhoeRepository.findByTitle(req.name()).orElse(null);
-            try {
-                if (khoe == null) {
-                    return tinhTrangSucKhoeRepository.save(new TinhTrangSucKhoe(req.name()));
-                }
-                return khoe;
-            } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
-            }
-        }
-
-        @Override
-        public TinhTrangSucKhoe sua(int id, ReqUtilities req) {
-            try {
-                return tinhTrangSucKhoeRepository.findById(id).map(e -> {
-                    e.setTitle(req.name());
-                    e.setUpdate_at();
-                    return tinhTrangSucKhoeRepository.save(e);
-                }).orElse(null);
-            } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
-            }
-        }
-
-        @Override
-        public boolean xoa(int id) {
-            try {
-                if (xemTheoId(id).isPresent()) {
-                    tinhTrangSucKhoeRepository.deleteById(id);
-                    return true;
-                }
-                return false;
-            } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -1007,7 +896,7 @@ public class UtilitiesService {
                 }
                 return giao;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -1020,7 +909,7 @@ public class UtilitiesService {
                     return tonGiaoRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -1033,7 +922,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -1060,7 +949,7 @@ public class UtilitiesService {
                 }
                 return mon;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -1073,7 +962,7 @@ public class UtilitiesService {
                     return trinhDoChuyenMonRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -1086,7 +975,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -1113,7 +1002,7 @@ public class UtilitiesService {
                 }
                 return thong;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -1126,7 +1015,7 @@ public class UtilitiesService {
                     return trinhDoGiaoDucPhoThongRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -1139,7 +1028,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }
@@ -1160,9 +1049,10 @@ public class UtilitiesService {
         @Override
         public ViTriViecLam them(ReqUtilities req) {
             ViTriViecLam viec = viTriViecLamRepository.findByName(req.name());
+            BacLuong bacLuong = bacLuongRepository.findById(req.bacLuong()).orElse(null);
             try {
                 if (viec == null) {
-                    return viTriViecLamRepository.save(new ViTriViecLam(req.name(), req.bacLuong(), req.tienLuong()));
+                    return viTriViecLamRepository.save(new ViTriViecLam(req.name(), bacLuong, req.tienLuong()));
                 }
                 return viec;
             } catch (RuntimeException e) {
@@ -1172,14 +1062,16 @@ public class UtilitiesService {
 
         @Override
         public ViTriViecLam sua(int id, ReqUtilities req) {
+            BacLuong bacLuong = bacLuongRepository.findById(req.bacLuong()).orElse(null);
             try {
                 return viTriViecLamRepository.findById(id).map(e -> {
                     e.setName(req.name());
+                    e.setBacLuong(bacLuong);
                     e.setUpdate_at();
                     return viTriViecLamRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
 
@@ -1192,7 +1084,7 @@ public class UtilitiesService {
                 }
                 return false;
             } catch (RuntimeException e) {
-                throw ResDTO.resErrors(ResEnum.KHONG_HOP_LE);
+                throw new RuntimeException(e.getCause());
             }
         }
     }

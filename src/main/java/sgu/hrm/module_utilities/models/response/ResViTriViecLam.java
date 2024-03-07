@@ -10,7 +10,7 @@ import java.util.Optional;
 public record ResViTriViecLam(
         int id,
         String name,
-        int bacLuong,
+        String bacLuong,
         double tienLuong,
         LocalDateTime create_at,
         LocalDateTime update_at
@@ -19,7 +19,7 @@ public record ResViTriViecLam(
         return lam != null ? new ResViTriViecLam(
                 lam.getId(),
                 lam.getName(),
-                lam.getBacLuong(),
+                lam.getBacLuong().getName(),
                 lam.getTienLuong(),
                 lam.getCreate_at(),
                 lam.getUpdate_at()

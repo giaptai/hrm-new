@@ -8,7 +8,7 @@ import java.util.UUID;
 @Builder
 public record ReqKhenThuongNhanVien(
         ReqKhenThuong khenThuong,
-        Set<UUID> nhanVienUUIDs
+        Set<UUID> danhSachMaHoSo
 ) {
 
 }

@@ -4,23 +4,18 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import sgu.hrm.module_congchuc_vienchuc.models.NgachCongChuc;
-import sgu.hrm.module_congchuc_vienchuc.models.NgachVienChuc;
-import sgu.hrm.module_congchuc_vienchuc.repositories.NgachCongChucRepository;
-import sgu.hrm.module_congchuc_vienchuc.repositories.NgachVienChucRepository;
-import sgu.hrm.module_response.ResDTO;
-import sgu.hrm.module_response.ResEnum;
+import sgu.hrm.module_heso_luong_ngach.models.NgachCongChuc;
+import sgu.hrm.module_heso_luong_ngach.models.NgachVienChuc;
+import sgu.hrm.module_heso_luong_ngach.repositories.NgachCongChucRepository;
+import sgu.hrm.module_heso_luong_ngach.repositories.NgachVienChucRepository;
+import sgu.hrm.module_security.IAuthenticationFacade;
+import sgu.hrm.module_utilities.enums.PheDuyet;
 import sgu.hrm.module_soyeulylich.models.request.ReqDSSoYeuLyLich;
 import sgu.hrm.module_soyeulylich.models.request.ReqSoYeuLyLich;
 import sgu.hrm.module_soyeulylich.repository.SoYeuLyLichRepository;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
-import sgu.hrm.module_soyeulylich.models.response.ResSoYeuLyLich;
-import sgu.hrm.module_taikhoan.models.TaiKhoan;
 import sgu.hrm.module_utilities.models.CapBacLoaiQuanHamQuanDoi;
 // import sgu.hrm.models.CoQuanToChucDonViTuyenDung;
 import sgu.hrm.module_utilities.models.ChucDanhDang;
@@ -29,15 +24,12 @@ import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 import sgu.hrm.module_utilities.models.DanToc;
 import sgu.hrm.module_utilities.models.DanhHieuNhaNuocPhongTang;
 import sgu.hrm.module_utilities.models.DoiTuongChinhSach;
-import sgu.hrm.module_utilities.models.GioiTinh;
 import sgu.hrm.module_utilities.models.HocHam;
 import sgu.hrm.module_utilities.models.NhomMau;
 import sgu.hrm.module_utilities.models.ThanhPhanGiaDinh;
-import sgu.hrm.module_utilities.models.TinhTrangSucKhoe;
 import sgu.hrm.module_utilities.models.TrinhDoChuyenMon;
 import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
 import sgu.hrm.module_utilities.models.ViTriViecLam;
-import sgu.hrm.module_utilities.repositories.BacLuongRepository;
 import sgu.hrm.module_utilities.repositories.CapBacLoaiQuanHamQuanDoiRepository;
 import sgu.hrm.module_utilities.repositories.ChucDanhDangRepository;
 import sgu.hrm.module_utilities.repositories.ChucVuRepository;
@@ -45,17 +37,14 @@ import sgu.hrm.module_utilities.repositories.CoQuanToChucDonViRepository;
 import sgu.hrm.module_utilities.repositories.DanTocRepository;
 import sgu.hrm.module_utilities.repositories.DanhHieuNhaNuocPhongTangRepository;
 import sgu.hrm.module_utilities.repositories.DoiTuongChinhSachRepository;
-import sgu.hrm.module_utilities.repositories.GioiTinhRepository;
 import sgu.hrm.module_utilities.repositories.HocHamRepository;
 import sgu.hrm.module_utilities.repositories.NhomMauRepository;
 import sgu.hrm.module_utilities.repositories.ThanhPhanGiaDinhRepository;
-import sgu.hrm.module_utilities.repositories.TinhTrangSucKhoeRepository;
 import sgu.hrm.module_utilities.repositories.TrinhDoChuyenMonRepository;
 import sgu.hrm.module_utilities.repositories.TrinhDoGiaoDucPhoThongRepository;
 import sgu.hrm.module_utilities.repositories.ViTriViecLamRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -64,7 +53,6 @@ import java.util.regex.Pattern;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SoYeuLyLichService implements ISoYeuLyLichService {
     final SoYeuLyLichRepository soYeuLyLichRepository;
-    final GioiTinhRepository gioiTinhRepository;
     final DanTocRepository danTocRepository;
     final ThanhPhanGiaDinhRepository thanhPhanGiaDinhRepository;
     final CoQuanToChucDonViRepository coQuanToChucDonViRepository;
@@ -74,18 +62,18 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
     final TrinhDoChuyenMonRepository trinhDoChuyenMonRepository;
     final HocHamRepository hocHamRepository;
     final DanhHieuNhaNuocPhongTangRepository danhHieuNhaNuocPhongTangRepository;
-    final TinhTrangSucKhoeRepository tinhTrangSucKhoeRepository;
     final NhomMauRepository nhomMauRepository;
     final ChucVuRepository chucVuRepository;
     final ChucDanhDangRepository chucDanhDangRepository;
     final NgachCongChucRepository ngachCongChucRepository;
     final NgachVienChucRepository ngachVienChucRepository;
     final ViTriViecLamRepository viTriViecLamRepository;
+    final IAuthenticationFacade facadeEmployee;
 
     @Override
     public SoYeuLyLich xemThongTinSoYeuLyLich() {
         try {
-            return get_Info_SoYeuLyLich();
+            return facadeEmployee.getSoYeuLyLich();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
@@ -94,11 +82,13 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
     @Override
     public SoYeuLyLich capNhatSoYeuLyLich(ReqSoYeuLyLich reqSoYeuLyLich) {
         try {
-            SoYeuLyLich soYeuLyLich = get_Info_SoYeuLyLich();
+            SoYeuLyLich soYeuLyLich = facadeEmployee.getSoYeuLyLich();
             if (soYeuLyLich != null) {
                 SoYeuLyLich syllNew = mapToSoYeuLyLich(reqSoYeuLyLich);
                 syllNew.setId(soYeuLyLich.getId());
                 syllNew.setCreate_at(soYeuLyLich.getCreate_at());
+                syllNew.setPheDuyet(PheDuyet.CHO_PHE_DUYET);
+                syllNew.setUpdate_at();
                 return soYeuLyLichRepository.save(syllNew);
             }
             return null;
@@ -141,16 +131,26 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
     }
 
     @Override
-    public boolean pheDuyetSoYeuLyLich(String id, ReqDSSoYeuLyLich reqDSSoYeuLyLich) {
+    public List<SoYeuLyLich> pheDuyetSoYeuLyLich(List<ReqDSSoYeuLyLich> reqDSSoYeuLyLich) {
         try {
-            SoYeuLyLich soYeuLyLich = soYeuLyLichRepository.findById(UUID.fromString(id)).orElse(null);
-            if (soYeuLyLich != null) {
-                soYeuLyLich.setTrangThai(reqDSSoYeuLyLich.trang_thai());
-                soYeuLyLich.setUpdate_at();
-                soYeuLyLichRepository.save(soYeuLyLich);
-                return true;
-            }
-            return false;
+            List<SoYeuLyLich> soYeuLyLiches = reqDSSoYeuLyLich.stream().flatMap(c -> c.soYeuLyLichs().stream().map(t -> {
+                SoYeuLyLich soYeuLyLich = soYeuLyLichRepository.findById(t).orElse(null);
+                if (soYeuLyLich != null) {
+                    soYeuLyLich.setPheDuyet(c.pheDuyet());
+                    soYeuLyLich.setUpdate_at();
+                }
+                return soYeuLyLich;
+            })).toList();
+            return soYeuLyLichRepository.saveAll(soYeuLyLiches);
+//            return soYeuLyLiches;
+//            SoYeuLyLich soYeuLyLich = soYeuLyLichRepository.findById(UUID.fromString(id)).orElse(null);
+//            if (soYeuLyLich != null) {
+//                soYeuLyLich.setTrangThai(reqDSSoYeuLyLich.trang_thai());
+//                soYeuLyLich.setUpdate_at();
+//                soYeuLyLichRepository.save(soYeuLyLich);
+//                return true;
+//            }
+//            return false;
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
@@ -165,17 +165,7 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
                 + phuCapChucVu + phuCapKiemNhiem + phuCapKhac) + (luongTheoMucTien * (phamTramHuongLuong + phuCapThamNienVuotKhung));
     }
 
-    private SoYeuLyLich get_Info_SoYeuLyLich() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            return Optional.ofNullable((TaiKhoan) authentication.getPrincipal()).map(
-                    TaiKhoan::getSoYeuLyLich
-            ).orElse(null);
-        } else return null;
-    }
-
     private SoYeuLyLich mapToSoYeuLyLich(ReqSoYeuLyLich reqSoYeuLyLich) {
-        GioiTinh gioiTinh = gioiTinhRepository.findById(reqSoYeuLyLich.gioiTinh()).orElse(null);
         DanToc danToc = danTocRepository.findById(reqSoYeuLyLich.danToc()).orElse(null);
         ThanhPhanGiaDinh thanhPhanGiaDinh = thanhPhanGiaDinhRepository.findById(reqSoYeuLyLich.thanhPhanGiaDinh()).orElse(null);
         CoQuanToChucDonVi coQuanToChucDonViTuyenDung = coQuanToChucDonViRepository.findById(reqSoYeuLyLich.coQuanToChucDonViTuyenDung()).orElse(null);
@@ -185,8 +175,6 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
         TrinhDoChuyenMon trinhDoChuyenMon = trinhDoChuyenMonRepository.findById(reqSoYeuLyLich.trinhDoChuyenMon()).orElse(null);
         HocHam hocHam = hocHamRepository.findById(reqSoYeuLyLich.hocHam()).orElse(null);
         DanhHieuNhaNuocPhongTang danhHieuNhaNuocPhongTang = danhHieuNhaNuocPhongTangRepository.findById(reqSoYeuLyLich.danhHieuNhaNuocPhongTang()).orElse(null);
-//        BacLuong bacLuong = bacLuongRepository.findById(reqSoYeuLyLich.bacLuong()).orElse(null);
-        TinhTrangSucKhoe tinhTrangSucKhoe = tinhTrangSucKhoeRepository.findById(reqSoYeuLyLich.tinhTrangSucKhoe()).orElse(null);
         NhomMau nhomMau = nhomMauRepository.findById(reqSoYeuLyLich.nhomMau()).orElse(null);
         ChucVu chucVu = chucVuRepository.findById(reqSoYeuLyLich.chucVuHienTai()).orElse(null);
         ChucVu chucVuKiemNhiem = chucVuRepository.findById(reqSoYeuLyLich.chucVuKiemNhiem()).orElse(null);
@@ -195,9 +183,9 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
         ViTriViecLam viTriViecLam = viTriViecLamRepository.findById(reqSoYeuLyLich.viTriViecLam()).orElse(null);
         ChucDanhDang chucDanhDangHienTai = chucDanhDangRepository.findById(reqSoYeuLyLich.chucVuDangHienTai()).orElse(null);
         ChucDanhDang chucDanhDangKiemNhiem = chucDanhDangRepository.findById(reqSoYeuLyLich.chucVuDangKiemNhiem()).orElse(null);
-        SoYeuLyLich soYeuLyLich = SoYeuLyLich.builder()
-                .hovaten(reqSoYeuLyLich.hovaten())
-                .gioiTinh(gioiTinh)
+        return SoYeuLyLich.builder()
+                .hoVaTen(reqSoYeuLyLich.hovaten())
+                .gioiTinh(reqSoYeuLyLich.gioiTinh())
                 .cacTenGoiKhac(reqSoYeuLyLich.cacTenGoiKhac())
                 .sinhNgay(reqSoYeuLyLich.sinhNgay())
                 .noiSinh(reqSoYeuLyLich.noiSinh())
@@ -238,11 +226,11 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
                 .tienLuong(reqSoYeuLyLich.tienLuong())
                 .ngachVienChuc(ngachVienChuc)
                 .ngachCongChuc(ngachCongChuc)
-                .ngayBoNhiemNgachNgheNghiep(reqSoYeuLyLich.ngayBoNhiemNgachNgheNghiep())
-                .ngayHuongLuongNgachNgheNghiep(reqSoYeuLyLich.ngayHuongLuongNgachNgheNghiep())
-                .phanTramHuongLuongNgachNgheNghiep(reqSoYeuLyLich.phanTramHuongLuongNgachNgheNghiep())
-                .phuCapThamNienVuotKhungNgachNgheNghiep(reqSoYeuLyLich.phuCapThamNienVuotKhungNgachNgheNghiep())
-                .ngayHuongPCTNVKNgachNgheNghiep(reqSoYeuLyLich.ngayHuongPCTNVKNgachNgheNghiep())
+                .ngayBoNhiemNgach(reqSoYeuLyLich.ngayBoNhiemNgachNgheNghiep())
+                .ngayHuongLuongNgach(reqSoYeuLyLich.ngayHuongLuongNgachNgheNghiep())
+                .phanTramHuongLuongNgach(reqSoYeuLyLich.phanTramHuongLuongNgachNgheNghiep())
+                .phuCapThamNienVuotKhungNgach(reqSoYeuLyLich.phuCapThamNienVuotKhungNgachNgheNghiep())
+                .ngayHuongPCTNVKNgach(reqSoYeuLyLich.ngayHuongPCTNVKNgachNgheNghiep())
                 .phuCapChucVu(reqSoYeuLyLich.phuCapChucVu())
                 .phuCapKiemNhiem(reqSoYeuLyLich.phuCapKiemNhiem())
                 .phuCapKhac(reqSoYeuLyLich.phuCapKhac())
@@ -251,104 +239,10 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
                 .phamTramHuongLuong(reqSoYeuLyLich.phamTramHuongLuong())
                 .phuCapThamNienVuotKhung(reqSoYeuLyLich.phuCapThamNienVuotKhung())
                 .ngayHuongPCTNVK(reqSoYeuLyLich.ngayHuongPCTNVK())
-                .tinhTrangSucKhoe(tinhTrangSucKhoe)
+                .tinhTrangSucKhoe(reqSoYeuLyLich.tinhTrangSucKhoe())
                 .chieuCao(reqSoYeuLyLich.chieuCao())
                 .canNang(reqSoYeuLyLich.canNang())
                 .nhomMau(nhomMau)
                 .build();
-        soYeuLyLich.setUpdate_at();
-        return soYeuLyLich;
     }
-
-//    private SoYeuLyLich mapToSoYeuLyLich(ReqSoYeuLyLich reqSoYeuLyLich) {
-//        GioiTinh gioiTinh = gioiTinhRepository.findByName(reqSoYeuLyLich.gioiTinh());
-//        DanToc danToc = danTocRepository.findByName(reqSoYeuLyLich.danToc());
-//        ThanhPhanGiaDinh thanhPhanGiaDinh = thanhPhanGiaDinhRepository.findByName(reqSoYeuLyLich.thanhPhanGiaDinh());
-//        CoQuanToChucDonVi coQuanToChucDonViTuyenDung = coQuanToChucDonViRepository.findById(reqSoYeuLyLich.coQuanToChucDonViTuyenDung()).orElse(null);
-//        CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi = capBacLoaiQuanHamQuanDoiRepository.findByName(reqSoYeuLyLich.capBacLoaiQuanHamQuanDoi());
-//        DoiTuongChinhSach doiTuongChinhSach = doiTuongChinhSachRepository.findByName(reqSoYeuLyLich.doiTuongChinhSach());
-//        TrinhDoGiaoDucPhoThong trinhDoGiaoDucPhoThong = trinhDoGiaoDucPhoThongRepository.findByName(reqSoYeuLyLich.trinhDoGiaoDucPhoThong());
-//        TrinhDoChuyenMon trinhDoChuyenMon = trinhDoChuyenMonRepository.findByName(reqSoYeuLyLich.trinhDoChuyenMon());
-//        HocHam hocHam = hocHamRepository.findByName(reqSoYeuLyLich.hocHam());
-//        DanhHieuNhaNuocPhongTang danhHieuNhaNuocPhongTang = danhHieuNhaNuocPhongTangRepository.findByName(reqSoYeuLyLich.danhHieuNhaNuocPhongTang());
-//        BacLuong bacLuong = bacLuongRepository.findByName(reqSoYeuLyLich.bacLuong());
-//        TinhTrangSucKhoe tinhTrangSucKhoe = tinhTrangSucKhoeRepository.findByTitle(reqSoYeuLyLich.tinhTrangSucKhoe());
-//        NhomMau nhomMau = nhomMauRepository.findByName(reqSoYeuLyLich.nhomMau());
-//        ChucVu chucVu = chucVuRepository.findByName(reqSoYeuLyLich.chucVuHienTai());
-//        ChucVu chucVuKiemNhiem = chucVuRepository.findByName(reqSoYeuLyLich.chucVuKiemNhiem());
-//        NgachCongChuc ngachCongChuc = ngachCongChucRepository.findByName(reqSoYeuLyLich.ngachNgheNghiep());
-//        NgachVienChuc ngachVienChuc = ngachVienChucRepository.findByName(reqSoYeuLyLich.ngachNgheNghiep());
-//        ViTriViecLam viTriViecLam = viTriViecLamRepository.findByName(reqSoYeuLyLich.viTriViecLam());
-//        ChucDanhDang chucDanhDangHienTai = chucDanhDangRepository.findByName(reqSoYeuLyLich.chucVuDangHienTai());
-//        ChucDanhDang chucDanhDangKiemNhiem = chucDanhDangRepository.findByName(reqSoYeuLyLich.chucVuDangKiemNhiem());
-//        SoYeuLyLich soYeuLyLich = SoYeuLyLich.builder()
-//                .hovaten(reqSoYeuLyLich.hovaten())
-//                .gioiTinh(gioiTinh)
-//                .cacTenGoiKhac(reqSoYeuLyLich.cacTenGoiKhac())
-//                .sinhNgay(reqSoYeuLyLich.sinhNgay())
-//                .noiSinh(reqSoYeuLyLich.noiSinh())
-//                .queQuan(reqSoYeuLyLich.queQuan())
-//                .danToc(danToc)
-//                .soCCCD(reqSoYeuLyLich.soCCCD())
-//                .ngayCapCCCD(reqSoYeuLyLich.ngayCapCCCD())
-//                .soDienThoai(reqSoYeuLyLich.soDienThoai())
-//                .soBHXH(reqSoYeuLyLich.soBHXH())
-//                .soBHYT(reqSoYeuLyLich.soBHYT())
-//                .noiOHienNay(reqSoYeuLyLich.noiOHienNay())
-//                .thanhPhanGiaDinh(thanhPhanGiaDinh)
-//                .ngheNghiepTruocKhiTuyenDung(reqSoYeuLyLich.ngheNghiepTruocKhiTuyenDung())
-//                .ngayDuocTuyenDungLanDau(reqSoYeuLyLich.ngayDuocTuyenDungLanDau())
-//                .coQuanToChucDonViTuyenDung(coQuanToChucDonViTuyenDung)
-//                .ngayVaoCoQuanHienDangCongTac(reqSoYeuLyLich.ngayVaoCoQuanHienDangCongTac())
-//                .ngayVaoDangCongSanVietNam(reqSoYeuLyLich.ngayVaoDangCongSanVietNam())
-//                .ngayChinhThuc(reqSoYeuLyLich.ngayChinhThuc())
-//                .ngayThamGiaToChucChinhTriXaHoiDauTien(reqSoYeuLyLich.ngayThamGiaToChucChinhTriXaHoiDauTien())
-//                .ngayNhapNgu(reqSoYeuLyLich.ngayNhapNgu())
-//                .ngayXuatNgu(reqSoYeuLyLich.ngayXuatNgu())
-//                .capBacLoaiQuanHamQuanDoi(capBacLoaiQuanHamQuanDoi)
-//                .doiTuongChinhSach(doiTuongChinhSach)
-//                .trinhDoGiaoDucPhoThong(trinhDoGiaoDucPhoThong)
-//                .trinhDoChuyenMon(trinhDoChuyenMon)
-//                .hocHam(hocHam)
-//                .danhHieuNhaNuocPhongTang(danhHieuNhaNuocPhongTang)
-//                .chucVuHienTai(chucVu)
-//                .ngayBoNhiem(reqSoYeuLyLich.ngayBoNhiem())
-//                .ngayBoNhiemLai(reqSoYeuLyLich.ngayBoNhiemLai())
-//                .duocQuyHoacChucDanh(reqSoYeuLyLich.duocQuyHoacChucDanh())
-//                .chucVuKiemNhiem(chucVuKiemNhiem)
-//                .chucVuDangHienTai(chucDanhDangHienTai)
-//                .chucVuDangKiemNhiem(chucDanhDangKiemNhiem)
-//                .congViecChinhDuocGiao(reqSoYeuLyLich.congViecChinhDuocGiao())
-//                .soTruongCongTac(reqSoYeuLyLich.soTruongCongTac())
-//                .congViecLamLauNhat(reqSoYeuLyLich.congViecLamLauNhat())
-//                .tienLuong(reqSoYeuLyLich.tienLuong())
-//                .ngachVienChuc(ngachVienChuc)
-//                .ngachCongChuc(ngachCongChuc)
-////                .maSoNgachNgheNghiep(reqSoYeuLyLich.maSoNgachNgheNghiep())
-//                .ngayBoNhiemNgachNgheNghiep(reqSoYeuLyLich.ngayBoNhiemNgachNgheNghiep())
-////                .bacLuong(bacLuong)
-////                .heSoLuongNgachNgheNghiep(reqSoYeuLyLich.heSoLuongNgachNgheNghiep())
-//                .ngayHuongLuongNgachNgheNghiep(reqSoYeuLyLich.ngayHuongLuongNgachNgheNghiep())
-//                .phanTramHuongLuongNgachNgheNghiep(reqSoYeuLyLich.phanTramHuongLuongNgachNgheNghiep())
-//                .phuCapThamNienVuotKhungNgachNgheNghiep(reqSoYeuLyLich.phuCapThamNienVuotKhungNgachNgheNghiep())
-//                .ngayHuongPCTNVKNgachNgheNghiep(reqSoYeuLyLich.ngayHuongPCTNVKNgachNgheNghiep())
-//                .phuCapChucVu(reqSoYeuLyLich.phuCapChucVu())
-//                .phuCapKiemNhiem(reqSoYeuLyLich.phuCapKiemNhiem())
-//                .phuCapKhac(reqSoYeuLyLich.phuCapKhac())
-//                .viTriViecLam(viTriViecLam)
-////                .maSoViTriViecLam(reqSoYeuLyLich.maSoViTriViecLam())
-////                .bacLuongTriViecLam(reqSoYeuLyLich.bacLuongTriViecLam())
-////                .luongTheoMucTien(reqSoYeuLyLich.luongTheoMucTien())
-//                .ngayHuongLuongTheoViTriViecLam(reqSoYeuLyLich.ngayHuongLuongTheoViTriViecLam())
-//                .phamTramHuongLuong(reqSoYeuLyLich.phamTramHuongLuong())
-//                .phuCapThamNienVuotKhung(reqSoYeuLyLich.phuCapThamNienVuotKhung())
-//                .ngayHuongPCTNVK(reqSoYeuLyLich.ngayHuongPCTNVK())
-//                .tinhTrangSucKhoe(tinhTrangSucKhoe)
-//                .chieuCao(reqSoYeuLyLich.chieuCao())
-//                .canNang(reqSoYeuLyLich.canNang())
-//                .nhomMau(nhomMau)
-//                .build();
-//        soYeuLyLich.setUpdate_at();
-//        return soYeuLyLich;
-//    }
 }

@@ -4,38 +4,32 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import sgu.hrm.module_kafka.KafkaTopicSendMail;
-import sgu.hrm.module_response.ResDTO;
-import sgu.hrm.module_response.ResEnum;
+import sgu.hrm.module_kafka.KafkaConsumers;
+import sgu.hrm.module_kafka.KafkaProducers;
+import sgu.hrm.module_security.IAuthenticationFacade;
+import sgu.hrm.module_utilities.enums.PheDuyet;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_soyeulylich.repository.SoYeuLyLichRepository;
 import sgu.hrm.module_security.jwt_utilities.JWTUtilities;
 import sgu.hrm.module_taikhoan.models.TaiKhoan;
 import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoan;
 import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoanLogin;
-import sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoan;
 import sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoanLogin;
 import sgu.hrm.module_taikhoan.repository.TaiKhoanRepository;
-import sgu.hrm.module_taikhoan.repository.RoleTaiKhoanRepository;
+import sgu.hrm.module_utilities.enums.RoleTaiKhoan;
 
 
 import java.time.LocalDateTime;
 
 import java.util.List;
-import java.util.Optional;
 
 import static sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoan.mapToResTaiKhoan;
 
@@ -45,8 +39,6 @@ import static sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoan.mapToResTaiKho
 public class TaiKhoanService implements ITaiKhoanService {
 
     final TaiKhoanRepository taiKhoanRepository;
-
-    final RoleTaiKhoanRepository roleTaiKhoanRepository;
 
     final SoYeuLyLichRepository soYeuLyLichRepository;
 
@@ -58,17 +50,16 @@ public class TaiKhoanService implements ITaiKhoanService {
 
     final AuthenticationManager authenticationManager;
 
-    private TaiKhoan crush_em_t() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            return (TaiKhoan) authentication.getPrincipal();
-        } else return null;
-    }
+    final IAuthenticationFacade facade;
+
+    final KafkaProducers producers;
+
+    final KafkaConsumers consumers;
 
     @Override
     public TaiKhoan xemThongTinTaiKhoan() {
         try {
-            return crush_em_t();
+            return facade.getTaiKhoan();
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
@@ -77,7 +68,8 @@ public class TaiKhoanService implements ITaiKhoanService {
     @Override
     public boolean doiMatKhau(String matkhau) {
         try {
-            TaiKhoan taiKhoan = crush_em_t();
+            System.out.println(facade.getTaiKhoan().getUsername());
+            TaiKhoan taiKhoan = facade.getTaiKhoan();
             if (taiKhoan != null) {
                 taiKhoan.setPassword(matkhau);
                 taiKhoan.setUpdate_at();
@@ -92,7 +84,7 @@ public class TaiKhoanService implements ITaiKhoanService {
     @Override
     public boolean doiEmail(String email) {
         try {
-            TaiKhoan taiKhoan = crush_em_t();
+            TaiKhoan taiKhoan = facade.getTaiKhoan();
             if (taiKhoan != null) {
                 taiKhoan.setUpdate_at();
                 taiKhoan.setEmail(email);
@@ -106,6 +98,7 @@ public class TaiKhoanService implements ITaiKhoanService {
     /* ADMIN - ADMIN - ADMIN*/
     @Override
     public List<TaiKhoan> xemDanhSachTaiKhoan() {
+        System.out.println(facade.getTaiKhoan().getUsername());
         try {
             return taiKhoanRepository.findAll();
         } catch (RuntimeException e) {
@@ -150,15 +143,16 @@ public class TaiKhoanService implements ITaiKhoanService {
                     .username(newUsername)
                     .password(reqTaiKhoan.soCCCD())
                     .email(reqTaiKhoan.email())
-                    .roleTaiKhoan(roleTaiKhoanRepository.findById(1).get())
+                    .roleTaiKhoan(RoleTaiKhoan.EMPLOYEE)
                     .trangThai(true)
                     .create_at(LocalDateTime.now())
                     .build();
             if (taiKhoan != null) {
                 soYeuLyLich = SoYeuLyLich.builder()
-                        .hovaten(reqTaiKhoan.hoVaTen())
+                        .hoVaTen(reqTaiKhoan.hoVaTen())
                         .soCCCD(reqTaiKhoan.soCCCD())
                         .create_at(taiKhoan.getCreate_at())
+                        .pheDuyet(PheDuyet.CHUA_PHE_DUYET)
                         .build();
                 soYeuLyLichRepository.save(soYeuLyLich);
                 taiKhoan.setSoYeuLyLich(soYeuLyLich);
@@ -168,26 +162,22 @@ public class TaiKhoanService implements ITaiKhoanService {
             throw new RuntimeException(e.getCause());
         } finally {
             if (taiKhoan != null) {
-                // create the producer
-//                KafkaProducer<String, String> producer = new KafkaProducer<>(KafkaTopicSendMail.properties);
-//                ProducerRecord<String, String> producerRecord = new ProducerRecord<>("send_mail", taiKhoan.toString());
-//                // send data - asynchronous
-//                producer.send(producerRecord);
-//                //flush + close
-//                producer.flush();
-//                producer.close();
-                //send email
-                SimpleMailMessage message = new SimpleMailMessage();
-                message.setFrom("noreply-chinhphu@gmail.com");
-                message.setTo(reqTaiKhoan.email());
-                message.setSubject("CHÀO MỪNG NHÂN VIÊN CHÍNH PHỦ");
-                message.setText(String.format("%s\n%s\n%s\n%s",
-                        "THÔNG TIN TÀI KHOẢN",
-                        "Tên đăng nhập: " + taiKhoan.getUsername(),
-                        "Mật khẩu: " + taiKhoan.getPassword(),
-                        "Mã sơ yếu lý lịch: " + soYeuLyLich.getId()
-                ));
-                javaMailSender.send(message);
+                producers.sendMailProducer(reqTaiKhoan);
+                if (consumers.sendMailConsumer()) {
+                    //send email
+                    SimpleMailMessage message = new SimpleMailMessage();
+                    message.setFrom("noreply-chinhphu@gmail.com");
+                    message.setTo(reqTaiKhoan.email());
+                    message.setSubject("CHÀO MỪNG NHÂN VIÊN CHÍNH PHỦ");
+                    message.setText(String.format("%s\n%s\n%s\n%s",
+                            "THÔNG TIN TÀI KHOẢN",
+                            "Tên đăng nhập: " + taiKhoan.getUsername(),
+                            "Mật khẩu: " + taiKhoan.getPassword(),
+                            "Mã sơ yếu lý lịch: " + soYeuLyLich.getId()
+                    ));
+                    javaMailSender.send(message);
+                }
+
             }
         }
     }

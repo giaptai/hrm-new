@@ -17,7 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import sgu.hrm.models.DateTimeObject;
+import sgu.hrm.DateTimeObject;
 
 @Entity
 @Table(name = "chuc_danh_dang")
@@ -31,7 +31,7 @@ import sgu.hrm.models.DateTimeObject;
 public class ChucDanhDang extends DateTimeObject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", columnDefinition = "INTEGER")
+    @Column(name = "id", columnDefinition = "INTEGER AUTO_INCREMENT")
     int id;
 
     @Column(columnDefinition = "varchar(250) unique")
