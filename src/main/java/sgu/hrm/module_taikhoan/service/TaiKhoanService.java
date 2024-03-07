@@ -42,7 +42,7 @@ public class TaiKhoanService implements ITaiKhoanService {
 
     final SoYeuLyLichRepository soYeuLyLichRepository;
 
-//    final JavaMailSender javaMailSender;
+    final JavaMailSender javaMailSender;
 
     final JWTUtilities jwtUtilities;
 
@@ -162,26 +162,22 @@ public class TaiKhoanService implements ITaiKhoanService {
             throw new RuntimeException(e.getCause());
         } finally {
             if (taiKhoan != null) {
-                // create the producer
-//                KafkaProducer<String, String> producer = new KafkaProducer<>(KafkaTopicSendMail.properties);
-//                ProducerRecord<String, String> producerRecord = new ProducerRecord<>("send_mail", taiKhoan.toString());
-//                // send data - asynchronous
-//                producer.send(producerRecord);
-//                //flush + close
-//                producer.flush();
-//                producer.close();
-                //send email
-//                SimpleMailMessage message = new SimpleMailMessage();
-//                message.setFrom("noreply-chinhphu@gmail.com");
-//                message.setTo(reqTaiKhoan.email());
-//                message.setSubject("CHÀO MỪNG NHÂN VIÊN CHÍNH PHỦ");
-//                message.setText(String.format("%s\n%s\n%s\n%s",
-//                        "THÔNG TIN TÀI KHOẢN",
-//                        "Tên đăng nhập: " + taiKhoan.getUsername(),
-//                        "Mật khẩu: " + taiKhoan.getPassword(),
-//                        "Mã sơ yếu lý lịch: " + soYeuLyLich.getId()
-//                ));
-//                javaMailSender.send(message);
+                producers.sendMailProducer(reqTaiKhoan);
+                if (consumers.sendMailConsumer()) {
+                    //send email
+                    SimpleMailMessage message = new SimpleMailMessage();
+                    message.setFrom("noreply-chinhphu@gmail.com");
+                    message.setTo(reqTaiKhoan.email());
+                    message.setSubject("CHÀO MỪNG NHÂN VIÊN CHÍNH PHỦ");
+                    message.setText(String.format("%s\n%s\n%s\n%s",
+                            "THÔNG TIN TÀI KHOẢN",
+                            "Tên đăng nhập: " + taiKhoan.getUsername(),
+                            "Mật khẩu: " + taiKhoan.getPassword(),
+                            "Mã sơ yếu lý lịch: " + soYeuLyLich.getId()
+                    ));
+                    javaMailSender.send(message);
+                }
+
             }
         }
     }
