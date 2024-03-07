@@ -30,13 +30,6 @@ public class AdminTaiKhoanController {
         this.taiKhoanService = taiKhoanService;
     }
 
-    //thong-tin-ca-nhan
-    @GetMapping("/admin/tai-khoan")
-    @Transactional
-    public ResponseEntity<ResDTO<ResTaiKhoan>> thong_tin_ca_nhan() {
-        ResTaiKhoan resTaiKhoan = ResTaiKhoan.mapToResTaiKhoan(taiKhoanService.xemThongTinTaiKhoan());
-        return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resTaiKhoan), HttpStatus.OK);
-    }
     @GetMapping("/nhan-vien/tai-khoan")
     public ResponseEntity<ResDTO<List<ResTaiKhoan>>> getAllTaiKhoan() {
         List<ResTaiKhoan> resTaiKhoans = taiKhoanService.xemDanhSachTaiKhoan().stream().map(ResTaiKhoan::mapToResTaiKhoan).toList();

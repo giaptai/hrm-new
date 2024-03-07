@@ -84,8 +84,8 @@ public class AdminSoYeuLyLichChiTietController {
             return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, kt), HttpStatus.ACCEPTED);
         }
 
-        @PostMapping("/nhan-vien/khen-thuong")
         @Transactional
+        @PostMapping("/nhan-vien/khen-thuong")
         public ResponseEntity<ResDTO<List<ResKhenThuong>>> nhanvien_khenthuong(@RequestBody List<ReqKhenThuongNhanVien> nhanVien) {
             List<ResKhenThuong> kt = khenThuongSefvice.khenThuongNhanVien(nhanVien).stream().map(ResKhenThuong::maptoResKhenThuong).toList();
             return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, kt), HttpStatus.ACCEPTED);

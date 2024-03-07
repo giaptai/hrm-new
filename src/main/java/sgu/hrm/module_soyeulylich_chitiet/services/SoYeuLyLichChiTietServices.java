@@ -281,19 +281,6 @@ public class SoYeuLyLichChiTietServices {
 
     @Service
     public class KhenThuongService extends ISoYeuLyLichChiTietServices.IKhenThuongSefvice {
-        private ResKhenThuong mapToResKhenThuong(KhenThuong thuong) {
-            return thuong != null ? new ResKhenThuong(
-                    thuong.getId(),
-                    thuong.getSoYeuLyLich().getId(),
-                    thuong.getNam(),
-                    thuong.getXepLoaiChuyenMon(),
-                    thuong.getXepLoaiThiDua(),
-                    Optional.ofNullable(thuong.getHinhThucKhenThuong()).map(HinhThucKhenThuong::getName).orElse(null),
-                    thuong.getCreate_at(),
-                    thuong.getUpdate_at()
-            ) : null;
-        }
-
         private KhenThuong mapToKhenThuong(ReqKhenThuong cu) {
             return new KhenThuong(
                     cu.nam(),
@@ -517,16 +504,6 @@ public class SoYeuLyLichChiTietServices {
 
     @Service
     public class KyLuatService extends ISoYeuLyLichChiTietServices.IKyLuatSefvice {
-        private KyLuat mapToKyLuat(ReqKyLuat cu) {
-            return new KyLuat(
-                    cu.batDau(),
-                    cu.ketThuc(),
-                    cu.hinhThuc(),
-                    cu.hanhViViPhamChinh(),
-                    cu.coQuanQuyetDinh(),
-                    syll());
-        }
-
         @Override
         public List<KyLuat> xemDanhSachThongTin() {
             SoYeuLyLich syll = syll();
@@ -557,10 +534,9 @@ public class SoYeuLyLichChiTietServices {
 
         @Override
         public KyLuat themThongTin(ReqKyLuat req) {
-            KyLuat ky;
             try {
-                ky = mapToKyLuat(req);
-                return kyLuatRepository.save(ky);
+                CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.coQuanQuyetDinh()).orElse(null);
+                return kyLuatRepository.save(new KyLuat(req.batDau(), req.ketThuc(), req.hinhThuc(), req.hanhViViPhamChinh(), donVi, syll()));
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -573,11 +549,12 @@ public class SoYeuLyLichChiTietServices {
                 if (syll != null) {
                     return kyLuatRepository.findById(id).map(c -> {
                         if (c.getSoYeuLyLich().getId().equals(syll.getId())) {
+                            CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.coQuanQuyetDinh()).orElse(null);
                             c.setBatDau(req.batDau());
                             c.setKetThuc(req.ketThuc());
                             c.setHinhThuc(req.hinhThuc());
                             c.setHanhViViPhamChinh(req.hanhViViPhamChinh());
-                            c.setCoQuanQuyetDinh(req.coQuanQuyetDinh());
+                            c.setCoQuanQuyetDinh(donVi);
                             c.setUpdate_at();
                             return kyLuatRepository.save(c);
                         } else return null;
@@ -585,7 +562,7 @@ public class SoYeuLyLichChiTietServices {
                 }
                 return null;
             } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             }
         }
 
@@ -617,7 +594,11 @@ public class SoYeuLyLichChiTietServices {
 
         @Override
         public List<KyLuat> xemDanhSachEmployee() {
-            return kyLuatRepository.findAll();
+            try {
+                return kyLuatRepository.findAll();
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e.getCause());
+            }
         }
 
         @Override
@@ -627,8 +608,9 @@ public class SoYeuLyLichChiTietServices {
                         reqNV -> reqNV.danhSachMaHoSo().stream().map(
                                 nvId -> {
                                     ReqKyLuat req = reqNV.kyLuat();
+                                    CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.coQuanQuyetDinh()).orElse(null);
                                     SoYeuLyLich syll = soYeuLyLichRepository.findById(nvId).orElseThrow();
-                                    return new KyLuat(req.batDau(), req.ketThuc(), req.hinhThuc(), req.hanhViViPhamChinh(), req.coQuanQuyetDinh(), syll);
+                                    return new KyLuat(req.batDau(), req.ketThuc(), req.hinhThuc(), req.hanhViViPhamChinh(), donVi, syll);
                                 }
                         )).toList();
                 return kyLuatRepository.saveAll(kyLuats);
@@ -1422,14 +1404,6 @@ public class SoYeuLyLichChiTietServices {
     @Service
     public class QuaTrinhCongTacService extends ISoYeuLyLichChiTietServices.IQuaTrinhCongTacSefvice {
 
-        private QuaTrinhCongTac mapToQuaTrinhCongTac(ReqQuaTrinhCongTac cu) {
-            return new QuaTrinhCongTac(
-                    cu.batDau(),
-                    cu.ketThuc(),
-                    cu.donViCongTac(),
-                    cu.chucDanh(),
-                    syll());
-        }
 
         @Override
         public List<QuaTrinhCongTac> xemDanhSachThongTin() {
@@ -1461,10 +1435,9 @@ public class SoYeuLyLichChiTietServices {
 
         @Override
         public QuaTrinhCongTac themThongTin(ReqQuaTrinhCongTac req) {
-            QuaTrinhCongTac tac;
             try {
-                tac = mapToQuaTrinhCongTac(req);
-                return quaTrinhCongTacRepository.save(tac);
+                CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.donViCongTac()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                return quaTrinhCongTacRepository.save(new QuaTrinhCongTac(req.batDau(), req.ketThuc(), donVi, req.chucDanh(), syll()));
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
             }
@@ -1477,9 +1450,10 @@ public class SoYeuLyLichChiTietServices {
                 if (syll != null) {
                     return quaTrinhCongTacRepository.findById(id).map(c -> {
                         if (c.getSoYeuLyLich().getId().equals(syll.getId())) {
+                            CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.donViCongTac()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
                             c.setBatDau(req.batDau());
                             c.setKetThuc(req.ketThuc());
-                            c.setDonViCongTac(req.donViCongTac());
+                            c.setDonViCongTac(donVi);
                             c.setChucDanh(req.chucDanh());
                             c.setUpdate_at();
                             return quaTrinhCongTacRepository.save(c);
@@ -1530,13 +1504,13 @@ public class SoYeuLyLichChiTietServices {
                 congTacs = congtac.stream().flatMap(
                         reqNV -> reqNV.danhSachMaHoSo().stream().map(
                                 nvId -> {
-                                    CoQuanToChucDonVi vi = coQuanToChucDonViRepository.findByName(reqNV.quaTrinhCongTac().donViCongTac())
+                                    CoQuanToChucDonVi vi = coQuanToChucDonViRepository.findById(reqNV.quaTrinhCongTac().donViCongTac())
                                             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Foo Not Found"));
 //                                    soYeuLyLichRepository.upadtecoQuanToChucDonVi(vi, nvId);
 //                                    return mapToQuaTrinhCongTac(reqNV.quaTrinhCongTac());
                                     return new QuaTrinhCongTac(reqNV.quaTrinhCongTac().batDau(),
                                             reqNV.quaTrinhCongTac().ketThuc(),
-                                            vi != null ? vi.getName() : null,
+                                            vi,
                                             reqNV.quaTrinhCongTac().chucDanh(),
                                             soYeuLyLichRepository.findById(nvId).orElse(null)
                                     );

@@ -161,24 +161,9 @@ public class TaiKhoanService implements ITaiKhoanService {
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         } finally {
-            if (taiKhoan != null) {
-                producers.sendMailProducer(reqTaiKhoan);
-                if (consumers.sendMailConsumer()) {
-                    //send email
-                    SimpleMailMessage message = new SimpleMailMessage();
-                    message.setFrom("noreply-chinhphu@gmail.com");
-                    message.setTo(reqTaiKhoan.email());
-                    message.setSubject("CHÀO MỪNG NHÂN VIÊN CHÍNH PHỦ");
-                    message.setText(String.format("%s\n%s\n%s\n%s",
-                            "THÔNG TIN TÀI KHOẢN",
-                            "Tên đăng nhập: " + taiKhoan.getUsername(),
-                            "Mật khẩu: " + taiKhoan.getPassword(),
-                            "Mã sơ yếu lý lịch: " + soYeuLyLich.getId()
-                    ));
-                    javaMailSender.send(message);
-                }
-
-            }
+//            if (taiKhoan != null) {
+//                producers.sendMailProducer(reqTaiKhoan);
+//            }
         }
     }
 

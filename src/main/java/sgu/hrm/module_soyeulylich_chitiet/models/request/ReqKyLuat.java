@@ -7,7 +7,7 @@ public record ReqKyLuat(
         LocalDateTime ketThuc,
         String hinhThuc,
         String hanhViViPhamChinh,
-        String coQuanQuyetDinh,
+        int coQuanQuyetDinh, //CoQuanToChucDonVi
         String loaiSoYeuLyLichChiTiet,
         String soYeuLyLich
 ) {

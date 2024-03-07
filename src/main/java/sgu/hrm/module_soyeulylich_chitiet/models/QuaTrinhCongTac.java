@@ -22,6 +22,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import sgu.hrm.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
+import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 
 import java.time.LocalDateTime;
 
@@ -47,8 +48,9 @@ public class QuaTrinhCongTac extends DateTimeObject {
     @Column(name = "ket_thuc", columnDefinition = "datetime")
     LocalDateTime ketThuc;
 
-    @Column(name = "don_vi_cong_tac", columnDefinition = "varchar(100)")
-    String donViCongTac;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "don_vi_cong_tac_fk"), name = "don_vi_cong_tac", columnDefinition = "INTEGER")
+    CoQuanToChucDonVi donViCongTac;
 
     @Column(name = "chuc_danh", columnDefinition = "varchar(100)")
     String chucDanh;
@@ -57,7 +59,7 @@ public class QuaTrinhCongTac extends DateTimeObject {
     @JoinColumn(foreignKey = @ForeignKey(name = "so_yeu_ly_lich_qtct_fk"), name = "so_yeu_ly_lich", referencedColumnName = "id", columnDefinition = "binary(16)")
     SoYeuLyLich soYeuLyLich;
 
-    public QuaTrinhCongTac(LocalDateTime batDau, LocalDateTime ketThuc, String donViCongTac, String chucDanh, SoYeuLyLich soYeuLyLich) {
+    public QuaTrinhCongTac(LocalDateTime batDau, LocalDateTime ketThuc, CoQuanToChucDonVi donViCongTac, String chucDanh, SoYeuLyLich soYeuLyLich) {
         super();
         this.batDau = batDau;
         this.ketThuc = ketThuc;

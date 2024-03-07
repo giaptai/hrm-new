@@ -18,7 +18,7 @@ public record ResQuaTrinhCongTac(
                 tac.getId(),
                 tac.getBatDau(),
                 tac.getKetThuc(),
-                tac.getDonViCongTac(),
+                tac.getDonViCongTac().getName(),
                 tac.getChucDanh(),
                 tac.getCreate_at(),
                 tac.getUpdate_at()

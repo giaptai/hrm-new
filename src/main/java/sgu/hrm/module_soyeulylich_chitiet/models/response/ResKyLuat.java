@@ -25,7 +25,7 @@ public record ResKyLuat(
                 luat.getKetThuc(),
                 luat.getHinhThuc(),
                 luat.getHanhViViPhamChinh(),
-                luat.getCoQuanQuyetDinh(),
+                luat.getCoQuanQuyetDinh().getName(),
                 luat.getCreate_at(),
                 luat.getUpdate_at()
         ) : null;

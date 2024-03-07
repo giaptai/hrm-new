@@ -70,9 +70,9 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .authorizeHttpRequests(configure ->
                                 configure
                                         .requestMatchers("/dang-nhap").permitAll()
-                                        .requestMatchers("/ca-nhan/**").hasRole("EMPLOYEE")
+                                        .requestMatchers("/ca-nhan/tai-khoan").hasAnyAuthority("ADMIN", "EMPLOYEE")
                                         .requestMatchers("/nhan-vien/**").hasAuthority("ADMIN")
-                                        .requestMatchers("/admin/**").hasAnyRole(RoleTaiKhoan.ADMIN.name())
+                                        .requestMatchers("/ca-nhan/*").hasRole("EMPLOYEE")
                                         .anyRequest().permitAll()
                         //need form with post method
                         //and spring security magic will do the rest

@@ -3,6 +3,8 @@ package sgu.hrm.module_soyeulylich_chitiet.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +23,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import sgu.hrm.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
+import sgu.hrm.module_utilities.enums.XepLoaiChuyenMon;
+import sgu.hrm.module_utilities.enums.XepLoaiThiDua;
 import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
 
 import java.time.LocalDateTime;
@@ -44,11 +48,13 @@ public class KhenThuong extends DateTimeObject {
     @Column(name = "nam", columnDefinition = "datetime")
     LocalDateTime nam;
 
-    @Column(name = "xep_loai_chuyen_mon", columnDefinition = "varchar(20)")
-    String xepLoaiChuyenMon;
+    @Column(name = "xep_loai_chuyen_mon")
+    @Enumerated(EnumType.STRING)
+    XepLoaiChuyenMon xepLoaiChuyenMon;
 
-    @Column(name = "xep_loai_thi_dua", columnDefinition = "varchar(20)")
-    String xepLoaiThiDua;
+    @Column(name = "xep_loai_thi_dua")
+    @Enumerated(EnumType.STRING)
+    XepLoaiThiDua xepLoaiThiDua;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "hinh_thuc_khen_thuong_fk"), name = "hinh_thuc_khen_thuong", referencedColumnName = "id", columnDefinition = "integer")
@@ -61,7 +67,7 @@ public class KhenThuong extends DateTimeObject {
     @JoinColumn(foreignKey = @ForeignKey(name = "so_yeu_ly_lich_khthuong_fk"), name = "so_yeu_ly_lich", referencedColumnName = "id", columnDefinition = "binary(16)")
     SoYeuLyLich soYeuLyLich;
 
-    public KhenThuong(LocalDateTime nam, String xepLoaiChuyenMon, String xepLoaiThiDua, HinhThucKhenThuong hinhThucKhenThuong, String lyDo, SoYeuLyLich soYeuLyLich) {
+    public KhenThuong(LocalDateTime nam, XepLoaiChuyenMon xepLoaiChuyenMon, XepLoaiThiDua xepLoaiThiDua, HinhThucKhenThuong hinhThucKhenThuong, String lyDo, SoYeuLyLich soYeuLyLich) {
         super();
         this.nam = nam;
         this.xepLoaiChuyenMon = xepLoaiChuyenMon;
