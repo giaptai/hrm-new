@@ -13,6 +13,7 @@ public record ResKyLuat(
         String hinhThuc,
         String hanhViViPhamChinh,
         String coQuanQuyetDinh,
+        int IdCoQuanQuyetDinh,
         LocalDateTime create_at,
         LocalDateTime update_at
 
@@ -26,6 +27,7 @@ public record ResKyLuat(
                 luat.getHinhThuc(),
                 luat.getHanhViViPhamChinh(),
                 luat.getCoQuanQuyetDinh().getName(),
+                luat.getCoQuanQuyetDinh().getId(),
                 luat.getCreate_at(),
                 luat.getUpdate_at()
         ) : null;

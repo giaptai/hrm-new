@@ -11,6 +11,7 @@ public record ResNghiepVuChuyenNganh(
         LocalDateTime batDau,
         LocalDateTime ketThuc,
         String tenCoSoDaoTao,
+        int IdTenCoSoDaoTao,
         String chungChiDuocCap,
         LocalDateTime create_at,
         LocalDateTime update_at
@@ -22,6 +23,7 @@ public record ResNghiepVuChuyenNganh(
                 nganh.getBatDau(),
                 nganh.getKetThuc(),
                 nganh.getTenCoSoDaoTao().getName(),
+                nganh.getTenCoSoDaoTao().getId(),
                 nganh.getChungChiDuocCap(),
                 nganh.getCreate_at(),
                 nganh.getUpdate_at()

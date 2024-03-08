@@ -9,6 +9,7 @@ public record ResQuaTrinhCongTac(
         LocalDateTime batDau,
         LocalDateTime ketThuc,
         String donViCongTac,
+        int IdDonViCongTac,
         String chucDanh,
         LocalDateTime create_at,
         LocalDateTime update_at
@@ -19,6 +20,7 @@ public record ResQuaTrinhCongTac(
                 tac.getBatDau(),
                 tac.getKetThuc(),
                 tac.getDonViCongTac().getName(),
+                tac.getDonViCongTac().getId(),
                 tac.getChucDanh(),
                 tac.getCreate_at(),
                 tac.getUpdate_at()

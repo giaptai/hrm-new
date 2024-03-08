@@ -9,6 +9,7 @@ public record ResKienThucAnNinhQuocPhong(
         LocalDateTime batDau,
         LocalDateTime ketThuc,
         String tenCoSoDaoTao,
+        int IdTenCoSoDaoTao,
         String chungChiDuocCap,
         LocalDateTime create_at,
         LocalDateTime update_at
@@ -19,6 +20,7 @@ public record ResKienThucAnNinhQuocPhong(
                 phong.getBatDau(),
                 phong.getKetThuc(),
                 phong.getTenCoSoDaoTao().getName(),
+                phong.getTenCoSoDaoTao().getId(),
                 phong.getChungChiDuocCap(),
                 phong.getCreate_at(),
                 phong.getUpdate_at()

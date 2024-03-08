@@ -140,14 +140,6 @@ public class SoYeuLyLichChiTietServices {
 
     @Service
     public class BanThanCoLamViecChoCheDoCuService extends ISoYeuLyLichChiTietServices.IBanThanCoLamViecChoCheDoCuSefvice {
-        private BanThanCoLamViecChoCheDoCu mapToBanThanCoLamViecChoCheDoCu(ReqBanThanCoLamViecChoCheDoCu cu) {
-            return new BanThanCoLamViecChoCheDoCu(
-                    cu.batDau(),
-                    cu.ketThuc(),
-                    cu.chucDanhDonViDiaDiem(),
-                    syll());
-        }
-
         @Override
         public List<BanThanCoLamViecChoCheDoCu> xemDanhSachThongTin() {
             SoYeuLyLich syll = syll();

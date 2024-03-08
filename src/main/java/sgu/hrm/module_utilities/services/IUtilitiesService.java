@@ -1,10 +1,12 @@
 package sgu.hrm.module_utilities.services;
 
+import sgu.hrm.module_utilities.PhanTrang;
+
 import java.util.List;
 import java.util.Optional;
 
 public interface IUtilitiesService<T, R> {
-    List<T> xemDS();
+    List<T> xemDS(PhanTrang<T> phanTrang);
 
     Optional<T> xemTheoId(int id);
 

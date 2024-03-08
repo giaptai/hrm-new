@@ -64,6 +64,7 @@ import sgu.hrm.module_utilities.models.ViTriViecLam;
 import java.time.LocalDateTime;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -290,44 +291,44 @@ public class SoYeuLyLich extends DateTimeObject {
     // liên kết 2 chiều
     // tai sao list thi lay ok ma set thi méo lấy
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    List<LyLuanChinhTri> lyLuanChinhTris;
+    Set<LyLuanChinhTri> lyLuanChinhTris;
 
     //liên kết 2 chiều
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    List<NghiepVuChuyenNganh> nghiepVuChuyenNganhs;
+    Set<NghiepVuChuyenNganh> nghiepVuChuyenNganhs;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    List<KienThucAnNinhQuocPhong> kienThucAnNinhQuocPhongs;
+    Set<KienThucAnNinhQuocPhong> kienThucAnNinhQuocPhongs;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    List<TinHoc> tinHocs;
+    Set<TinHoc> tinHocs;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    List<NgoaiNgu> ngoaiNgus;
+    Set<NgoaiNgu> ngoaiNgus;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    List<QuaTrinhCongTac> quaTrinhCongTacs;
+    Set<QuaTrinhCongTac> quaTrinhCongTacs;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    List<BanThanCoLamViecChoCheDoCu> banThanCoLamViecChoCheDoCus;
+    Set<BanThanCoLamViecChoCheDoCu> banThanCoLamViecChoCheDoCus;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    List<LamViecONuocNgoai> lamViecONuocNgoais;
+    Set<LamViecONuocNgoai> lamViecONuocNgoais;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    List<KhenThuong> khenThuongs;
+    Set<KhenThuong> khenThuongs;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    List<KyLuat> kyLuats;
+    Set<KyLuat> kyLuats;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    List<QuanHeGiaDinh> quanHeGiaDinhs;
+    Set<QuanHeGiaDinh> quanHeGiaDinhs;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    List<LuongBanThan> luongBanThans;
+    Set<LuongBanThan> luongBanThans;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    List<PhuCapKhac> phuCapKhacs;
+    Set<PhuCapKhac> phuCapKhacs;
 
 //    @OneToOne()
 //    @JoinColumn(name = "taikhoan", columnDefinition = "INTEGER")
