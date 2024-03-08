@@ -29,6 +29,7 @@ import sgu.hrm.module_utilities.enums.GioiTinh;
 import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
 import sgu.hrm.module_utilities.models.HocHam;
 import sgu.hrm.module_utilities.models.LoaiQuanHamQuanDoi;
+import sgu.hrm.module_utilities.models.MoiQuanHe;
 import sgu.hrm.module_utilities.models.NhomChucDanhDang;
 import sgu.hrm.module_utilities.models.NhomMau;
 import sgu.hrm.module_utilities.models.ThanhPhanGiaDinh;
@@ -60,6 +61,7 @@ public class UtilitiesController {
     private final IUtilitiesService<HinhThucKhenThuong, ReqUtilities> hinhThucKhenThuongService;
     private final IUtilitiesService<HocHam, ReqUtilities> hocHamService;
     private final IUtilitiesService<LoaiQuanHamQuanDoi, ReqUtilities> loaiQuanHamQuanDoiService;
+    private final IUtilitiesService<MoiQuanHe, ReqUtilities> moiQuanHeService;
     private final IUtilitiesService<NhomChucDanhDang, ReqUtilities> nhomChucDanhDangService;
     private final IUtilitiesService<NhomMau, ReqUtilities> nhomMauService;
     private final IUtilitiesService<ThanhPhanGiaDinh, ReqUtilities> thanhPhanGiaDinhService;
@@ -417,6 +419,34 @@ public class UtilitiesController {
         @DeleteMapping("/loai-quan-ham-quan-doi/{id}")
         public ResponseEntity<ResDTO<Boolean>> delBacLuong(@PathVariable int id) {
             return new ResponseEntity<>(ResDTO.response(ResEnum.XOA_THANH_CONG, loaiQuanHamQuanDoiService.xoa(id)), HttpStatus.OK);
+        }
+    }
+
+    @RestController
+    class MoiQuanHeController {
+        @GetMapping("/moi-quan-he")
+        public ResponseEntity<ResDTO<List<MoiQuanHe>>> getAllBacLuong() {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, moiQuanHeService.xemDS()), HttpStatus.OK);
+        }
+
+        @GetMapping("/moi-quan-he/{id}")
+        public ResponseEntity<ResDTO<MoiQuanHe>> getBacLuongById(@PathVariable int id) {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, moiQuanHeService.xemTheoId(id).orElse(null)), HttpStatus.OK);
+        }
+
+        @PostMapping("/moi-quan-he")
+        public ResponseEntity<ResDTO<MoiQuanHe>> addBacLuong(@RequestBody ReqUtilities utilities) {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, moiQuanHeService.them(utilities)), HttpStatus.OK);
+        }
+
+        @PatchMapping("/moi-quan-he/{id}")
+        public ResponseEntity<ResDTO<MoiQuanHe>> editBacLuong(@PathVariable int id, @RequestBody ReqUtilities luong) {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, moiQuanHeService.sua(id, luong)), HttpStatus.OK);
+        }
+
+        @DeleteMapping("/moi-quan-he/{id}")
+        public ResponseEntity<ResDTO<Boolean>> delBacLuong(@PathVariable int id) {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.XOA_THANH_CONG, moiQuanHeService.xoa(id)), HttpStatus.OK);
         }
     }
 

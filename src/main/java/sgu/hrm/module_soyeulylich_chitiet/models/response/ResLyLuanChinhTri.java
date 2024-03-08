@@ -23,7 +23,7 @@ public record ResLyLuanChinhTri(
                 tri.getSoYeuLyLich().getId(),
                 tri.getBatDau(),
                 tri.getKetThuc(),
-                tri.getTenCoSoDaoTao(),
+                tri.getTenCoSoDaoTao().getName(),
                 tri.getHinhThucDaoTao(),
                 tri.getVanBangDuocCap(),
                 tri.getCreate_at(),

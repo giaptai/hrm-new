@@ -19,7 +19,7 @@ public record ResTinHoc(
                 hoc.getId(),
                 hoc.getBatDau(),
                 hoc.getKetThuc(),
-                hoc.getTenCoSoDaoTao(),
+                hoc.getTenCoSoDaoTao().getName(),
                 hoc.getChungChiDuocCap(),
                 hoc.getCreate_at(),
                 hoc.getUpdate_at()

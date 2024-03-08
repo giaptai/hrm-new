@@ -21,7 +21,7 @@ public record ResNghiepVuChuyenNganh(
                 nganh.getSoYeuLyLich().getId(),
                 nganh.getBatDau(),
                 nganh.getKetThuc(),
-                nganh.getTenCoSoDaoTao(),
+                nganh.getTenCoSoDaoTao().getName(),
                 nganh.getChungChiDuocCap(),
                 nganh.getCreate_at(),
                 nganh.getUpdate_at()

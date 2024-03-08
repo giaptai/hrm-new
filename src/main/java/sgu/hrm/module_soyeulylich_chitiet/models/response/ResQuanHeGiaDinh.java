@@ -16,7 +16,7 @@ public record ResQuanHeGiaDinh(
     public static ResQuanHeGiaDinh mapToResQuanHeGiaDinh(QuanHeGiaDinh dinh) {
         return dinh != null ? new ResQuanHeGiaDinh(
                 dinh.getId(),
-                dinh.getMoiQuanHe(),
+                dinh.getMoiQuanHe().getName(),
                 dinh.getHoVaTen(),
                 dinh.getNamSinh(),
                 dinh.getThongTinThanNhan(),

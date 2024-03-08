@@ -22,6 +22,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import sgu.hrm.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
+import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 
 import java.time.LocalDateTime;
 
@@ -47,8 +48,9 @@ public class LyLuanChinhTri extends DateTimeObject {
     @Column(name = "ket_thuc", columnDefinition = "datetime")
     LocalDateTime ketThuc;
 
-    @Column(name = "ten_co_so_dao_tao", columnDefinition = "varchar(100)")
-    String tenCoSoDaoTao;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "ten_co_so_dao_tao_llct_fk"), name = "ten_co_so_dao_tao", columnDefinition = "INTEGER")
+    CoQuanToChucDonVi tenCoSoDaoTao;
 
     @Column(name = "hinh_thuc_dao_tao", columnDefinition = "varchar(50)")
     String hinhThucDaoTao;
@@ -57,11 +59,10 @@ public class LyLuanChinhTri extends DateTimeObject {
     String vanBangDuocCap;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JsonIgnore // error ok, nho hoi thầy
     @JoinColumn(foreignKey = @ForeignKey(name = "so_yeu_ly_lich_llct_fk"), name = "so_yeu_ly_lich", referencedColumnName = "id", columnDefinition = "binary(16)")
     SoYeuLyLich soYeuLyLich;
 
-    public LyLuanChinhTri(LocalDateTime batDau, LocalDateTime ketThuc, String tenCoSoDaoTao, String hinhThucDaoTao, String vanBangDuocCap, SoYeuLyLich soYeuLyLich) {
+    public LyLuanChinhTri(LocalDateTime batDau, LocalDateTime ketThuc, CoQuanToChucDonVi tenCoSoDaoTao, String hinhThucDaoTao, String vanBangDuocCap, SoYeuLyLich soYeuLyLich) {
         super();
         this.batDau = batDau;
         this.ketThuc = ketThuc;

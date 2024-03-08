@@ -20,7 +20,7 @@ public record ResNgoaiNgu(
                 ngu.getId(),
                 ngu.getBatDau(),
                 ngu.getKetThuc(),
-                ngu.getTenCoSoDaoTao(),
+                ngu.getTenCoSoDaoTao().getName(),
                 ngu.getTenNgoaiNgu(),
                 ngu.getChungChiDuocCap(),
                 ngu.getDiemSo(),

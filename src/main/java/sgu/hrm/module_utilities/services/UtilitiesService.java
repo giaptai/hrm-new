@@ -19,6 +19,7 @@ import sgu.hrm.module_utilities.models.DoiTuongChinhSach;
 import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
 import sgu.hrm.module_utilities.models.HocHam;
 import sgu.hrm.module_utilities.models.LoaiQuanHamQuanDoi;
+import sgu.hrm.module_utilities.models.MoiQuanHe;
 import sgu.hrm.module_utilities.models.NhomChucDanhDang;
 import sgu.hrm.module_utilities.models.NhomMau;
 import sgu.hrm.module_utilities.models.ThanhPhanGiaDinh;
@@ -40,6 +41,7 @@ import sgu.hrm.module_utilities.repositories.DoiTuongChinhSachRepository;
 import sgu.hrm.module_utilities.repositories.HinhThucKhenThuongRepository;
 import sgu.hrm.module_utilities.repositories.HocHamRepository;
 import sgu.hrm.module_utilities.repositories.LoaiQuanHamQuanDoiRepository;
+import sgu.hrm.module_utilities.repositories.MoiQuanHeRepository;
 import sgu.hrm.module_utilities.repositories.NhomChucDanhDangRepository;
 import sgu.hrm.module_utilities.repositories.NhomMauRepository;
 import sgu.hrm.module_utilities.repositories.ThanhPhanGiaDinhRepository;
@@ -66,6 +68,7 @@ public class UtilitiesService {
     private final HinhThucKhenThuongRepository hinhThucKhenThuongRepository;
     private final HocHamRepository hocHamRepository;
     private final LoaiQuanHamQuanDoiRepository loaiQuanHamQuanDoiRepository;
+    private final MoiQuanHeRepository moiQuanHeRepository;
     private final NhomChucDanhDangRepository nhomChucDanhDangRepository;
     private final NhomMauRepository nhomMauRepository;
     private final ThanhPhanGiaDinhRepository thanhPhanGiaDinhRepository;
@@ -706,6 +709,58 @@ public class UtilitiesService {
             try {
                 if (xemTheoId(id).isPresent()) {
                     loaiQuanHamQuanDoiRepository.deleteById(id);
+                    return true;
+                }
+                return false;
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e.getCause());
+            }
+        }
+    }
+
+    @Service
+    public class MoiQuanHeService implements IUtilitiesService<MoiQuanHe, ReqUtilities> {
+        @Override
+        public List<MoiQuanHe> xemDS() {
+            return moiQuanHeRepository.findAll();
+        }
+
+        @Override
+        public Optional<MoiQuanHe> xemTheoId(int id) {
+            return moiQuanHeRepository.findById(id);
+        }
+
+        @Override
+        public MoiQuanHe them(ReqUtilities req) {
+            MoiQuanHe he = moiQuanHeRepository.findByName(req.name()).orElse(null);
+            try {
+                if (he == null) {
+                    return moiQuanHeRepository.save(new MoiQuanHe(req.name()));
+                }
+                return he;
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e.getCause());
+            }
+        }
+
+        @Override
+        public MoiQuanHe sua(int id, ReqUtilities vu) {
+            try {
+                return moiQuanHeRepository.findById(id).map(e -> {
+                    e.setName(vu.name());
+                    e.setUpdate_at();
+                    return moiQuanHeRepository.save(e);
+                }).orElse(null);
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e.getCause());
+            }
+        }
+
+        @Override
+        public boolean xoa(int id) {
+            try {
+                if (xemTheoId(id).isPresent()) {
+                    moiQuanHeRepository.deleteById(id);
                     return true;
                 }
                 return false;

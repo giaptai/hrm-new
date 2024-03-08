@@ -22,8 +22,11 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import sgu.hrm.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
+import sgu.hrm.module_utilities.models.MoiQuanHe;
 
-/** gia dinh bao gom ruot va ben vo hoac chong luon **/
+/**
+ * gia dinh bao gom ruot va ben vo hoac chong luon
+ **/
 @Entity
 @Table(name = "quan_he_gia_dinh")
 @Getter
@@ -40,8 +43,9 @@ public class QuanHeGiaDinh extends DateTimeObject {
     @Column(columnDefinition = "INTEGER AUTO_INCREMENT")
     int id;
 
-    @Column(name = "moi_quan_he", columnDefinition = "varchar(50)")
-    String moiQuanHe;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "moi_quan_he_fk"), name = "moi_quan_he", referencedColumnName = "id", columnDefinition = "INTEGER")
+    MoiQuanHe moiQuanHe;
 
     @Column(name = "ho_va_ten", columnDefinition = "varchar(50)")
     String hoVaTen;
@@ -66,7 +70,7 @@ public class QuanHeGiaDinh extends DateTimeObject {
         super.setUpdate_at();
     }
 
-    public QuanHeGiaDinh(String moiQuanHe, String hoVaTen, short namSinh, String thongTinThanNhan, SoYeuLyLich soYeuLyLich) {
+    public QuanHeGiaDinh(MoiQuanHe moiQuanHe, String hoVaTen, short namSinh, String thongTinThanNhan, SoYeuLyLich soYeuLyLich) {
         super();
         this.moiQuanHe = moiQuanHe;
         this.hoVaTen = hoVaTen;

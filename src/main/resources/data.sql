@@ -403,7 +403,8 @@ VALUES ('Tổng Bí thư', 1),
        ('Chủ tịch Ủy ban giám sát tài chính quốc gia', 4),
        ('Phó Chủ tịch Ủy ban quản lý vốn nhà nước tại doanh nghiệp', 4),
        ('Tổng cục trưởng', 5),
-       ('Phó Trưởng Ban Công tác đại biểu, Phó Trưởng Ban Dân nguyện thuộc Ủy ban Thường vụ Quốc hội', 5),
+       ('Phó Trưởng Ban Công tác đại biểu', 5),
+       ('Phó Trưởng Ban Dân nguyện thuộc Ủy ban Thường vụ Quốc hội', 5),
        ('Phó Chủ tịch Viện Hàn lâm Khoa học xã hội Việt Nam', 5),
        ('Phó Chủ tịch Viện Hàn lâm Khoa học công nghệ Việt Nam', 5),
        ('Phó Tổng Giám đốc Thông tấn xã Việt Nam', 5),
@@ -810,7 +811,21 @@ values ('V.07.01.01', 'Giảng viên cao cấp (hạng I)', 1),
        ('02.007', 'Văn thư', 2),
        ('V.10.02.06', 'Thư viện viên hạng III', 2),
        ('V.06.05.14', 'Quan trắc viên tài nguyên môi trường hạng III', 2);
-
+-- moi_quan_he
+INSERT into moi_quan_he (name)
+VALUES ('Mẹ ruột'),
+       ('Mẹ nuôi'),
+       ('Ba ruột'),
+       ('Ba nuôi'),
+       ('Anh ruột'),
+       ('Anh nuôi'),
+       ('Chị ruột'),
+       ('Chị nuôi'),
+       ('Em nuôi'),
+       ('Em ruột'),
+       ('Vợ'),
+       ('Con ruột'),
+       ('Con nuôi');
 -- loai_so_yeu_ly_lich_chitiet
 INSERT into loai_so_yeu_ly_lich_chitiet (name)
 VALUES ('QUÁ TRÌNH ĐÀO TẠO, BỒI DƯỠNG'),
@@ -820,3 +835,4 @@ VALUES ('QUÁ TRÌNH ĐÀO TẠO, BỒI DƯỠNG'),
        ('QUAN HỆ GIA ĐÌNH'),
        ('HOÀN CẢNH KINH TẾ GIA ĐÌNH'),
        ('NHẬN XÉT, ĐÁNH GIÁ CỦA CƠ QUAN, TỔ CHỨC, ĐƠN VỊ SỬ DỤNG');
+

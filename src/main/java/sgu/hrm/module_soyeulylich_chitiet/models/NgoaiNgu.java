@@ -21,6 +21,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import sgu.hrm.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
+import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 
 import java.time.LocalDateTime;
 
@@ -46,8 +47,9 @@ public class NgoaiNgu extends DateTimeObject {
     @Column(name = "ket_thuc", columnDefinition = "datetime")
     LocalDateTime ketThuc;
 
-    @Column(name = "ten_co_so_dao_tao", columnDefinition = "varchar(100)")
-    String tenCoSoDaoTao;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "ten_co_so_dao_tao_ngoaingu_fk"), name = "ten_co_so_dao_tao", columnDefinition = "INTEGER")
+    CoQuanToChucDonVi tenCoSoDaoTao;
 
     @Column(name = "ten_ngoai_ngu", columnDefinition = "varchar(50)")
     String tenNgoaiNgu;
@@ -67,7 +69,7 @@ public class NgoaiNgu extends DateTimeObject {
         super.setUpdate_at();
     }
 
-    public NgoaiNgu(LocalDateTime batDau, LocalDateTime ketThuc, String tenCoSoDaoTao, String tenNgoaiNgu, String chungChiDuocCap, float diemSo, SoYeuLyLich soYeuLyLich) {
+    public NgoaiNgu(LocalDateTime batDau, LocalDateTime ketThuc, CoQuanToChucDonVi tenCoSoDaoTao, String tenNgoaiNgu, String chungChiDuocCap, float diemSo, SoYeuLyLich soYeuLyLich) {
         super();
         this.batDau = batDau;
         this.ketThuc = ketThuc;

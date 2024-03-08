@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public record ReqKienThucAnNinhQuocPhong(LocalDateTime batDau,
                                          LocalDateTime ketThuc,
-                                         String tenCoSoDaoTao,
+                                         int tenCoSoDaoTao,
                                          String chungChiDuocCap,
                                          String loaiSoYeuLyLichChiTiet,
                                          String soYeuLyLich

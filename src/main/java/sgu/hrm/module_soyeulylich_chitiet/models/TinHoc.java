@@ -22,6 +22,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import sgu.hrm.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
+import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 
 import java.time.LocalDateTime;
 
@@ -47,8 +48,9 @@ public class TinHoc extends DateTimeObject {
     @Column(name = "ket_thuc", columnDefinition = "datetime")
     LocalDateTime ketThuc;
 
-    @Column(name = "ten_co_so_dao_tao", columnDefinition = "varchar(100)")
-    String tenCoSoDaoTao;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "ten_co_so_dao_tao_tinhoc_fk"), name = "ten_co_so_dao_tao", columnDefinition = "INTEGER")
+    CoQuanToChucDonVi tenCoSoDaoTao;
 
     @Column(name = "chung_chi_duoc_cap", columnDefinition = "varchar(50)")
     String chungChiDuocCap;
@@ -63,7 +65,7 @@ public class TinHoc extends DateTimeObject {
         super.setUpdate_at();
     }
 
-    public TinHoc(LocalDateTime batDau, LocalDateTime ketThuc, String tenCoSoDaoTao, String chungChiDuocCap, SoYeuLyLich soYeuLyLich) {
+    public TinHoc(LocalDateTime batDau, LocalDateTime ketThuc, CoQuanToChucDonVi tenCoSoDaoTao, String chungChiDuocCap, SoYeuLyLich soYeuLyLich) {
         super();
         this.batDau = batDau;
         this.ketThuc = ketThuc;

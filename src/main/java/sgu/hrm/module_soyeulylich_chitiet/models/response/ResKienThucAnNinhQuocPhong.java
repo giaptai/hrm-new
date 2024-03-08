@@ -18,7 +18,7 @@ public record ResKienThucAnNinhQuocPhong(
                 phong.getId(),
                 phong.getBatDau(),
                 phong.getKetThuc(),
-                phong.getTenCoSoDaoTao(),
+                phong.getTenCoSoDaoTao().getName(),
                 phong.getChungChiDuocCap(),
                 phong.getCreate_at(),
                 phong.getUpdate_at()
