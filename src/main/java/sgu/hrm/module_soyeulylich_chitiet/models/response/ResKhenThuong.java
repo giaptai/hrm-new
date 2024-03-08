@@ -18,10 +18,19 @@ public record ResKhenThuong(
         String xepLoaiThiDua,
         XepLoaiThiDua xepLoaiThiDuaEnum,
         String hinhThucKhenThuong,
+        int IdHinhThucKhenThuong,
         LocalDateTime create_at,
         LocalDateTime update_at
 ) {
     public static ResKhenThuong maptoResKhenThuong(KhenThuong thuong) {
+        final String[] nameHTKT = {""};
+        final int[] idHTKT = {0};
+        Optional.ofNullable(thuong.getHinhThucKhenThuong()).ifPresent(
+                (value) -> {
+                    nameHTKT[0] = value.getName();
+                    idHTKT[0] = value.getId();
+                }
+        );
         return thuong != null ? new ResKhenThuong(
                 thuong.getId(),
                 thuong.getSoYeuLyLich().getId(),
@@ -30,7 +39,8 @@ public record ResKhenThuong(
                 thuong.getXepLoaiChuyenMon(),
                 thuong.getXepLoaiThiDua().getName(),
                 thuong.getXepLoaiThiDua(),
-                Optional.ofNullable(thuong.getHinhThucKhenThuong()).map(HinhThucKhenThuong::getName).orElse(null),
+                nameHTKT[0],
+                idHTKT[0],
                 thuong.getCreate_at(),
                 thuong.getUpdate_at()
         ) : null;
