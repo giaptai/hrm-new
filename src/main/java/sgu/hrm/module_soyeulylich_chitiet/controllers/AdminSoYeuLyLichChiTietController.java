@@ -65,9 +65,9 @@ public class AdminSoYeuLyLichChiTietController {
     private final KafkaConsumers consumers;
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Admin phe-duyet", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
     @RequestMapping(value = "/danh-sach-phe-duyet")
+    @Tag(name = "Admin danh-sach-phe-duyet", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class PheDuyetController {
         @GetMapping("/ngoai-ngu")
         public ResponseEntity<ResDTO<Map<String, List<?>>>> ds_ngoaingu() {
@@ -85,9 +85,9 @@ public class AdminSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Admin lam-viec-cho-che-do-cu", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
     @RequestMapping(value = "")
+    @Tag(name = "Admin lam-viec-cho-che-do-cu", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class BanThanCoLamViecChoCheDoCuController {
         @GetMapping("/nhan-vien/{id}/lam-viec-cho-che-do-cu")
         public ResponseEntity<ResDTO<List<ResBanThanCoLamViecChoCheDoCu>>> nhanvien_lam_viec_cho_che_do_cu(@PathVariable String id) {
@@ -103,9 +103,9 @@ public class AdminSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Admin khen-thuong", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
     @RequestMapping(value = "")
+    @Tag(name = "Admin khen-thuong", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class KhenThuongController {
         @GetMapping("/nhan-vien/{id}/khen-thuong")
         public ResponseEntity<ResDTO<List<ResKhenThuong>>> nhanvien_khen_thuong(@PathVariable String id) {
@@ -128,9 +128,9 @@ public class AdminSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Admin kien-thuc-an-ninh-quoc-phong", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
     @RequestMapping(value = "")
+    @Tag(name = "Admin kien-thuc-an-ninh-quoc-phong", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class KienThucAnNinhQuocPhongController {
         @GetMapping("/nhan-vien/{id}/kien-thuc-an-ninh-quoc-phong")
         public ResponseEntity<ResDTO<List<ResKienThucAnNinhQuocPhong>>> nhanvien_kien_thuc_an_ninh_quoc_phong(@PathVariable String id) {
@@ -146,9 +146,9 @@ public class AdminSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Admin ky-luat", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
     @RequestMapping(value = "")
+    @Tag(name = "Admin ky-luat", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class KyLuatController {
         @GetMapping("/nhan-vien/{id}/ky-luat")
         public ResponseEntity<ResDTO<List<ResKyLuat>>> nhanvien_ky_luat(@PathVariable String id) {
@@ -171,9 +171,9 @@ public class AdminSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Admin lam-viec-o-nuoc-ngoai", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
     @RequestMapping(value = "")
+    @Tag(name = "Admin lam-viec-o-nuoc-ngoai", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class LamViecONuocNgoaiController {
         @GetMapping("/nhan-vien/{id}/lam-viec-o-nuoc-ngoai")
         public ResponseEntity<ResDTO<List<ResLamViecONuocNgoai>>> nhanvien_lam_viec_o_nuoc_ngoai(@PathVariable String id) {
@@ -195,9 +195,9 @@ public class AdminSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Admin luong-ban-than", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
     @RequestMapping(value = "")
+    @Tag(name = "Admin luong-ban-than", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class LuongBanThanController {
         @GetMapping("/nhan-vien/{id}/luong-ban-than")
         public ResponseEntity<ResDTO<List<ResLuongBanThan>>> nhanvien_luong_ban_than(@PathVariable String id) {
@@ -215,9 +215,9 @@ public class AdminSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Admin ly-luan-chinh-tri", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
     @RequestMapping(value = "")
+    @Tag(name = "Admin ly-luan-chinh-tri", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class LyLuanChinhTriController {
         @GetMapping("/nhan-vien/{id}/ly-luan-chinh-tri")
         public ResponseEntity<ResDTO<List<ResLyLuanChinhTri>>> nhanvien_ly_luan_chinh_tri(@PathVariable String id) {
@@ -239,9 +239,9 @@ public class AdminSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Admin nghiep-vu-chuyen-nganh", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
     @RequestMapping(value = "")
+    @Tag(name = "Admin nghiep-vu-chuyen-nganh", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class NghiepVuChuyenNganhController {
         @GetMapping("/nhan-vien/{id}/nghiep-vu-chuyen-nganh")
         public ResponseEntity<ResDTO<List<ResNghiepVuChuyenNganh>>> nhanvien_nghiep_vu_chuyen_nganh(@PathVariable String id) {
@@ -263,9 +263,9 @@ public class AdminSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Admin ngoai-ngu", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
     @RequestMapping(value = "")
+    @Tag(name = "Admin ngoai-ngu", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class NgoaiNguController {
         @GetMapping("/nhan-vien/{id}/ngoai-ngu")
         public ResponseEntity<ResDTO<List<ResNgoaiNgu>>> nhanvien_ngoai_ngu(@PathVariable String id) {
@@ -287,9 +287,9 @@ public class AdminSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Admin phu-cap-khac", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
     @RequestMapping(value = "")
+    @Tag(name = "Admin phu-cap-khac", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class PhuCapKhacController {
         @GetMapping("/nhan-vien/{id}/phu-cap-khac")
         public ResponseEntity<ResDTO<List<ResPhuCapKhac>>> nhanvien_phu_cap_khac(@PathVariable String id) {
@@ -305,9 +305,9 @@ public class AdminSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Admin quan-he-gia-dinh", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
     @RequestMapping(value = "")
+    @Tag(name = "Admin quan-he-gia-dinh", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class QuanHeGiaDinhController {
         @GetMapping("/nhan-vien/{id}/quan-he-gia-dinh")
         public ResponseEntity<ResDTO<List<ResQuanHeGiaDinh>>> nhanvien_quan_he_gia_dinh(@PathVariable String id) {
@@ -324,9 +324,9 @@ public class AdminSoYeuLyLichChiTietController {
 
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Admin qua-trinh-cong-tac", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
     @RequestMapping(value = "")
+    @Tag(name = "Admin qua-trinh-cong-tac", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class QuaTrinhCongTacController {
         @GetMapping("/nhan-vien/{id}/qua-trinh-cong-tac")
         public ResponseEntity<ResDTO<List<ResQuaTrinhCongTac>>> nhanvien_qua_trinh_cong_tac(@PathVariable String id) {
@@ -349,9 +349,9 @@ public class AdminSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Admin tin-hoc", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
     @RequestMapping(value = "")
+    @Tag(name = "Admin tin-hoc", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class TinHocController {
         @GetMapping("/nhan-vien/{id}/tin-hoc")
         public ResponseEntity<ResDTO<List<ResTinHoc>>> nhanvien_tin_hoc(@PathVariable String id) {

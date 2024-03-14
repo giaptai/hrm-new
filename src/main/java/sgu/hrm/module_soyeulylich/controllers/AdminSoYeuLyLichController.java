@@ -25,9 +25,9 @@ import java.util.List;
 
 
 @RestController
-@SecurityRequirement(name = "bearerAuth")
-@Tag(name = "Admin so-yeu-ly-lich", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
 @RequestMapping(value = "/nhan-vien")
+@Tag(name = "Admin so-yeu-ly-lich", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+@SecurityRequirement(name = "Bearer Authentication")
 public class AdminSoYeuLyLichController {
 
     private final ISoYeuLyLichService soYeuLyLichService;

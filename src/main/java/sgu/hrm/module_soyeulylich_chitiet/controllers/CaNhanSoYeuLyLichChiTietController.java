@@ -69,9 +69,9 @@ public class CaNhanSoYeuLyLichChiTietController {
     private final ISoYeuLyLichChiTietServices.ITinHocSefvice tinHocSefvice;
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Employee lam-viec-cho-che-do-cu", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
+    @Tag(name = "Employee lam-viec-cho-che-do-cu", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class BanThanCoLamViecChoCheDoCuController {
         @GetMapping("/lam-viec-cho-che-do-cu")
         public ResponseEntity<ResDTO<List<ResBanThanCoLamViecChoCheDoCu>>> lam_viec_cho_che_do_cu() {
@@ -112,9 +112,9 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Employee khen-thuon", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
+    @Tag(name = "Employee khen-thuong", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class KhenThuongController {
         @GetMapping("/khen-thuong")
         public ResponseEntity<ResDTO<List<ResKhenThuong>>> khen_thuong() {
@@ -147,9 +147,9 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Employee kien-thuc-an-ninh-quoc-phong", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
+    @Tag(name = "Employee kien-thuc-an-ninh-quoc-phong", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class KienThucAnNinhQuocPhongController {
         @GetMapping("/kien-thuc-an-ninh-quoc-phong")
         public ResponseEntity<ResDTO<List<ResKienThucAnNinhQuocPhong>>> kien_thuc_an_ninh_quoc_phong() {
@@ -181,9 +181,9 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Employee ky-luat", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
+    @Tag(name = "Employee ky-luat", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class KyLuatController {
         @GetMapping("/ky-luat")
         public ResponseEntity<ResDTO<List<KyLuat>>> ky_luat() {
@@ -213,9 +213,9 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Employee lam-viec-o-nuoc-ngoai", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
+    @Tag(name = "Employee lam-viec-o-nuoc-ngoai", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class LamViecONuocNgoaiController {
         @GetMapping("/lam-viec-o-nuoc-ngoai")
         public ResponseEntity<ResDTO<List<ResLamViecONuocNgoai>>> lam_viec_o_nuoc_ngoai() {
@@ -245,9 +245,9 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Employee luong-ban-than", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
+    @Tag(name = "Employee luong-ban-than", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class LuongBanThanController {
         @GetMapping("/luong-ban-than")
         public ResponseEntity<ResDTO<List<ResLuongBanThan>>> luong_ban_than() {
@@ -282,9 +282,9 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Employee ly-luan-chinh-tri", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
+    @Tag(name = "Employee ly-luan-chinh-tri", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class LyLuanChinhTriController {
         @GetMapping("/ly-luan-chinh-tri")
         public ResponseEntity<ResDTO<List<LyLuanChinhTri>>> ly_luan_chinh_tri() {
@@ -318,9 +318,9 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Employee nghiep-vu-chuyen-nganh", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
+    @Tag(name = "Employee nghiep-vu-chuyen-nganh", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class NghiepVuChuyenNganhController {
         @GetMapping("/nghiep-vu-chuyen-nganh")
         public ResponseEntity<ResDTO<List<NghiepVuChuyenNganh>>> nghiep_vu_chuyen_nganh() {
@@ -355,9 +355,9 @@ public class CaNhanSoYeuLyLichChiTietController {
 
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Employee ngoai-ngu", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
+    @Tag(name = "Employee ngoai-ngu", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class NgoaiNguController {
         @GetMapping("/ngoai-ngu")
         public ResponseEntity<ResDTO<List<NgoaiNgu>>> ngoai_ngu() {
@@ -392,9 +392,9 @@ public class CaNhanSoYeuLyLichChiTietController {
 
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Employee phu-cap-khac", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
+    @Tag(name = "Employee phu-cap-khac", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class PhuCapKhacController {
         @GetMapping("/phu-cap-khac")
         public ResponseEntity<ResDTO<List<ResPhuCapKhac>>> phu_cap_khac() {
@@ -428,9 +428,9 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Employee quan-he-gia-dinh", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
+    @Tag(name = "Employee quan-he-gia-dinh", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class QuanHeGiaDinhController {
         @GetMapping("/quan-he-gia-dinh")
         public ResponseEntity<ResDTO<List<ResQuanHeGiaDinh>>> quan_he_gia_dinh() {
@@ -465,9 +465,9 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Employee qua-trinh-cong-tac", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
+    @Tag(name = "Employee qua-trinh-cong-tac", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class QuaTrinhCongTacController {
         @GetMapping("/qua-trinh-cong-tac")
         public ResponseEntity<ResDTO<List<ResQuaTrinhCongTac>>> qua_trinh_cong_tac() {
@@ -501,9 +501,9 @@ public class CaNhanSoYeuLyLichChiTietController {
 
 
     @RestController
-    @SecurityRequirement(name = "bearerAuth")
-    @Tag(name = "Employee tin-hoc", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
+    @Tag(name = "Employee tin-hoc", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @SecurityRequirement(name = "Bearer Authentication")
     public class TinHocController {
         @GetMapping("/tin-hoc")
         public ResponseEntity<ResDTO<List<ResTinHoc>>> tin_hoc() {
