@@ -30,7 +30,8 @@ public class SercurityController {
 
     @PostMapping("/dang-nhap")
     public ResponseEntity<ResDTO<ResTaiKhoanLogin>> dangNhap(@RequestBody ReqTaiKhoanLogin reqTaiKhoanLogin) {
-        return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, taiKhoanService.dangNhap(reqTaiKhoanLogin)), ResEnum.THANH_CONG.getStatusCode());
+        return new ResponseEntity<>(ResDTO.response(ResEnum.DANG_NHAP_THANH_CONG, taiKhoanService.dangNhap(reqTaiKhoanLogin)),
+                ResEnum.DANG_NHAP_THANH_CONG.getStatusCode());
     }
 
     @GetMapping("/dang-xuat")

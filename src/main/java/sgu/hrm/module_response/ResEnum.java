@@ -18,7 +18,7 @@ public enum ResEnum {
     DOI_MAT_KHAU_THANH_CONG(HttpStatus.OK),
     DANG_NHAP_THANH_CONG(HttpStatus.OK),
     DANG_XUAT_THANH_CONG(HttpStatus.OK),
-    DANG_NHAP_THAT_BAI(HttpStatus.OK),
+    DANG_NHAP_THAT_BAI(HttpStatus.UNAUTHORIZED),
     PHUONG_THUC_KHONG_HOP_LE(HttpStatus.METHOD_NOT_ALLOWED), //405 Method Not Allowed Phương thức HTTP không được hỗ trợ cho nguồn tài nguyên được yêu cầu.
     KHONG_HOP_LE(HttpStatus.OK),
     KHONG_DUOC_UY_QUYEN(HttpStatus.UNAUTHORIZED), //401 Unauthorized: Client không được phép truy cập tài nguyên.

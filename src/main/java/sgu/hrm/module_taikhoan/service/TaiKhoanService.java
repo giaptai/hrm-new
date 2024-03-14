@@ -11,8 +11,12 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 import sgu.hrm.module_kafka.KafkaConsumers;
 import sgu.hrm.module_kafka.KafkaProducers;
+import sgu.hrm.module_response.ResDTO;
+import sgu.hrm.module_response.ResEnum;
 import sgu.hrm.module_security.IAuthenticationFacade;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_utilities.enums.PheDuyet;
@@ -181,9 +185,10 @@ public class TaiKhoanService implements ITaiKhoanService {
                 );
             }
             //không tạo refresh token ok
-            return null;
+            throw new ResponseStatusException(ResEnum.DANG_NHAP_THAT_BAI.getStatusCode(), ResEnum.DANG_NHAP_THAT_BAI.name());
         } catch (AuthenticationException e) {
-            return null;
+            throw new ResponseStatusException(ResEnum.DANG_NHAP_THAT_BAI.getStatusCode(), ResEnum.DANG_NHAP_THAT_BAI.name(), e);
+//            throw ResDTO.error(ResEnum.DANG_NHAP_THAT_BAI);
         } catch (Exception e) {
             throw new RuntimeException(e.getCause());
         }
