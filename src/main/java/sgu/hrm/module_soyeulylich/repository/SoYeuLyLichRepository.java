@@ -18,6 +18,6 @@ public interface SoYeuLyLichRepository extends JpaRepository<SoYeuLyLich, UUID> 
     @Query(value = "UPDATE SoYeuLyLich syll SET syll.trangThai = ?1 WHERE syll.id = ?2")
     abstract SoYeuLyLich updateTrangThaiSoYeuLyLich(boolean check, UUID id);
 
-    @Query(value = "UPDATE SoYeuLyLich syll SET syll.coQuanToChucDonViTuyenDung = ?1 WHERE syll.id = ?2")
-    abstract SoYeuLyLich upadtecoQuanToChucDonVi(CoQuanToChucDonVi co, UUID id);
+//    @Query(value = "UPDATE SoYeuLyLich syll SET syll.coQuanToChucDonViTuyenDung = ?1 WHERE syll.id = ?2")
+//    abstract SoYeuLyLich upadtecoQuanToChucDonVi(CoQuanToChucDonVi co, UUID id);
 }

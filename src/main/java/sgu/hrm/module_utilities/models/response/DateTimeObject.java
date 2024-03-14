@@ -1,4 +1,4 @@
-package sgu.hrm;
+package sgu.hrm.module_utilities.models.response;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;

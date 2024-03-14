@@ -48,8 +48,8 @@ public class AdminTaiKhoanController {
         return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resTaiKhoan), HttpStatus.OK);
     }
 
-    @PostMapping("/nhan-vien/them")
     @Transactional
+    @PostMapping("/nhan-vien/them")
     public ResponseEntity<ResDTO<ResTaiKhoan>> addTaiKhoan(@RequestBody ReqTaiKhoan reqTaiKhoan) {
         ResTaiKhoan resTaiKhoan = ResTaiKhoan.mapToResTaiKhoan(taiKhoanService.themTaiKhoan(reqTaiKhoan));
         return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resTaiKhoan), HttpStatus.OK);

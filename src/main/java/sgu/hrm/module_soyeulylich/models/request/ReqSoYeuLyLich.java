@@ -1,5 +1,7 @@
 package sgu.hrm.module_soyeulylich.models.request;
 
+import sgu.hrm.module_soyeulylich.models.HocVan;
+import sgu.hrm.module_soyeulylich.models.ThongTinTuyenDung;
 import sgu.hrm.module_utilities.enums.GioiTinh;
 import sgu.hrm.module_utilities.enums.TinhTrangSucKhoe;
 
@@ -19,7 +21,7 @@ public record ReqSoYeuLyLich(
         String queQuan,
 
         int danToc, //DanToc danToc,
-
+        int tonGiao, //DanToc danToc,
         String soCCCD,
 
         LocalDateTime ngayCapCCCD,
@@ -34,92 +36,122 @@ public record ReqSoYeuLyLich(
 
         int thanhPhanGiaDinh, //ThanhPhanGiaDinh thanhPhanGiaDinh,
 
-        String ngheNghiepTruocKhiTuyenDung,
+        ReqThongTinTuyenDung thongTinTuyenDung, //ThongTinTuyenDung
 
-        LocalDateTime ngayDuocTuyenDungLanDau,
-
-        int coQuanToChucDonViTuyenDung, //CoQuanToChucDonVi coQuanToChucDonViTuyenDung,
-
-        LocalDateTime ngayVaoCoQuanHienDangCongTac,
-
-        LocalDateTime ngayVaoDangCongSanVietNam,
-
-        LocalDateTime ngayChinhThuc,
-
-        LocalDateTime ngayThamGiaToChucChinhTriXaHoiDauTien,
-
-        LocalDateTime ngayNhapNgu,
-
-        LocalDateTime ngayXuatNgu,
-
-        int capBacLoaiQuanHamQuanDoi, //CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi,
-
+        ReqQuanSu quanSu, //QuanSu
         int doiTuongChinhSach, //DoiTuongChinhSach doiTuongChinhSach,
 
-        int trinhDoGiaoDucPhoThong, //TrinhDoGiaoDucPhoThong trinhDoGiaoDucPhoThong,
+        ReqHocVan hocVan, //HocVan
 
-        int trinhDoChuyenMon, //TrinhDoChuyenMon trinhDoChuyenMon,
-
-        int hocHam, //HocHam hocHam,
-
-        int danhHieuNhaNuocPhongTang, //DanhHieuNhaNuocPhongTang danhHieuNhaNuocPhongTang,
-
-        int chucVuHienTai, //ChucVu chucVuHienTai
-
-        LocalDateTime ngayBoNhiem,
-
-        LocalDateTime ngayBoNhiemLai,
-
-        String duocQuyHoacChucDanh,
-
+        ReqChucVu chucVu,
         int chucVuKiemNhiem, //ChucVu chucVuKiemNhiem
 
         int chucVuDangHienTai, //ChucDanhDang chucVuDangHienTai;
 
-        int chucVuDangKiemNhiem, ////ChucDanhDang chucVuDangKiemNhiem;
-
-        String congViecChinhDuocGiao,
-
-        String soTruongCongTac,
-
-        String congViecLamLauNhat,
+        int chucVuDangKiemNhiem, // ChucDanhDang chucVuDangKiemNhiem;
 
         double tienLuong,
-
-        String ngachNgheNghiep, //NgachCongChuc ngachCongChuc;  NgachVienChuc ngachVienChuc;
-
-        LocalDateTime ngayBoNhiemNgachNgheNghiep,
-
-        LocalDateTime ngayHuongLuongNgachNgheNghiep,
-
-        float phanTramHuongLuongNgachNgheNghiep,
-
-        float phuCapThamNienVuotKhungNgachNgheNghiep,
-
-        LocalDateTime ngayHuongPCTNVKNgachNgheNghiep,
-
+        ReqNgach ngach,
         double phuCapChucVu,
 
         double phuCapKiemNhiem,
 
         double phuCapKhac,
 
-        int viTriViecLam,
+        ReqViecLam viecLam,
 
-        LocalDateTime ngayHuongLuongTheoViTriViecLam,
-
-        float phamTramHuongLuong,
-
-        double phuCapThamNienVuotKhung,
-
-        LocalDateTime ngayHuongPCTNVK,
-
-        TinhTrangSucKhoe tinhTrangSucKhoe, //enum,
-
-        float chieuCao,
-
-        float canNang,
-
-        int nhomMau //NhomMau nhomMau
+        ReqSucKhoe sucKhoe
 ) {
+    public record ReqThongTinTuyenDung(
+            String ngheNghiepTruocKhiTuyenDung,
+
+            LocalDateTime ngayDuocTuyenDungLanDau,
+
+            int coQuanToChucDonViTuyenDung, //DonVi donVi,
+
+            LocalDateTime ngayVaoCoQuanHienDangCongTac,
+
+            LocalDateTime ngayVaoDangCongSanVietNam,
+
+            LocalDateTime ngayChinhThuc,
+
+            LocalDateTime ngayThamGiaToChucChinhTriXaHoiDauTien,
+            String congViecChinhDuocGiao,
+
+            String soTruongCongTac,
+
+            String congViecLamLauNhat
+    ) {
+    }
+
+    public record ReqQuanSu(
+            LocalDateTime ngayNhapNgu, //NghiaVuQuanSu quanSu;
+
+            LocalDateTime ngayXuatNgu, //NghiaVuQuanSu quanSu;
+
+            int capBacLoaiQuanHamQuanDoi //NghiaVuQuanSu quanSu;
+    ) {
+    }
+
+    public record ReqHocVan(
+            int trinhDoGiaoDucPhoThong, //TrinhDoGiaoDucPhoThong trinhDoGiaoDucPhoThong,
+
+            int trinhDoChuyenMon, //TrinhDoChuyenMon trinhDoChuyenMon,
+
+            int hocHam, //HocHam hocHam,
+
+            int danhHieuNhaNuocPhongTang //DanhHieuNhaNuocPhongTang danhHieuNhaNuocPhongTang,
+    ) {
+    }
+
+    public record ReqChucVu(
+            int chucVuHienTai, //ChucVu chucVuHienTai
+
+            LocalDateTime ngayBoNhiem,
+
+            LocalDateTime ngayBoNhiemLai,
+
+            String duocQuyHoacChucDanh
+    ) {
+    }
+
+    public record ReqNgach(
+            String ngachNhanVien, //NgachCongChuc ngachCongChuc;  NgachVienChuc ngachVienChuc;
+
+            LocalDateTime ngayBoNhiemNgach,
+
+            LocalDateTime ngayHuongLuongNgach,
+
+            float phanTramHuongLuongNgach,
+
+            double phuCapThamNienVuotKhungNgach,
+
+            LocalDateTime ngayHuongPCTNVKNgach
+
+    ) {
+    }
+
+    public record ReqViecLam(
+            int viTriViecLam,
+
+            LocalDateTime ngayHuongLuongViTriViecLam,
+
+            float phamTramHuongLuong,
+
+            double phuCapThamNienVuotKhung,
+
+            LocalDateTime ngayHuongPCTNVK
+    ) {
+    }
+
+    public record ReqSucKhoe(
+            TinhTrangSucKhoe tinhTrangSucKhoe, //enum,
+
+            float chieuCao,
+
+            float canNang,
+
+            int nhomMau //NhomMau nhomMau
+    ) {
+    }
 }

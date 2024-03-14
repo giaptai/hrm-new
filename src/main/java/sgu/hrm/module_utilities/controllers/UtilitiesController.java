@@ -25,9 +25,8 @@ import sgu.hrm.module_utilities.models.ChucDanhDang;
 import sgu.hrm.module_utilities.models.ChucVu;
 import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 import sgu.hrm.module_utilities.models.DanToc;
-import sgu.hrm.module_utilities.models.DanhHieuNhaNuocPhongTang;
+import sgu.hrm.module_utilities.models.DanhHieuNhaNuoc;
 import sgu.hrm.module_utilities.models.DoiTuongChinhSach;
-import sgu.hrm.module_utilities.enums.GioiTinh;
 import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
 import sgu.hrm.module_utilities.models.HocHam;
 import sgu.hrm.module_utilities.models.LoaiQuanHamQuanDoi;
@@ -35,7 +34,6 @@ import sgu.hrm.module_utilities.models.MoiQuanHe;
 import sgu.hrm.module_utilities.models.NhomChucDanhDang;
 import sgu.hrm.module_utilities.models.NhomMau;
 import sgu.hrm.module_utilities.models.ThanhPhanGiaDinh;
-import sgu.hrm.module_utilities.enums.TinhTrangSucKhoe;
 import sgu.hrm.module_utilities.models.TonGiao;
 import sgu.hrm.module_utilities.models.TrinhDoChuyenMon;
 import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
@@ -52,13 +50,13 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 public class UtilitiesController {
-        private final IUtilitiesService<BacLuong, ReqUtilities> bacLuongService;
+    private final IUtilitiesService<BacLuong, ReqUtilities> bacLuongService;
     private final IUtilitiesService<CapBacLoaiQuanHamQuanDoi, ReqUtilities> capBacLoaiQuanHamQuanDoiService;
     private final IUtilitiesService<CapNhomChucDanhDang, ReqUtilities> capNhomChucDanhDangService;
     private final IUtilitiesService<ChucDanhDang, ReqUtilities> chucDanhDangService;
     private final IUtilitiesService<ChucVu, ReqUtilities> chucVuService;
     private final IUtilitiesService<CoQuanToChucDonVi, ReqUtilities> coQuanToChucDonViService;
-    private final IUtilitiesService<DanhHieuNhaNuocPhongTang, ReqUtilities> danhHieuNhaNuocPhongTangService;
+    private final IUtilitiesService<DanhHieuNhaNuoc, ReqUtilities> danhHieuNhaNuocPhongTangService;
     private final IUtilitiesService<DanToc, ReqUtilities> danTocService;
     private final IUtilitiesService<DoiTuongChinhSach, ReqUtilities> doiTuongChinhSachService;
     private final IUtilitiesService<HinhThucKhenThuong, ReqUtilities> hinhThucKhenThuongService;
@@ -259,22 +257,22 @@ public class UtilitiesController {
     @RestController
     class DanhHieuNhaNuocPhongTangController {
         @GetMapping("/danh-hieu-nha-nuoc-phong")
-        public ResponseEntity<ResDTO<List<DanhHieuNhaNuocPhongTang>>> getAllBacLuong() {
+        public ResponseEntity<ResDTO<List<DanhHieuNhaNuoc>>> getAllBacLuong() {
             return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, danhHieuNhaNuocPhongTangService.xemDS()), HttpStatus.OK);
         }
 
         @GetMapping("/danh-hieu-nha-nuoc-phong/{id}")
-        public ResponseEntity<ResDTO<DanhHieuNhaNuocPhongTang>> getBacLuongById(@PathVariable int id) {
+        public ResponseEntity<ResDTO<DanhHieuNhaNuoc>> getBacLuongById(@PathVariable int id) {
             return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, danhHieuNhaNuocPhongTangService.xemTheoId(id).orElse(null)), HttpStatus.OK);
         }
 
         @PostMapping("/danh-hieu-nha-nuoc-phong")
-        public ResponseEntity<ResDTO<DanhHieuNhaNuocPhongTang>> addBacLuong(@RequestBody ReqUtilities utilities) {
+        public ResponseEntity<ResDTO<DanhHieuNhaNuoc>> addBacLuong(@RequestBody ReqUtilities utilities) {
             return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, danhHieuNhaNuocPhongTangService.them(utilities)), HttpStatus.OK);
         }
 
         @PatchMapping("/danh-hieu-nha-nuoc-phong/{id}")
-        public ResponseEntity<ResDTO<DanhHieuNhaNuocPhongTang>> editBacLuong(@PathVariable int id, @RequestBody ReqUtilities luong) {
+        public ResponseEntity<ResDTO<DanhHieuNhaNuoc>> editBacLuong(@PathVariable int id, @RequestBody ReqUtilities luong) {
             return new ResponseEntity<>(ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG, danhHieuNhaNuocPhongTangService.sua(id, luong)), HttpStatus.OK);
         }
 

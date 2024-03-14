@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import sgu.hrm.DateTimeObject;
+import sgu.hrm.module_utilities.models.response.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 
 import java.time.LocalDateTime;
@@ -56,7 +56,7 @@ public class PhuCapKhac extends DateTimeObject {
     float heSoPhuCap;
 
     @Column(name = "hinh_thuc_huong", columnDefinition = "varchar(50)")
-    String hinhThucThuong;
+    String hinhThucHuong;
 
     @Column(name = "gia_tri", columnDefinition = "double")
     double giaTri;
@@ -65,14 +65,14 @@ public class PhuCapKhac extends DateTimeObject {
     @JoinColumn(foreignKey = @ForeignKey(name = "so_yeu_ly_lich_phuck_fk"), name = "so_yeu_ly_lich", referencedColumnName = "id", columnDefinition = "binary(16)")
     SoYeuLyLich soYeuLyLich;
 
-    public PhuCapKhac(LocalDateTime batDau, LocalDateTime ketThuc, String loaiPhuCap, float phanTramHuongPhuCap, float heSoPhuCap, String hinhThucThuong, double giaTri, SoYeuLyLich soYeuLyLich) {
+    public PhuCapKhac(LocalDateTime batDau, LocalDateTime ketThuc, String loaiPhuCap, float phanTramHuongPhuCap, float heSoPhuCap, String hinhThucHuong, double giaTri, SoYeuLyLich soYeuLyLich) {
         super();
         this.batDau = batDau;
         this.ketThuc = ketThuc;
         this.loaiPhuCap = loaiPhuCap;
         this.phanTramHuongPhuCap = phanTramHuongPhuCap;
         this.heSoPhuCap = heSoPhuCap;
-        this.hinhThucThuong = hinhThucThuong;
+        this.hinhThucHuong = hinhThucHuong;
         this.giaTri = giaTri;
         this.soYeuLyLich = soYeuLyLich;
     }

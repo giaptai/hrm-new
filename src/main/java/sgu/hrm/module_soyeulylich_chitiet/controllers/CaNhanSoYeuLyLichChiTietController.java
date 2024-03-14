@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sgu.hrm.module_response.ResDTO;
 import sgu.hrm.module_response.ResEnum;
+import sgu.hrm.module_soyeulylich_chitiet.models.KyLuat;
+import sgu.hrm.module_soyeulylich_chitiet.models.LyLuanChinhTri;
+import sgu.hrm.module_soyeulylich_chitiet.models.NghiepVuChuyenNganh;
+import sgu.hrm.module_soyeulylich_chitiet.models.NgoaiNgu;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqBanThanCoLamViecChoCheDoCu;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKhenThuong;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKienThucAnNinhQuocPhong;
@@ -152,12 +156,14 @@ public class CaNhanSoYeuLyLichChiTietController {
 
         @PostMapping("/kien-thuc-an-ninh-quoc-phong")
         public ResponseEntity<ResDTO<ResKienThucAnNinhQuocPhong>> them_kien_thuc_an_ninh_quoc_phong(@RequestBody ReqKienThucAnNinhQuocPhong cu) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, ResKienThucAnNinhQuocPhong.mapToResKienThucAnNinhQuocPhong(kienThucAnNinhQuocPhongSefvice.themThongTin(cu))), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG,
+                    ResKienThucAnNinhQuocPhong.mapToResKienThucAnNinhQuocPhong(kienThucAnNinhQuocPhongSefvice.themThongTin(cu))), ResEnum.TAO_THANH_CONG.getStatusCode());
         }
 
         @PatchMapping("/kien-thuc-an-ninh-quoc-phong/{id}")
         public ResponseEntity<ResDTO<ResKienThucAnNinhQuocPhong>> sua_kien_thuc_an_ninh_quoc_phong(@PathVariable int id, @RequestBody ReqKienThucAnNinhQuocPhong cu) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, ResKienThucAnNinhQuocPhong.mapToResKienThucAnNinhQuocPhong(kienThucAnNinhQuocPhongSefvice.suaThongTin(id, cu))), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG,
+                    ResKienThucAnNinhQuocPhong.mapToResKienThucAnNinhQuocPhong(kienThucAnNinhQuocPhongSefvice.suaThongTin(id, cu))), HttpStatus.OK);
         }
 
         @DeleteMapping("/kien-thuc-an-ninh-quoc-phong/{id}")
@@ -170,9 +176,9 @@ public class CaNhanSoYeuLyLichChiTietController {
     @RequestMapping(value = "/ca-nhan")
     public class KyLuatController {
         @GetMapping("/ky-luat")
-        public ResponseEntity<ResDTO<List<ResKyLuat>>> ky_luat() {
+        public ResponseEntity<ResDTO<List<KyLuat>>> ky_luat() {
             List<ResKyLuat> kl = kyLuatSefvice.xemDanhSachThongTin().stream().map(ResKyLuat::mapToResKyLuat).toList();
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, kl), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, kyLuatSefvice.xemDanhSachThongTin()), HttpStatus.OK);
         }
 
         @GetMapping("/ky-luat/{id}")
@@ -181,8 +187,8 @@ public class CaNhanSoYeuLyLichChiTietController {
         }
 
         @PostMapping("/ky-luat")
-        public ResponseEntity<ResDTO<ResKyLuat>> them_ky_luat(@RequestBody ReqKyLuat cu) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, ResKyLuat.mapToResKyLuat(kyLuatSefvice.themThongTin(cu))), HttpStatus.OK);
+        public ResponseEntity<ResDTO<KyLuat>> them_ky_luat(@RequestBody ReqKyLuat cu) {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, kyLuatSefvice.themThongTin(cu)), ResEnum.TAO_THANH_CONG.getStatusCode());
         }
 
         @PatchMapping("/ky-luat/{id}")
@@ -265,9 +271,10 @@ public class CaNhanSoYeuLyLichChiTietController {
     @RequestMapping(value = "/ca-nhan")
     public class LyLuanChinhTriController {
         @GetMapping("/ly-luan-chinh-tri")
-        public ResponseEntity<ResDTO<List<ResLyLuanChinhTri>>> ly_luan_chinh_tri() {
+        public ResponseEntity<ResDTO<List<LyLuanChinhTri>>> ly_luan_chinh_tri() {
             List<ResLyLuanChinhTri> tri = lyLuanChinhTriSefvice.xemDanhSachThongTin().stream().map(ResLyLuanChinhTri::mapToResLyLuanChinhTri).toList();
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, tri), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, lyLuanChinhTriSefvice.xemDanhSachThongTin()),
+                    ResEnum.THANH_CONG.getStatusCode());
         }
 
         @GetMapping("/ly-luan-chinh-tri/{id}")
@@ -277,9 +284,9 @@ public class CaNhanSoYeuLyLichChiTietController {
         }
 
         @PostMapping("/ly-luan-chinh-tri")
-        public ResponseEntity<ResDTO<ResLyLuanChinhTri>> them_ly_luan_chinh_tri(@RequestBody ReqLyLuanChinhTri cu) {
+        public ResponseEntity<ResDTO<LyLuanChinhTri>> them_ly_luan_chinh_tri(@RequestBody ReqLyLuanChinhTri cu) {
             return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG,
-                    ResLyLuanChinhTri.mapToResLyLuanChinhTri(lyLuanChinhTriSefvice.themThongTin(cu))), HttpStatus.OK);
+                    lyLuanChinhTriSefvice.themThongTin(cu)), HttpStatus.OK);
         }
 
         @PatchMapping("/ly-luan-chinh-tri/{id}")
@@ -298,9 +305,10 @@ public class CaNhanSoYeuLyLichChiTietController {
     @RequestMapping(value = "/ca-nhan")
     public class NghiepVuChuyenNganhController {
         @GetMapping("/nghiep-vu-chuyen-nganh")
-        public ResponseEntity<ResDTO<List<ResNghiepVuChuyenNganh>>> nghiep_vu_chuyen_nganh() {
+        public ResponseEntity<ResDTO<List<NghiepVuChuyenNganh>>> nghiep_vu_chuyen_nganh() {
             List<ResNghiepVuChuyenNganh> vu = nghiepVuChuyenNganhSefvice.xemDanhSachThongTin().stream().map(ResNghiepVuChuyenNganh::mapToResNghiepVuChuyenNganh).toList();
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, vu), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, nghiepVuChuyenNganhSefvice.xemDanhSachThongTin()),
+                    ResEnum.THANH_CONG.getStatusCode());
         }
 
         @GetMapping("/nghiep-vu-chuyen-nganh/{id}")
@@ -332,9 +340,10 @@ public class CaNhanSoYeuLyLichChiTietController {
     @RequestMapping(value = "/ca-nhan")
     public class NgoaiNguController {
         @GetMapping("/ngoai-ngu")
-        public ResponseEntity<ResDTO<List<ResNgoaiNgu>>> ngoai_ngu() {
+        public ResponseEntity<ResDTO<List<NgoaiNgu>>> ngoai_ngu() {
             List<ResNgoaiNgu> ngu = ngoaiNguSefvice.xemDanhSachThongTin().stream().map(ResNgoaiNgu::mapToResNgoaiNgu).toList();
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, ngu), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, ngoaiNguSefvice.xemDanhSachThongTin()),
+                    ResEnum.THANH_CONG.getStatusCode());
         }
 
         @GetMapping("/ngoai-ngu/{id}")
@@ -345,8 +354,8 @@ public class CaNhanSoYeuLyLichChiTietController {
 
         @PostMapping("/ngoai-ngu")
         public ResponseEntity<ResDTO<ResNgoaiNgu>> them_ngoai_ngu(@RequestBody ReqNgoaiNgu cu) {
-            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG,
-                    ResNgoaiNgu.mapToResNgoaiNgu(ngoaiNguSefvice.themThongTin(cu))), HttpStatus.OK);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG,
+                    ResNgoaiNgu.mapToResNgoaiNgu(ngoaiNguSefvice.themThongTin(cu))), ResEnum.TAO_THANH_CONG.getStatusCode());
         }
 
         @PatchMapping("/ngoai-ngu/{id}")

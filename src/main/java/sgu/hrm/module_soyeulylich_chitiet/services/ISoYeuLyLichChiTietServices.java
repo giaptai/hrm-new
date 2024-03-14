@@ -16,6 +16,7 @@ import sgu.hrm.module_soyeulylich_chitiet.models.QuaTrinhCongTac;
 import sgu.hrm.module_soyeulylich_chitiet.models.QuanHeGiaDinh;
 import sgu.hrm.module_soyeulylich_chitiet.models.TinHoc;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqBanThanCoLamViecChoCheDoCu;
+import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqNgoaiNguNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqQuaTrinhCongTacNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKhenThuong;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKhenThuongNhanVien;
@@ -97,6 +98,7 @@ public interface ISoYeuLyLichChiTietServices<T, H> {
     }
 
     abstract class INgoaiNguSefvice implements ISoYeuLyLichChiTietServices<NgoaiNgu, ReqNgoaiNgu> {
+        public abstract List<NgoaiNgu> ngoaiNguNhanVien(List<ReqNgoaiNguNhanVien> vien);
     }
 
     abstract class IPhuCapKhacSefvice implements ISoYeuLyLichChiTietServices<PhuCapKhac, ReqPhuCapKhac> {

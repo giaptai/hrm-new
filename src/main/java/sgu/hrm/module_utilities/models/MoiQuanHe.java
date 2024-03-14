@@ -13,12 +13,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import sgu.hrm.DateTimeObject;
+import lombok.experimental.SuperBuilder;
+import sgu.hrm.module_utilities.models.response.DateTimeObject;
 
 @Entity
 @Table(name = "moi_quan_he")
 @Getter
 @Setter
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)

@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import sgu.hrm.module_kafka.KafkaConsumers;
 import sgu.hrm.module_kafka.KafkaProducers;
 import sgu.hrm.module_security.IAuthenticationFacade;
+import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_utilities.enums.PheDuyet;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_soyeulylich.repository.SoYeuLyLichRepository;
@@ -86,8 +86,9 @@ public class TaiKhoanService implements ITaiKhoanService {
         try {
             TaiKhoan taiKhoan = facade.getTaiKhoan();
             if (taiKhoan != null) {
-                taiKhoan.setUpdate_at();
                 taiKhoan.setEmail(email);
+                taiKhoan.setUpdate_at();
+                taiKhoanRepository.save(taiKhoan);
                 return true;
             } else return false;
         } catch (RuntimeException e) {

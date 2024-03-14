@@ -1,8 +1,10 @@
 package sgu.hrm.module_utilities.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import sgu.hrm.DateTimeObject;
+import sgu.hrm.module_utilities.models.response.DateTimeObject;
 
 @Entity
 @Table(name = "cap_bac_loai_quan_ham_quan_doi")
@@ -27,6 +29,7 @@ import sgu.hrm.DateTimeObject;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@JsonIgnoreProperties({"loaiQuanHamQuanDoi"})
 public class CapBacLoaiQuanHamQuanDoi extends DateTimeObject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,8 +39,7 @@ public class CapBacLoaiQuanHamQuanDoi extends DateTimeObject {
     @Column(length = 50, unique = true)
     String name;
 
-    @ManyToOne
-    @JsonIgnore // khi goi thì sẽ không hiện trường này
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "loai_quan_ham_quan_doi_fk"), name = "loai_quan_ham_quan_doi", referencedColumnName = "id", columnDefinition = "INTEGER")
     LoaiQuanHamQuanDoi loaiQuanHamQuanDoi;
 

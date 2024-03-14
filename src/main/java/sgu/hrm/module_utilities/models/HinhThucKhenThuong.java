@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import sgu.hrm.DateTimeObject;
+import sgu.hrm.module_utilities.models.response.DateTimeObject;
 
 @Entity
 @Table(name = "hinh_thuc_khen_thuong")

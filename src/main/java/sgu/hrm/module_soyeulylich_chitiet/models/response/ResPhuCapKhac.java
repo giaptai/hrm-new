@@ -11,7 +11,7 @@ public record ResPhuCapKhac(
         String loaiPhuCap,
         float phanTramHuongPhuCap,
         float heSoPhuCap,
-        String hinhThucThuong,
+        String hinhThucHuong,
         double giaTri,
         LocalDateTime create_at,
         LocalDateTime update_at
@@ -24,7 +24,7 @@ public record ResPhuCapKhac(
                 khac.getLoaiPhuCap(),
                 khac.getPhanTramHuongPhuCap(),
                 khac.getHeSoPhuCap(),
-                khac.getHinhThucThuong(),
+                khac.getHinhThucHuong(),
                 khac.getGiaTri(),
                 khac.getCreate_at(),
                 khac.getUpdate_at()

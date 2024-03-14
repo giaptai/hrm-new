@@ -1,7 +1,7 @@
 package sgu.hrm.module_soyeulylich.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
 import lombok.AccessLevel;
@@ -35,8 +36,9 @@ import sgu.hrm.module_utilities.models.ChucDanhDang;
 import sgu.hrm.module_utilities.models.ChucVu;
 import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 import sgu.hrm.module_utilities.models.DanToc;
-import sgu.hrm.module_utilities.models.DanhHieuNhaNuocPhongTang;
-import sgu.hrm.DateTimeObject;
+import sgu.hrm.module_utilities.models.DanhHieuNhaNuoc;
+import sgu.hrm.module_utilities.models.TonGiao;
+import sgu.hrm.module_utilities.models.response.DateTimeObject;
 import sgu.hrm.module_utilities.models.DoiTuongChinhSach;
 import sgu.hrm.module_utilities.enums.GioiTinh;
 import sgu.hrm.module_utilities.models.HocHam;
@@ -48,7 +50,6 @@ import sgu.hrm.module_soyeulylich_chitiet.models.LuongBanThan;
 import sgu.hrm.module_soyeulylich_chitiet.models.LyLuanChinhTri;
 import sgu.hrm.module_soyeulylich_chitiet.models.NghiepVuChuyenNganh;
 import sgu.hrm.module_soyeulylich_chitiet.models.NgoaiNgu;
-import sgu.hrm.module_utilities.models.NhomMau;
 import sgu.hrm.module_soyeulylich_chitiet.models.PhuCapKhac;
 import sgu.hrm.module_soyeulylich_chitiet.models.QuaTrinhCongTac;
 import sgu.hrm.module_soyeulylich_chitiet.models.QuanHeGiaDinh;
@@ -56,7 +57,6 @@ import sgu.hrm.module_soyeulylich_chitiet.models.QuanHeGiaDinh;
 import sgu.hrm.module_utilities.enums.PheDuyet;
 import sgu.hrm.module_utilities.models.ThanhPhanGiaDinh;
 import sgu.hrm.module_soyeulylich_chitiet.models.TinHoc;
-import sgu.hrm.module_utilities.enums.TinhTrangSucKhoe;
 import sgu.hrm.module_utilities.models.TrinhDoChuyenMon;
 import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
 import sgu.hrm.module_utilities.models.ViTriViecLam;
@@ -110,6 +110,10 @@ public class SoYeuLyLich extends DateTimeObject {
     @JoinColumn(foreignKey = @ForeignKey(name = "dan_toc_fk"), name = "dan_toc", referencedColumnName = "id", columnDefinition = "int")
     DanToc danToc;
 
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "ton_giao_fk"), name = "ton_giao", referencedColumnName = "id", columnDefinition = "int")
+    TonGiao tonGiao;
+
     @Column(name = "so_cccd", columnDefinition = "varchar(12) default ''")
     String soCCCD;
 
@@ -132,70 +136,86 @@ public class SoYeuLyLich extends DateTimeObject {
     @JoinColumn(foreignKey = @ForeignKey(name = "thanh_phan_gia_dinh_fk"), name = "thanh_phan_gia_dinh", referencedColumnName = "id", columnDefinition = "INTEGER")
     ThanhPhanGiaDinh thanhPhanGiaDinh;
 
-    @Column(name = "nghe_nghiep_truoc_khi_duoc_tuyen_dung", columnDefinition = "varchar(100) default 'Không nghề nghiệp'")
-    String ngheNghiepTruocKhiTuyenDung;
+//    @Column(name = "nghe_nghiep_truoc_khi_duoc_tuyen_dung", columnDefinition = "varchar(100) default 'Không nghề nghiệp'")
+//    String ngheNghiepTruocKhiTuyenDung;
+//
+//    @Column(name = "ngay_duoc_tuyen_dung_lan_dau", columnDefinition = "datetime")
+//    LocalDateTime ngayDuocTuyenDungLanDau;
+//
+//    @ManyToOne
+//    @JoinColumn(foreignKey = @ForeignKey(name = "coquan_tochuc_donvi_fk"), name = "coquan_tochuc_donvi", columnDefinition = "INTEGER")
+//    CoQuanToChucDonVi coQuanToChucDonViTuyenDung;
+//
+//    @Column(name = "ngay_vao_co_quan_hien_dang_cong_tac", columnDefinition = "datetime")
+//    LocalDateTime ngayVaoCoQuanHienDangCongTac;
 
-    @Column(name = "ngay_duoc_tuyen_dung_lan_dau", columnDefinition = "datetime")
-    LocalDateTime ngayDuocTuyenDungLanDau;
+//    @Column(name = "ngay_vao_dang_cong_san_viet_nam", columnDefinition = "datetime")
+//    LocalDateTime ngayVaoDangCongSanVietNam;
+//
+//    @Column(name = "ngay_chinh_thuc", columnDefinition = "datetime")
+//    LocalDateTime ngayChinhThuc;
+//
+//    @Column(name = "ngay_tham_gia_to_chuc_chinh_tri_xa_hoi_dau_tien", columnDefinition = "datetime")
+//    LocalDateTime ngayThamGiaToChucChinhTriXaHoiDauTien;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "coquan_tochuc_donvi_fk"), name = "coquan_tochuc_donvi", columnDefinition = "INTEGER")
-    CoQuanToChucDonVi coQuanToChucDonViTuyenDung;
+    @OneToOne(mappedBy = "soYeuLyLich", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    ThongTinTuyenDung thongTinTuyenDung;
 
-    @Column(name = "ngay_vao_co_quan_hien_dang_cong_tac", columnDefinition = "datetime")
-    LocalDateTime ngayVaoCoQuanHienDangCongTac;
+//    @Column(name = "ngay_nhap_ngu", columnDefinition = "datetime")
+//    LocalDateTime ngayNhapNgu;
+//
+//    @Column(name = "ngay_xuat_ngu", columnDefinition = "datetime")
+//    LocalDateTime ngayXuatNgu;
+//
+//    @ManyToOne
+//    @JoinColumn(foreignKey = @ForeignKey(name = "cap_bac_loai_quan_ham_quan_doi_fk"), name = "quan_ham_cao_nhat", referencedColumnName = "id", columnDefinition = "integer")
+//    CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi;
 
-    @Column(name = "ngay_vao_dang_cong_san_viet_nam", columnDefinition = "datetime")
-    LocalDateTime ngayVaoDangCongSanVietNam;
-
-    @Column(name = "ngay_chinh_thuc", columnDefinition = "datetime")
-    LocalDateTime ngayChinhThuc;
-
-    @Column(name = "ngay_tham_gia_to_chuc_chinh_tri_xa_hoi_dau_tien", columnDefinition = "datetime")
-    LocalDateTime ngayThamGiaToChucChinhTriXaHoiDauTien;
-
-    @Column(name = "ngay_nhap_ngu", columnDefinition = "datetime")
-    LocalDateTime ngayNhapNgu;
-
-    @Column(name = "ngay_xuat_ngu", columnDefinition = "datetime")
-    LocalDateTime ngayXuatNgu;
-
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "cap_bac_loai_quan_ham_quan_doi_fk"), name = "quan_ham_cao_nhat", referencedColumnName = "id", columnDefinition = "integer")
-    CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi;
+    @OneToOne(mappedBy = "soYeuLyLich", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    NghiaVuQuanSu quanSu;
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "doi_tuong_chinh_sach_fk"), name = "doi_tuong_chinh_sach", referencedColumnName = "id", columnDefinition = "integer")
     DoiTuongChinhSach doiTuongChinhSach;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "trinh_do_giao_duc_pho_thong_fk"), name = "trinh_do_giao_duc_pho_thong", referencedColumnName = "id", columnDefinition = "integer")
-    TrinhDoGiaoDucPhoThong trinhDoGiaoDucPhoThong;
+//    @ManyToOne
+//    @JoinColumn(foreignKey = @ForeignKey(name = "trinh_do_giao_duc_pho_thong_fk"), name = "trinh_do_giao_duc_pho_thong", referencedColumnName = "id", columnDefinition = "integer")
+//    TrinhDoGiaoDucPhoThong trinhDoGiaoDucPhoThong;
+//
+//    @ManyToOne
+//    @JoinColumn(foreignKey = @ForeignKey(name = "trinh_do_chuyen_mon_fk"), name = "trinh_do_chuyen_mon_cao_nhat", referencedColumnName = "id", columnDefinition = "integer")
+//    TrinhDoChuyenMon trinhDoChuyenMon;
+//
+//    @ManyToOne
+//    @JoinColumn(foreignKey = @ForeignKey(name = "hoc_ham_fk"), name = "hoc_ham", referencedColumnName = "id", columnDefinition = "integer")
+//    HocHam hocHam;
+//
+//    @ManyToOne
+//    @JoinColumn(foreignKey = @ForeignKey(name = "danh_hieu_nha_nuoc_phong_tang_fk"), name = "danh_hieu_nha_nuoc_phong_tang", referencedColumnName = "id", columnDefinition = "integer")
+//    DanhHieuNhaNuoc danhHieuNhaNuocPhongTang;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "trinh_do_chuyen_mon_fk"), name = "trinh_do_chuyen_mon_cao_nhat", referencedColumnName = "id", columnDefinition = "integer")
-    TrinhDoChuyenMon trinhDoChuyenMon;
+    @OneToOne(mappedBy = "soYeuLyLich", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    HocVan hocVan;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "hoc_ham_fk"), name = "hoc_ham", referencedColumnName = "id", columnDefinition = "integer")
-    HocHam hocHam;
+//    @ManyToOne
+//    @JoinColumn(foreignKey = @ForeignKey(name = "chuc_vu_fk"), name = "chuc_vu", referencedColumnName = "id", columnDefinition = "integer")
+//    ChucVu chucVuHienTai;
+//
+//    @Column(name = "ngay_bo_nhiem", columnDefinition = "datetime")
+//    LocalDateTime ngayBoNhiem;
+//
+//    @Column(name = "ngay_bo_nhiem_lai", columnDefinition = "datetime")
+//    LocalDateTime ngayBoNhiemLai;
+//
+//    @Column(name = "duoc_quy_hoach_chuc_danh", columnDefinition = "varchar(50) default ''")
+//    String duocQuyHoacChucDanh;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "danh_hieu_nha_nuoc_phong_tang_fk"), name = "danh_hieu_nha_nuoc_phong_tang", referencedColumnName = "id", columnDefinition = "integer")
-    DanhHieuNhaNuocPhongTang danhHieuNhaNuocPhongTang;
-
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "chuc_vu_fk"), name = "chuc_vu", referencedColumnName = "id", columnDefinition = "integer")
-    ChucVu chucVuHienTai;
-
-    @Column(name = "ngay_bo_nhiem", columnDefinition = "datetime")
-    LocalDateTime ngayBoNhiem;
-
-    @Column(name = "ngay_bo_nhiem_lai", columnDefinition = "datetime")
-    LocalDateTime ngayBoNhiemLai;
-
-    @Column(name = "duoc_quy_hoach_chuc_danh", columnDefinition = "varchar(50) default ''")
-    String duocQuyHoacChucDanh;
+    @OneToOne(mappedBy = "soYeuLyLich", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    ChucVuHienTai chucVuHienTai;
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "chuc_vu_kiem_nhiem_fk"), name = "chuc_vu_kiem_nhiem", referencedColumnName = "id", columnDefinition = "integer")
@@ -209,40 +229,44 @@ public class SoYeuLyLich extends DateTimeObject {
     @JoinColumn(foreignKey = @ForeignKey(name = "chuc_vu_dang_kiem_nhiem_fk"), referencedColumnName = "id", name = "chuc_vu_dang_kiem_nhiem", columnDefinition = "integer")
     ChucDanhDang chucVuDangKiemNhiem;
 
-    @Column(name = "cong_viec_chinh_duoc_giao", columnDefinition = "varchar(150) default ''")
-    String congViecChinhDuocGiao;
-
-    @Column(name = "so_truong_cong_tac", columnDefinition = "varchar(150) default ''")
-    String soTruongCongTac;
-
-    @Column(name = "cong_viec_lam_lau_nhat", columnDefinition = "varchar(150) default ''")
-    String congViecLamLauNhat;
+//    @Column(name = "cong_viec_chinh_duoc_giao", columnDefinition = "varchar(150) default ''")
+//    String congViecChinhDuocGiao;
+//
+//    @Column(name = "so_truong_cong_tac", columnDefinition = "varchar(150) default 'Không'")
+//    String soTruongCongTac;
+//
+//    @Column(name = "cong_viec_lam_lau_nhat", columnDefinition = "varchar(150) default ''")
+//    String congViecLamLauNhat;
 
     @Column(name = "tien_luong", columnDefinition = "double default 1.0")
     double tienLuong;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "ngach_cong_chuc_fk"), name = "ngach_cong_chuc", referencedColumnName = "id", columnDefinition = "varchar(6)")
-    NgachCongChuc ngachCongChuc;
+//    @ManyToOne
+//    @JoinColumn(foreignKey = @ForeignKey(name = "ngach_cong_chuc_fk"), name = "ngach_cong_chuc", referencedColumnName = "id", columnDefinition = "varchar(6)")
+//    NgachCongChuc ngachCongChuc;
+//
+//    @ManyToOne
+//    @JoinColumn(foreignKey = @ForeignKey(name = "ngach_vien_chuc_fk"), name = "ngach_vien_chuc", referencedColumnName = "id", columnDefinition = "varchar(10)")
+//    NgachVienChuc ngachVienChuc;
+//
+//    @Column(name = "ngay_bo_nhiem_ngach", columnDefinition = "datetime")
+//    LocalDateTime ngayBoNhiemNgach;
+//
+//    @Column(name = "ngay_huong_luong_ngach", columnDefinition = "datetime")
+//    LocalDateTime ngayHuongLuongNgach;
+//
+//    @Column(name = "phan_tram_huong_luong_ngach", columnDefinition = "float default 1.0")
+//    float phanTramHuongLuongNgach;
+//
+//    @Column(name = "phu_cap_tham_nien_vuot_khung_ngach", columnDefinition = "double default 0.0")
+//    double phuCapThamNienVuotKhungNgach;
+//
+//    @Column(name = "ngay_huong_PCTNVK_ngach", columnDefinition = "datetime")
+//    LocalDateTime ngayHuongPCTNVKNgach;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "ngach_vien_chuc_fk"), name = "ngach_vien_chuc", referencedColumnName = "id", columnDefinition = "varchar(10)")
-    NgachVienChuc ngachVienChuc;
-
-    @Column(name = "ngay_bo_nhiem_ngach", columnDefinition = "datetime")
-    LocalDateTime ngayBoNhiemNgach;
-
-    @Column(name = "ngay_huong_luong_ngach", columnDefinition = "datetime")
-    LocalDateTime ngayHuongLuongNgach;
-
-    @Column(name = "phan_tram_huong_luong_ngach", columnDefinition = "float default 1.0")
-    float phanTramHuongLuongNgach;
-
-    @Column(name = "phu_cap_tham_nien_vuot_khung_ngach", columnDefinition = "double default 0.0")
-    double phuCapThamNienVuotKhungNgach;
-
-    @Column(name = "ngay_huong_PCTNVK_ngach", columnDefinition = "datetime")
-    LocalDateTime ngayHuongPCTNVKNgach;
+    @OneToOne(mappedBy = "soYeuLyLich", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    Ngach ngach;
 
     @Column(name = "phu_cap_chuc_vu", columnDefinition = "double default 0.0")
     double phuCapChucVu;
@@ -253,85 +277,93 @@ public class SoYeuLyLich extends DateTimeObject {
     @Column(name = "phu_cap_khac", columnDefinition = "double default 0.0")
     double phuCapKhac;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "vi_tri_viec_lam_fk"), name = "vi_tri_viec_lam", referencedColumnName = "id", columnDefinition = "INTEGER")
-    ViTriViecLam viTriViecLam;
+    //    @ManyToOne
+//    @JoinColumn(foreignKey = @ForeignKey(name = "vi_tri_viec_lam_fk"), name = "vi_tri_viec_lam", referencedColumnName = "id", columnDefinition = "INTEGER")
+//    ViTriViecLam viTriViecLam;
+//
+//    @Column(name = "ngay_huong_luong_vi_tri_viec_lam", columnDefinition = "datetime")
+//    LocalDateTime ngayHuongLuongTheoViTriViecLam;
+//
+//    @Column(name = "phan_tram_huong_luong", columnDefinition = "double default 1.0")
+//    float phamTramHuongLuong;
+//
+//    @Column(name = "phu_cap_tham_nien_vuot_khung", columnDefinition = "double default 0.0")
+//    double phuCapThamNienVuotKhung;
+//
+//    @Column(name = "ngay_huong_PCTNVK", columnDefinition = "datetime")
+//    LocalDateTime ngayHuongPCTNVK;
 
-    @Column(name = "ngay_huong_luong_vi_tri_viec_lam", columnDefinition = "datetime")
-    LocalDateTime ngayHuongLuongTheoViTriViecLam;
+    @OneToOne(mappedBy = "soYeuLyLich", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    ViecLam viecLam;
 
-    //theo vi tri viec lam
-    @Column(name = "phan_tram_huong_luong", columnDefinition = "double default 1.0")
-    float phamTramHuongLuong;
+    @OneToOne(mappedBy = "soYeuLyLich", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    SucKhoe sucKhoe;
 
-    @Column(name = "phu_cap_tham_nien_vuot_khung", columnDefinition = "double default 0.0")
-    double phuCapThamNienVuotKhung;
-
-    @Column(name = "ngay_huong_PCTNVK", columnDefinition = "datetime")
-    LocalDateTime ngayHuongPCTNVK;
-
-    @Column(name = "tinh_trang_suc_khoe")
-    @Enumerated(EnumType.ORDINAL)
-    TinhTrangSucKhoe tinhTrangSucKhoe;
-
-    @Column(name = "chieu_cao", columnDefinition = "float default 0.0")
-    float chieuCao;
-
-    @Column(name = "can_nang", columnDefinition = "float default 0.0")
-    float canNang;
-
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "nhom_mau_fk"), name = "nhom_mau", referencedColumnName = "id", columnDefinition = "INTEGER")
-    NhomMau nhomMau;
+//    @Column(name = "tinh_trang_suc_khoe")
+//    @Enumerated(EnumType.ORDINAL)
+//    TinhTrangSucKhoe tinhTrangSucKhoe;
+//
+//    @Column(name = "chieu_cao", columnDefinition = "float default 0.0")
+//    float chieuCao;
+//
+//    @Column(name = "can_nang", columnDefinition = "float default 0.0")
+//    float canNang;
+//
+//    @ManyToOne
+//    @JoinColumn(foreignKey = @ForeignKey(name = "nhom_mau_fk"), name = "nhom_mau", referencedColumnName = "id", columnDefinition = "INTEGER")
+//    NhomMau nhomMau;
 
     @Column(name = "phe_duyet")
     @Enumerated(EnumType.ORDINAL)
     PheDuyet pheDuyet;
-
+/*
     // liên kết 2 chiều
     // tai sao list thi lay ok ma set thi méo lấy
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    Set<LyLuanChinhTri> lyLuanChinhTris;
+    List<LyLuanChinhTri> lyLuanChinhTris;
 
     //liên kết 2 chiều
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    Set<NghiepVuChuyenNganh> nghiepVuChuyenNganhs;
+    List<NghiepVuChuyenNganh> nghiepVuChuyenNganhs;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    Set<KienThucAnNinhQuocPhong> kienThucAnNinhQuocPhongs;
+    List<KienThucAnNinhQuocPhong> kienThucAnNinhQuocPhongs;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    Set<TinHoc> tinHocs;
+    List<TinHoc> tinHocs;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    Set<NgoaiNgu> ngoaiNgus;
+    List<NgoaiNgu> ngoaiNgus;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    Set<QuaTrinhCongTac> quaTrinhCongTacs;
+    List<QuaTrinhCongTac> quaTrinhCongTacs;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    Set<BanThanCoLamViecChoCheDoCu> banThanCoLamViecChoCheDoCus;
+    List<BanThanCoLamViecChoCheDoCu> banThanCoLamViecChoCheDoCus;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    Set<LamViecONuocNgoai> lamViecONuocNgoais;
+    List<LamViecONuocNgoai> lamViecONuocNgoais;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    Set<KhenThuong> khenThuongs;
+    List<KhenThuong> khenThuongs;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    Set<KyLuat> kyLuats;
+    List<KyLuat> kyLuats;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    Set<QuanHeGiaDinh> quanHeGiaDinhs;
+    List<QuanHeGiaDinh> quanHeGiaDinhs;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    Set<LuongBanThan> luongBanThans;
+    List<LuongBanThan> luongBanThans;
 
     @OneToMany(mappedBy = "soYeuLyLich", fetch = FetchType.LAZY)
-    Set<PhuCapKhac> phuCapKhacs;
+    List<PhuCapKhac> phuCapKhacs;
 
-//    @OneToOne()
+//    @OneToOne(mappedBy = "soYeuLyLich")
 //    @JoinColumn(name = "taikhoan", columnDefinition = "INTEGER")
 //    @JsonIgnore
 //    TaiKhoan taiKhoan;
+*/
 }

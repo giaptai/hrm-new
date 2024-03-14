@@ -1,5 +1,4 @@
 package sgu.hrm.module_taikhoan.models.request;
-;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
 import org.apache.kafka.common.errors.SerializationException;

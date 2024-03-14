@@ -2,12 +2,8 @@ package sgu.hrm.module_utilities.services;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import org.springframework.web.server.ResponseStatusException;
-
-import sgu.hrm.module_utilities.PhanTrang;
 import sgu.hrm.module_utilities.models.BacLuong;
 import sgu.hrm.module_utilities.models.CapBacLoaiQuanHamQuanDoi;
 import sgu.hrm.module_utilities.models.CapNhomChucDanhDang;
@@ -16,7 +12,7 @@ import sgu.hrm.module_utilities.models.ChucVu;
 import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 import sgu.hrm.module_utilities.models.DanToc;
 
-import sgu.hrm.module_utilities.models.DanhHieuNhaNuocPhongTang;
+import sgu.hrm.module_utilities.models.DanhHieuNhaNuoc;
 import sgu.hrm.module_utilities.models.DoiTuongChinhSach;
 import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
 import sgu.hrm.module_utilities.models.HocHam;
@@ -51,10 +47,8 @@ import sgu.hrm.module_utilities.repositories.TrinhDoChuyenMonRepository;
 import sgu.hrm.module_utilities.repositories.TrinhDoGiaoDucPhoThongRepository;
 import sgu.hrm.module_utilities.repositories.ViTriViecLamRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor // if field is set final or @not null
@@ -408,23 +402,23 @@ public class UtilitiesService {
     }
 
     @Service
-    public class DanhHieuNhaNuocPhongTangService implements IUtilitiesService<DanhHieuNhaNuocPhongTang, ReqUtilities> {
+    public class DanhHieuNhaNuocPhongTangService implements IUtilitiesService<DanhHieuNhaNuoc, ReqUtilities> {
         @Override
-        public List<DanhHieuNhaNuocPhongTang> xemDS() {
+        public List<DanhHieuNhaNuoc> xemDS() {
             return danhHieuNhaNuocPhongTangRepository.findAll();
         }
 
         @Override
-        public Optional<DanhHieuNhaNuocPhongTang> xemTheoId(int id) {
+        public Optional<DanhHieuNhaNuoc> xemTheoId(int id) {
             return danhHieuNhaNuocPhongTangRepository.findById(id);
         }
 
         @Override
-        public DanhHieuNhaNuocPhongTang them(ReqUtilities req) {
-            DanhHieuNhaNuocPhongTang danh = danhHieuNhaNuocPhongTangRepository.findByName(req.name()).orElse(null);
+        public DanhHieuNhaNuoc them(ReqUtilities req) {
+            DanhHieuNhaNuoc danh = danhHieuNhaNuocPhongTangRepository.findByName(req.name()).orElse(null);
             try {
                 if (danh == null) {
-                    return danhHieuNhaNuocPhongTangRepository.save(new DanhHieuNhaNuocPhongTang(req.name()));
+                    return danhHieuNhaNuocPhongTangRepository.save(new DanhHieuNhaNuoc(req.name()));
                 }
                 return danh;
             } catch (RuntimeException e) {
@@ -433,7 +427,7 @@ public class UtilitiesService {
         }
 
         @Override
-        public DanhHieuNhaNuocPhongTang sua(int id, ReqUtilities danh) {
+        public DanhHieuNhaNuoc sua(int id, ReqUtilities danh) {
             try {
                 return danhHieuNhaNuocPhongTangRepository.findById(id).map(e -> {
                     e.setName(danh.name());

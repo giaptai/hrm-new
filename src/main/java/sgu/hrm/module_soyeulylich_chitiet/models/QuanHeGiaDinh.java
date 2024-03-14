@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import sgu.hrm.DateTimeObject;
+import sgu.hrm.module_utilities.models.response.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_utilities.models.MoiQuanHe;
 
@@ -43,7 +43,7 @@ public class QuanHeGiaDinh extends DateTimeObject {
     @Column(columnDefinition = "INTEGER AUTO_INCREMENT")
     int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(foreignKey = @ForeignKey(name = "moi_quan_he_fk"), name = "moi_quan_he", referencedColumnName = "id", columnDefinition = "INTEGER")
     MoiQuanHe moiQuanHe;
 
@@ -55,10 +55,6 @@ public class QuanHeGiaDinh extends DateTimeObject {
 
     @Column(name = "thong_tin_than_nhan", columnDefinition = "text")
     String thongTinThanNhan;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey(name = "loai_so_yeu_ly_lich_chitiet_qhgdr_fk"), name = "loai_so_yeu_ly_lich_chitiet", referencedColumnName = "id", columnDefinition = "INTEGER")
-    LoaiSoYeuLyLichChiTiet loaiSoYeuLyLichChiTiet;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore

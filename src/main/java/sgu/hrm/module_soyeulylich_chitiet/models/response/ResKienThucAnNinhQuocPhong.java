@@ -1,6 +1,7 @@
 package sgu.hrm.module_soyeulylich_chitiet.models.response;
 
 import sgu.hrm.module_soyeulylich_chitiet.models.KienThucAnNinhQuocPhong;
+import sgu.hrm.module_utilities.enums.XacNhan;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +12,7 @@ public record ResKienThucAnNinhQuocPhong(
         String tenCoSoDaoTao,
         int IdTenCoSoDaoTao,
         String chungChiDuocCap,
+        XacNhan xacNhan,
         LocalDateTime create_at,
         LocalDateTime update_at
 ) {
@@ -22,6 +24,7 @@ public record ResKienThucAnNinhQuocPhong(
                 phong.getTenCoSoDaoTao().getName(),
                 phong.getTenCoSoDaoTao().getId(),
                 phong.getChungChiDuocCap(),
+                phong.getXacNhan(),
                 phong.getCreate_at(),
                 phong.getUpdate_at()
         ) : null;

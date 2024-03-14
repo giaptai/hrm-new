@@ -13,17 +13,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import sgu.hrm.DateTimeObject;
+import sgu.hrm.module_utilities.models.response.DateTimeObject;
 
 @Entity
-@Table(name = "danh_hieu_nha_nuoc_phong_tang")
+@Table(name = "danh_hieu_nha_nuoc")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DanhHieuNhaNuocPhongTang extends DateTimeObject {
+public class DanhHieuNhaNuoc extends DateTimeObject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INTEGER AUTO_INCREMENT")
@@ -32,7 +32,7 @@ public class DanhHieuNhaNuocPhongTang extends DateTimeObject {
     @Column(length = 50, unique = true)
     String name;
 
-    public DanhHieuNhaNuocPhongTang(String name) {
+    public DanhHieuNhaNuoc(String name) {
         this.name = name;
     }
 }

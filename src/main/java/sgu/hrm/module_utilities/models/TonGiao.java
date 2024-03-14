@@ -1,5 +1,6 @@
 package sgu.hrm.module_utilities.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import sgu.hrm.DateTimeObject;
+import sgu.hrm.module_utilities.models.response.DateTimeObject;
 
 @Entity
 @Table(name = "ton_giao")
@@ -23,6 +24,7 @@ import sgu.hrm.DateTimeObject;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@JsonIgnoreProperties({"create_at", "update_at"})
 public class TonGiao extends DateTimeObject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

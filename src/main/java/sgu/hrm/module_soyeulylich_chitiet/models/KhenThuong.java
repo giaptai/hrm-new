@@ -21,7 +21,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import sgu.hrm.DateTimeObject;
+import sgu.hrm.module_utilities.enums.XacNhan;
+import sgu.hrm.module_utilities.models.response.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_utilities.enums.XepLoaiChuyenMon;
 import sgu.hrm.module_utilities.enums.XepLoaiThiDua;
@@ -62,6 +63,11 @@ public class KhenThuong extends DateTimeObject {
 
     @Column(name = "ly_do", columnDefinition = "text")
     String lyDo;
+
+    @Enumerated
+    @Column(name = "xac_nhan")
+    XacNhan xacNhan;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "so_yeu_ly_lich_khthuong_fk"), name = "so_yeu_ly_lich", referencedColumnName = "id", columnDefinition = "binary(16)")

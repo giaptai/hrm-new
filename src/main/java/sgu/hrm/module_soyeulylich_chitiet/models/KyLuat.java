@@ -3,6 +3,7 @@ package sgu.hrm.module_soyeulylich_chitiet.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +20,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import sgu.hrm.DateTimeObject;
+import sgu.hrm.module_utilities.enums.XacNhan;
+import sgu.hrm.module_utilities.models.DonVi;
+import sgu.hrm.module_utilities.models.response.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 
@@ -53,15 +56,19 @@ public class KyLuat extends DateTimeObject {
     @Column(name = "hanh_vi_vi_pham_chinh", columnDefinition = "varchar(50) default''")
     String hanhViViPhamChinh;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(foreignKey = @ForeignKey(name = "co_quan_quyet_dinh_fk"), name = "co_quan_quyet_dinh", columnDefinition = "INTEGER")
-    CoQuanToChucDonVi coQuanQuyetDinh;
+    DonVi coQuanQuyetDinh;
+
+    @Enumerated
+    @Column(name = "xac_nhan")
+    XacNhan xacNhan;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "so_yeu_ly_lich_kyluat_fk"), name = "so_yeu_ly_lich", referencedColumnName = "id", columnDefinition = "binary(16)")
     SoYeuLyLich soYeuLyLich;
 
-    public KyLuat(LocalDateTime batDau, LocalDateTime ketThuc, String hinhThuc, String hanhViViPhamChinh, CoQuanToChucDonVi coQuanQuyetDinh, SoYeuLyLich soYeuLyLich) {
+    public KyLuat(LocalDateTime batDau, LocalDateTime ketThuc, String hinhThuc, String hanhViViPhamChinh, DonVi coQuanQuyetDinh, SoYeuLyLich soYeuLyLich) {
         super();
         this.batDau = batDau;
         this.ketThuc = ketThuc;

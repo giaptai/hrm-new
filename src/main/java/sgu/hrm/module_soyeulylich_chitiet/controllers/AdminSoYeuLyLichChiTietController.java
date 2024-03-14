@@ -3,6 +3,7 @@ package sgu.hrm.module_soyeulylich_chitiet.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,8 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sgu.hrm.module_kafka.KafkaConsumers;
+import sgu.hrm.module_kafka.KafkaProducers;
 import sgu.hrm.module_response.ResDTO;
 import sgu.hrm.module_response.ResEnum;
+import sgu.hrm.module_soyeulylich_chitiet.models.NgoaiNgu;
+import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqNgoaiNguNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqQuaTrinhCongTacNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKhenThuongNhanVien;
 import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKyLuatNhanVien;
@@ -33,7 +38,9 @@ import sgu.hrm.module_soyeulylich_chitiet.models.response.ResQuanHeGiaDinh;
 import sgu.hrm.module_soyeulylich_chitiet.models.response.ResTinHoc;
 import sgu.hrm.module_soyeulylich_chitiet.services.ISoYeuLyLichChiTietServices;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor // create constructor if field set final or @not null
@@ -52,6 +59,26 @@ public class AdminSoYeuLyLichChiTietController {
     private final ISoYeuLyLichChiTietServices.IQuanHeGiaDinhSefvice quanHeGiaDinhSefvice;
     private final ISoYeuLyLichChiTietServices.IQuaTrinhCongTacSefvice quaTrinhCongTacSefvice;
     private final ISoYeuLyLichChiTietServices.ITinHocSefvice tinHocSefvice;
+    private final KafkaProducers producers;
+    private final KafkaConsumers consumers;
+
+    @RestController
+    @RequestMapping(value = "/danh-sach-phe-duyet")
+    public class PheDuyetController {
+        @GetMapping("/ngoai-ngu")
+        public ResponseEntity<ResDTO<Map<String, List<?>>>> ds_ngoaingu() {
+            Map<String, List<?>> ddd = new HashMap<>();
+            producers.run();
+            List<ResNgoaiNgu> ngoaiNgus = consumers.ngoaiNguConsumer();
+            List<ResKhenThuong> khenThuongs = consumers.khenThuongConsumer();
+            System.out.println("CON : GFGGH");
+            List<ResKyLuat> kyLuats = consumers.kyLuatConsumer();
+            ddd.put("ngoai_ngu", ngoaiNgus);
+            ddd.put("khen_thuong", khenThuongs);
+            ddd.put("ky_luat", kyLuats);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.KAFKA_THANH_CONG, ddd), ResEnum.KAFKA_THANH_CONG.getStatusCode());
+        }
+    }
 
     @RestController
     @RequestMapping(value = "")
@@ -145,6 +172,7 @@ public class AdminSoYeuLyLichChiTietController {
             List<ResLamViecONuocNgoai> nc = lamViecONuocNgoaiSefvice.xemDanhSachEmployee().stream().map(ResLamViecONuocNgoai::mapToResLamViecONuocNgoai).toList();
             return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, nc), HttpStatus.OK);
         }
+
         @PostMapping("/nhan-vien/lam-viec-o-nuoc-ngoai")
         public ResponseEntity<ResDTO<List<ResLamViecONuocNgoai>>> nhanvien_lamvieconuocngoai(@RequestBody List<ReqLamViecONuocNgoaiNhanVien> nhanVien) {
             List<ResLamViecONuocNgoai> nc = lamViecONuocNgoaiSefvice.lamViecONUocNgoaiNhanVien(nhanVien).stream().map(ResLamViecONuocNgoai::mapToResLamViecONuocNgoai).toList();
@@ -184,6 +212,7 @@ public class AdminSoYeuLyLichChiTietController {
             List<ResLyLuanChinhTri> tri = lyLuanChinhTriSefvice.xemDanhSachEmployee().stream().map(ResLyLuanChinhTri::mapToResLyLuanChinhTri).toList();
             return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, tri), HttpStatus.OK);
         }
+
         @PostMapping("/nhan-vien/ly-luan-chinh-tri")
         public ResponseEntity<ResDTO<List<ResLyLuanChinhTri>>> ds_nhanvien_lyluanchinhtri(@RequestBody List<ReqLyLuanChinhTriNhanVien> nhanVien) {
             List<ResLyLuanChinhTri> tri = lyLuanChinhTriSefvice.lyLuanChinhTriNhanVien(nhanVien).stream().map(ResLyLuanChinhTri::mapToResLyLuanChinhTri).toList();
@@ -205,6 +234,7 @@ public class AdminSoYeuLyLichChiTietController {
             List<ResNghiepVuChuyenNganh> vu = nghiepVuChuyenNganhSefvice.xemDanhSachEmployee().stream().map(ResNghiepVuChuyenNganh::mapToResNghiepVuChuyenNganh).toList();
             return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, vu), HttpStatus.OK);
         }
+
         @PostMapping("/nhan-vien/nghiep-vu-chuyen-nganh")
         public ResponseEntity<ResDTO<List<ResNghiepVuChuyenNganh>>> ds_nhanvien_nghiepvuchuyennganh(@RequestBody List<ReqNghiepVuChuyenNganhNhanVien> nhanVien) {
             List<ResNghiepVuChuyenNganh> tri = nghiepVuChuyenNganhSefvice.nghiepVuChuyenNganhNhanVien(nhanVien).stream().map(ResNghiepVuChuyenNganh::mapToResNghiepVuChuyenNganh).toList();
@@ -227,6 +257,11 @@ public class AdminSoYeuLyLichChiTietController {
             return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, ngu), HttpStatus.OK);
         }
 
+        @PostMapping("/nhan-vien/ngoai-ngu")
+        public ResponseEntity<ResDTO<List<ResNgoaiNgu>>> ds_nhanvien_ngoaingu(@RequestBody List<ReqNgoaiNguNhanVien> nhanVien) {
+            List<ResNgoaiNgu> ngu = ngoaiNguSefvice.ngoaiNguNhanVien(nhanVien).stream().map(ResNgoaiNgu::mapToResNgoaiNgu).toList();
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, ngu), HttpStatus.OK);
+        }
     }
 
     @RestController

@@ -38,11 +38,11 @@ public class AdminSoYeuLyLichController {
         return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resSoYeuLyLichs), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/so-yeu-ly-lich/tim-kiem")
-    public ResponseEntity<ResDTO<ResSoYeuLyLich>> getSoYeuLyLichSoCCCDOrId(@RequestParam(name = "q") String q) {
-        return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG,
-                ResSoYeuLyLich.mapToResSoYeuLyLich(soYeuLyLichService.xemSoYeuLyLichTheoSoCCCDHoacID(q))), HttpStatus.OK);
-    }
+//    @GetMapping("/so-yeu-ly-lich/tim-kiem")
+//    public ResponseEntity<ResDTO<ResSoYeuLyLich>> getSoYeuLyLichSoCCCDOrId(@RequestParam(name = "q") String q) {
+//        return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG,
+//                ResSoYeuLyLich.mapToResSoYeuLyLich(soYeuLyLichService.xemSoYeuLyLichTheoSoCCCDHoacID(q))), HttpStatus.OK);
+//    }
 
     @GetMapping("/so-yeu-ly-lich/{id}")
     public ResponseEntity<ResDTO<ResSoYeuLyLich>> getSoYeuLyLichById(@PathVariable(name = "id") String id) {

@@ -1,6 +1,8 @@
 package sgu.hrm.module_response;
 
 import lombok.Data;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,25 +15,28 @@ public class ResDTO<T> {
     final LocalDateTime time_stamp;
 
     private ResDTO(ResEnum resEnum) {
-        this.status_code = resEnum.getStatusCode();
+        this.status_code = resEnum.getStatusCode().value();
         this.message = resEnum.name();
         this.data = null;
         this.time_stamp = LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
     }
 
     private ResDTO(ResEnum resEnum, T data) {
-        this.status_code = resEnum.getStatusCode();
+        this.status_code = resEnum.getStatusCode().value();
         this.message = resEnum.name();
         this.data = data;
         this.time_stamp = LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
     }
 
+    public ResponseEntity<ResDTO<T>> response2(ResEnum resEnum, T data) {
+        return new ResponseEntity<>(new ResDTO<T>(resEnum, data), resEnum.getStatusCode());
+    }
 
     public static <T> ResDTO<T> response(ResEnum resEnum, T data) {
         return new ResDTO<>(resEnum, data);
     }
 
-    public static RuntimeException resErrors(ResEnum resEnum) {
+    public static RuntimeException error(ResEnum resEnum) {
         return new RuntimeException(String.valueOf(new ResDTO<>(resEnum)));
     }
 }

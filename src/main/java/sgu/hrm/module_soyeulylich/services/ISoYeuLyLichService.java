@@ -1,8 +1,8 @@
 package sgu.hrm.module_soyeulylich.services;
 
+import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_soyeulylich.models.request.ReqDSSoYeuLyLich;
 import sgu.hrm.module_soyeulylich.models.request.ReqSoYeuLyLich;
-import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 
 import java.util.List;
 
