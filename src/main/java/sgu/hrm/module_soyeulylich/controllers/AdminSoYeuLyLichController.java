@@ -1,5 +1,7 @@
 package sgu.hrm.module_soyeulylich.controllers;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ import java.util.List;
 
 
 @RestController
+@SecurityRequirement(name = "bearerAuth")
+@Tag(name = "Admin so-yeu-ly-lich", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
 @RequestMapping(value = "/nhan-vien")
 public class AdminSoYeuLyLichController {
 

@@ -1,5 +1,7 @@
 package sgu.hrm.module_security;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import sgu.hrm.module_taikhoan.service.ITaiKhoanService;
 import java.util.List;
 
 @RestController
+@Tag(name = "Login", description = "The login API. Contains all the operations that can be performed on a Admin.")
 @RequiredArgsConstructor
 public class SercurityController {
 

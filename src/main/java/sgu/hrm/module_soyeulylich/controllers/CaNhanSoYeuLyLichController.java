@@ -1,5 +1,7 @@
 package sgu.hrm.module_soyeulylich.controllers;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,8 @@ import sgu.hrm.module_soyeulylich.services.ISoYeuLyLichService;
 
 
 @RestController
+@SecurityRequirement(name = "bearerAuth")
+@Tag(name = "Employee so-yeu-ly-lich", description = "The Employee API. Contains all the operations that can be performed on a employee.")
 @RequestMapping(value = "/ca-nhan")
 public class CaNhanSoYeuLyLichController {
 

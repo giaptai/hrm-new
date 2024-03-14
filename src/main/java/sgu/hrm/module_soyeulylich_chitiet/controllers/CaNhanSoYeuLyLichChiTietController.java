@@ -1,5 +1,7 @@
 package sgu.hrm.module_soyeulylich_chitiet.controllers;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,6 +69,8 @@ public class CaNhanSoYeuLyLichChiTietController {
     private final ISoYeuLyLichChiTietServices.ITinHocSefvice tinHocSefvice;
 
     @RestController
+    @SecurityRequirement(name = "bearerAuth")
+    @Tag(name = "Employee lam-viec-cho-che-do-cu", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
     public class BanThanCoLamViecChoCheDoCuController {
         @GetMapping("/lam-viec-cho-che-do-cu")
@@ -108,6 +112,8 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
+    @SecurityRequirement(name = "bearerAuth")
+    @Tag(name = "Employee khen-thuon", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
     public class KhenThuongController {
         @GetMapping("/khen-thuong")
@@ -141,6 +147,8 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
+    @SecurityRequirement(name = "bearerAuth")
+    @Tag(name = "Employee kien-thuc-an-ninh-quoc-phong", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
     public class KienThucAnNinhQuocPhongController {
         @GetMapping("/kien-thuc-an-ninh-quoc-phong")
@@ -173,6 +181,8 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
+    @SecurityRequirement(name = "bearerAuth")
+    @Tag(name = "Employee ky-luat", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
     public class KyLuatController {
         @GetMapping("/ky-luat")
@@ -203,6 +213,8 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
+    @SecurityRequirement(name = "bearerAuth")
+    @Tag(name = "Employee lam-viec-o-nuoc-ngoai", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
     public class LamViecONuocNgoaiController {
         @GetMapping("/lam-viec-o-nuoc-ngoai")
@@ -233,6 +245,8 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
+    @SecurityRequirement(name = "bearerAuth")
+    @Tag(name = "Employee luong-ban-than", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
     public class LuongBanThanController {
         @GetMapping("/luong-ban-than")
@@ -268,6 +282,8 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
+    @SecurityRequirement(name = "bearerAuth")
+    @Tag(name = "Employee ly-luan-chinh-tri", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
     public class LyLuanChinhTriController {
         @GetMapping("/ly-luan-chinh-tri")
@@ -302,6 +318,8 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
+    @SecurityRequirement(name = "bearerAuth")
+    @Tag(name = "Employee nghiep-vu-chuyen-nganh", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
     public class NghiepVuChuyenNganhController {
         @GetMapping("/nghiep-vu-chuyen-nganh")
@@ -337,6 +355,8 @@ public class CaNhanSoYeuLyLichChiTietController {
 
 
     @RestController
+    @SecurityRequirement(name = "bearerAuth")
+    @Tag(name = "Employee ngoai-ngu", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
     public class NgoaiNguController {
         @GetMapping("/ngoai-ngu")
@@ -372,6 +392,8 @@ public class CaNhanSoYeuLyLichChiTietController {
 
 
     @RestController
+    @SecurityRequirement(name = "bearerAuth")
+    @Tag(name = "Employee phu-cap-khac", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
     public class PhuCapKhacController {
         @GetMapping("/phu-cap-khac")
@@ -406,6 +428,8 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
+    @SecurityRequirement(name = "bearerAuth")
+    @Tag(name = "Employee quan-he-gia-dinh", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
     public class QuanHeGiaDinhController {
         @GetMapping("/quan-he-gia-dinh")
@@ -441,6 +465,8 @@ public class CaNhanSoYeuLyLichChiTietController {
     }
 
     @RestController
+    @SecurityRequirement(name = "bearerAuth")
+    @Tag(name = "Employee qua-trinh-cong-tac", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
     public class QuaTrinhCongTacController {
         @GetMapping("/qua-trinh-cong-tac")
@@ -475,6 +501,8 @@ public class CaNhanSoYeuLyLichChiTietController {
 
 
     @RestController
+    @SecurityRequirement(name = "bearerAuth")
+    @Tag(name = "Employee tin-hoc", description = "The Employee API. Contains all the operations that can be performed on a employee.")
     @RequestMapping(value = "/ca-nhan")
     public class TinHocController {
         @GetMapping("/tin-hoc")

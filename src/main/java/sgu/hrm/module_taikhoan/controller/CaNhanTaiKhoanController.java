@@ -1,5 +1,7 @@
 package sgu.hrm.module_taikhoan.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,8 @@ import java.util.List;
 
 
 @RestController
+@SecurityRequirement(name = "bearerAuth")
+@Tag(name = "Employee tai-khoan", description = "The Employee API. Contains all the operations that can be performed on a employee.")
 public class CaNhanTaiKhoanController {
 
     private final ITaiKhoanService taiKhoanService;
