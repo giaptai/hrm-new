@@ -19,7 +19,7 @@ import sgu.hrm.module_soyeulylich.services.ISoYeuLyLichService;
 
 @RestController
 @RequestMapping(value = "/ca-nhan")
-@Tag(name = "Employee so-yeu-ly-lich", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+@Tag(name = "Employee so-yeu-ly-lich", description = "Nhân viên")
 @SecurityRequirement(name = "Bearer Authentication")
 public class CaNhanSoYeuLyLichController {
 

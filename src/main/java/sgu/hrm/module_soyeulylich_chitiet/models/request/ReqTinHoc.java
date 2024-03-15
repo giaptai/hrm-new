@@ -6,8 +6,6 @@ public record ReqTinHoc(
         LocalDateTime batDau,
         LocalDateTime ketThuc,
         int tenCoSoDaoTao,
-        String chungChiDuocCap,
-        String loaiSoYeuLyLichChiTiet,
-        String soYeuLyLich
+        String chungChiDuocCap
 ) {
 }

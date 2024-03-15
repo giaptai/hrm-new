@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface IUtilitiesService<T, R> {
     List<T> xemDS();
+
     default List<T> xemDS(PhanTrang<T> phanTrang){
         return new ArrayList<>();
     };

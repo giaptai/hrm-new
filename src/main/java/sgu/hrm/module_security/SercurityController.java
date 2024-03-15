@@ -20,7 +20,7 @@ import sgu.hrm.module_taikhoan.service.ITaiKhoanService;
 import java.util.List;
 
 @RestController
-@Tag(name = "Login", description = "The login API. Contains all the operations that can be performed on a Admin.")
+@Tag(name = "Login", description = "The login API")
 @RequiredArgsConstructor
 public class SercurityController {
 

@@ -8,8 +8,6 @@ public record ReqLuongBanThan(
         String maSo,
         String bacLuong,
         float heSoLuong,
-        float tienLuongTheoViTri,
-        String loaiSoYeuLyLichChiTiet,
-        String soYeuLyLich
+        float tienLuongTheoViTri
 ) {
 }

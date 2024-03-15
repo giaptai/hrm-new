@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sgu.hrm.module_response.ResDTO;
 import sgu.hrm.module_response.ResEnum;
 
+import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_soyeulylich.models.request.ReqDSSoYeuLyLich;
 import sgu.hrm.module_soyeulylich.models.response.ResSoYeuLyLich;
 
@@ -26,7 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/nhan-vien")
-@Tag(name = "Admin so-yeu-ly-lich", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+@Tag(name = "Admin so-yeu-ly-lich", description = "Quản lý")
 @SecurityRequirement(name = "Bearer Authentication")
 public class AdminSoYeuLyLichController {
 
@@ -42,11 +43,10 @@ public class AdminSoYeuLyLichController {
         return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resSoYeuLyLichs), HttpStatus.ACCEPTED);
     }
 
-//    @GetMapping("/so-yeu-ly-lich/tim-kiem")
-//    public ResponseEntity<ResDTO<ResSoYeuLyLich>> getSoYeuLyLichSoCCCDOrId(@RequestParam(name = "q") String q) {
-//        return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG,
-//                ResSoYeuLyLich.mapToResSoYeuLyLich(soYeuLyLichService.xemSoYeuLyLichTheoSoCCCDHoacID(q))), HttpStatus.OK);
-//    }
+    @GetMapping("/so-yeu-ly-lich/tim-kiem")
+    public ResponseEntity<ResDTO<SoYeuLyLich>> getSoYeuLyLichSoCCCDOrId(@RequestParam(name = "q") String q) {
+        return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, soYeuLyLichService.xemSoYeuLyLichTheoSoCCCDHoacID(q)), HttpStatus.OK);
+    }
 
     @GetMapping("/so-yeu-ly-lich/{id}")
     public ResponseEntity<ResDTO<ResSoYeuLyLich>> getSoYeuLyLichById(@PathVariable(name = "id") String id) {

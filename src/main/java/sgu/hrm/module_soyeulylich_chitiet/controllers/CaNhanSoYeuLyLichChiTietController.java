@@ -70,7 +70,7 @@ public class CaNhanSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "/ca-nhan")
-    @Tag(name = "Employee lam-viec-cho-che-do-cu", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @Tag(name = "Employee lam-viec-cho-che-do-cu", description = "Nhân viên")
     @SecurityRequirement(name = "Bearer Authentication")
     public class BanThanCoLamViecChoCheDoCuController {
         @GetMapping("/lam-viec-cho-che-do-cu")
@@ -113,7 +113,7 @@ public class CaNhanSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "/ca-nhan")
-    @Tag(name = "Employee khen-thuong", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @Tag(name = "Employee khen-thuong", description = "Nhân viên")
     @SecurityRequirement(name = "Bearer Authentication")
     public class KhenThuongController {
         @GetMapping("/khen-thuong")
@@ -148,7 +148,7 @@ public class CaNhanSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "/ca-nhan")
-    @Tag(name = "Employee kien-thuc-an-ninh-quoc-phong", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @Tag(name = "Employee kien-thuc-an-ninh-quoc-phong", description = "Nhân viên")
     @SecurityRequirement(name = "Bearer Authentication")
     public class KienThucAnNinhQuocPhongController {
         @GetMapping("/kien-thuc-an-ninh-quoc-phong")
@@ -182,7 +182,7 @@ public class CaNhanSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "/ca-nhan")
-    @Tag(name = "Employee ky-luat", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @Tag(name = "Employee ky-luat", description = "Nhân viên")
     @SecurityRequirement(name = "Bearer Authentication")
     public class KyLuatController {
         @GetMapping("/ky-luat")
@@ -214,7 +214,7 @@ public class CaNhanSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "/ca-nhan")
-    @Tag(name = "Employee lam-viec-o-nuoc-ngoai", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @Tag(name = "Employee lam-viec-o-nuoc-ngoai", description = "Nhân viên")
     @SecurityRequirement(name = "Bearer Authentication")
     public class LamViecONuocNgoaiController {
         @GetMapping("/lam-viec-o-nuoc-ngoai")
@@ -246,7 +246,7 @@ public class CaNhanSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "/ca-nhan")
-    @Tag(name = "Employee luong-ban-than", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @Tag(name = "Employee luong-ban-than", description = "Nhân viên")
     @SecurityRequirement(name = "Bearer Authentication")
     public class LuongBanThanController {
         @GetMapping("/luong-ban-than")
@@ -283,7 +283,7 @@ public class CaNhanSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "/ca-nhan")
-    @Tag(name = "Employee ly-luan-chinh-tri", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @Tag(name = "Employee ly-luan-chinh-tri", description = "Nhân viên")
     @SecurityRequirement(name = "Bearer Authentication")
     public class LyLuanChinhTriController {
         @GetMapping("/ly-luan-chinh-tri")
@@ -319,7 +319,7 @@ public class CaNhanSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "/ca-nhan")
-    @Tag(name = "Employee nghiep-vu-chuyen-nganh", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @Tag(name = "Employee nghiep-vu-chuyen-nganh", description = "Nhân viên")
     @SecurityRequirement(name = "Bearer Authentication")
     public class NghiepVuChuyenNganhController {
         @GetMapping("/nghiep-vu-chuyen-nganh")
@@ -356,7 +356,7 @@ public class CaNhanSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "/ca-nhan")
-    @Tag(name = "Employee ngoai-ngu", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @Tag(name = "Employee ngoai-ngu", description = "Nhân viên")
     @SecurityRequirement(name = "Bearer Authentication")
     public class NgoaiNguController {
         @GetMapping("/ngoai-ngu")
@@ -393,7 +393,7 @@ public class CaNhanSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "/ca-nhan")
-    @Tag(name = "Employee phu-cap-khac", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @Tag(name = "Employee phu-cap-khac", description = "Nhân viên")
     @SecurityRequirement(name = "Bearer Authentication")
     public class PhuCapKhacController {
         @GetMapping("/phu-cap-khac")
@@ -429,7 +429,7 @@ public class CaNhanSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "/ca-nhan")
-    @Tag(name = "Employee quan-he-gia-dinh", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @Tag(name = "Employee quan-he-gia-dinh", description = "Nhân viên")
     @SecurityRequirement(name = "Bearer Authentication")
     public class QuanHeGiaDinhController {
         @GetMapping("/quan-he-gia-dinh")
@@ -466,7 +466,7 @@ public class CaNhanSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "/ca-nhan")
-    @Tag(name = "Employee qua-trinh-cong-tac", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @Tag(name = "Employee qua-trinh-cong-tac", description = "Nhân viên")
     @SecurityRequirement(name = "Bearer Authentication")
     public class QuaTrinhCongTacController {
         @GetMapping("/qua-trinh-cong-tac")
@@ -502,7 +502,7 @@ public class CaNhanSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "/ca-nhan")
-    @Tag(name = "Employee tin-hoc", description = "The Employee API. Contains all the operations that can be performed on a Employee.")
+    @Tag(name = "Employee tin-hoc", description = "Nhân viên")
     @SecurityRequirement(name = "Bearer Authentication")
     public class TinHocController {
         @GetMapping("/tin-hoc")

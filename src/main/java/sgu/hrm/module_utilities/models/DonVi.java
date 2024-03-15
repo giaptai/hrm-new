@@ -38,7 +38,9 @@ public class DonVi extends DateTimeObject {
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "bo_coquan_fk"), name = "bo_coquan", referencedColumnName = "id", columnDefinition = "integer")
     BoCoQuan boCoQuan;
-    public DonVi(String name) {
+
+    public DonVi(String name, BoCoQuan boCoQuan) {
         this.name = name;
+        this.boCoQuan = boCoQuan;
     }
 }

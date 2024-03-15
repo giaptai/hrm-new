@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
+import org.springframework.web.server.ResponseStatusException;
+import sgu.hrm.module_response.ResEnum;
 import sgu.hrm.module_utilities.models.BacLuong;
+import sgu.hrm.module_utilities.models.BoCoQuan;
 import sgu.hrm.module_utilities.models.CapBacLoaiQuanHamQuanDoi;
 import sgu.hrm.module_utilities.models.CapNhomChucDanhDang;
 import sgu.hrm.module_utilities.models.ChucDanhDang;
@@ -14,6 +17,7 @@ import sgu.hrm.module_utilities.models.DanToc;
 
 import sgu.hrm.module_utilities.models.DanhHieuNhaNuoc;
 import sgu.hrm.module_utilities.models.DoiTuongChinhSach;
+import sgu.hrm.module_utilities.models.DonVi;
 import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
 import sgu.hrm.module_utilities.models.HocHam;
 import sgu.hrm.module_utilities.models.LoaiQuanHamQuanDoi;
@@ -27,6 +31,7 @@ import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
 import sgu.hrm.module_utilities.models.ViTriViecLam;
 import sgu.hrm.module_utilities.models.request.ReqUtilities;
 import sgu.hrm.module_utilities.repositories.BacLuongRepository;
+import sgu.hrm.module_utilities.repositories.BoCoQuanRepository;
 import sgu.hrm.module_utilities.repositories.CapBacLoaiQuanHamQuanDoiRepository;
 import sgu.hrm.module_utilities.repositories.CapNhomChucDanhDangRepository;
 import sgu.hrm.module_utilities.repositories.ChucDanhDangRepository;
@@ -35,6 +40,7 @@ import sgu.hrm.module_utilities.repositories.CoQuanToChucDonViRepository;
 import sgu.hrm.module_utilities.repositories.DanTocRepository;
 import sgu.hrm.module_utilities.repositories.DanhHieuNhaNuocPhongTangRepository;
 import sgu.hrm.module_utilities.repositories.DoiTuongChinhSachRepository;
+import sgu.hrm.module_utilities.repositories.DonViRepository;
 import sgu.hrm.module_utilities.repositories.HinhThucKhenThuongRepository;
 import sgu.hrm.module_utilities.repositories.HocHamRepository;
 import sgu.hrm.module_utilities.repositories.LoaiQuanHamQuanDoiRepository;
@@ -59,6 +65,8 @@ public class UtilitiesService {
     private final ChucDanhDangRepository chucDanhDangRepository;
     private final ChucVuRepository chucVuRepository;
     private final CoQuanToChucDonViRepository coQuanToChucDonViRepository;
+    private final BoCoQuanRepository boCoQuanRepository;
+    private final DonViRepository donViRepository;
     private final DanhHieuNhaNuocPhongTangRepository danhHieuNhaNuocPhongTangRepository;
     private final DanTocRepository danTocRepository;
     private final DoiTuongChinhSachRepository doiTuongChinhSachRepository;
@@ -392,6 +400,112 @@ public class UtilitiesService {
             try {
                 if (xemTheoId(id).isPresent()) {
                     coQuanToChucDonViRepository.deleteById(id);
+                    return true;
+                }
+                return false;
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e.getCause());
+            }
+        }
+    }
+
+    @Service
+    public class BoCoQuanService implements IUtilitiesService<BoCoQuan, ReqUtilities> {
+        @Override
+        public List<BoCoQuan> xemDS() {
+            return boCoQuanRepository.findAll();
+        }
+
+        @Override
+        public Optional<BoCoQuan> xemTheoId(int id) {
+            return boCoQuanRepository.findById(id);
+        }
+
+        @Override
+        public BoCoQuan them(ReqUtilities req) {
+            BoCoQuan co = boCoQuanRepository.findByName(req.name()).orElse(null);
+            try {
+                if (co == null) {
+                    return boCoQuanRepository.save(new BoCoQuan(req.name()));
+                }
+                return co;
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e.getCause());
+            }
+        }
+
+        @Override
+        public BoCoQuan sua(int id, ReqUtilities vi) {
+            try {
+                return boCoQuanRepository.findById(id).map(e -> {
+                    e.setName(vi.name());
+                    e.setUpdate_at();
+                    return boCoQuanRepository.save(e);
+                }).orElse(null);
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e.getCause());
+            }
+        }
+
+        @Override
+        public boolean xoa(int id) {
+            try {
+                if (xemTheoId(id).isPresent()) {
+                    donViRepository.deleteById(id);
+                    return true;
+                }
+                return false;
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e.getCause());
+            }
+        }
+    }
+    @Service
+    public class DonViService implements IUtilitiesService<DonVi, ReqUtilities> {
+        @Override
+        public List<DonVi> xemDS() {
+            return donViRepository.findAll();
+        }
+
+        @Override
+        public Optional<DonVi> xemTheoId(int id) {
+            return donViRepository.findById(id);
+        }
+
+        @Override
+        public DonVi them(ReqUtilities req) {
+            BoCoQuan boCoQuan = boCoQuanRepository.findById(req.boCoQuan()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
+            DonVi co = donViRepository.findByName(req.name()).orElse(null);
+            try {
+                if (co == null) {
+                    return donViRepository.save(new DonVi(req.name(), boCoQuan));
+                }
+                return co;
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e.getCause());
+            }
+        }
+
+        @Override
+        public DonVi sua(int id, ReqUtilities vi) {
+            try {
+                return donViRepository.findById(id).map(e -> {
+                    BoCoQuan boCoQuan = boCoQuanRepository.findById(vi.boCoQuan()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
+                    e.setName(vi.name());
+                    e.setBoCoQuan(boCoQuan);
+                    e.setUpdate_at();
+                    return donViRepository.save(e);
+                }).orElse(null);
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e.getCause());
+            }
+        }
+
+        @Override
+        public boolean xoa(int id) {
+            try {
+                if (xemTheoId(id).isPresent()) {
+                    donViRepository.deleteById(id);
                     return true;
                 }
                 return false;

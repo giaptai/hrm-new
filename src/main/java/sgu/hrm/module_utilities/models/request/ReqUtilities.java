@@ -8,6 +8,8 @@ public record ReqUtilities(
         int nhomChucDanhDang,
         int capNhomChucDanhDang,
         int bacLuong,
+        int boCoQuan,
+        int donVi,
         double tienLuong
 ) {
 }

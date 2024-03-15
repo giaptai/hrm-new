@@ -128,14 +128,14 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
     @Override
     public SoYeuLyLich xemSoYeuLyLichTheoSoCCCDHoacID(String q) {
         try {
-//            SoYeuLyLich resSoYeuLyLichSoCCCD = soYeuLyLichRepository.findFirstBySoCCCD(q).orElse(null);
+            SoYeuLyLich resSoYeuLyLichSoCCCD = soYeuLyLichRepository.findFirstBySoCCCD(q).orElse(null);
             SoYeuLyLich resSoYeuLyLichId = null;
             Pattern UUID_REGEX = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
             if (UUID_REGEX.matcher(q).matches()) {
                 resSoYeuLyLichId = soYeuLyLichRepository.findById(UUID.fromString(q)).orElse(null);
             }
-            return null;
-//            return resSoYeuLyLichSoCCCD != null ? resSoYeuLyLichSoCCCD : resSoYeuLyLichId;
+//            return null;
+            return resSoYeuLyLichSoCCCD != null ? resSoYeuLyLichSoCCCD : resSoYeuLyLichId;
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }

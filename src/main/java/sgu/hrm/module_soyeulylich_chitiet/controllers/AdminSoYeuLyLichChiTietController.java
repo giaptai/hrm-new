@@ -66,7 +66,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "/danh-sach-phe-duyet")
-    @Tag(name = "Admin danh-sach-phe-duyet", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @Tag(name = "Admin danh-sach-phe-duyet", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class PheDuyetController {
         @GetMapping("/ngoai-ngu")
@@ -86,7 +86,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin lam-viec-cho-che-do-cu", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @Tag(name = "Admin lam-viec-cho-che-do-cu", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class BanThanCoLamViecChoCheDoCuController {
         @GetMapping("/nhan-vien/{id}/lam-viec-cho-che-do-cu")
@@ -104,7 +104,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin khen-thuong", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @Tag(name = "Admin khen-thuong", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class KhenThuongController {
         @GetMapping("/nhan-vien/{id}/khen-thuong")
@@ -129,7 +129,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin kien-thuc-an-ninh-quoc-phong", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @Tag(name = "Admin kien-thuc-an-ninh-quoc-phong", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class KienThucAnNinhQuocPhongController {
         @GetMapping("/nhan-vien/{id}/kien-thuc-an-ninh-quoc-phong")
@@ -147,7 +147,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin ky-luat", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @Tag(name = "Admin ky-luat", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class KyLuatController {
         @GetMapping("/nhan-vien/{id}/ky-luat")
@@ -172,7 +172,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin lam-viec-o-nuoc-ngoai", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @Tag(name = "Admin lam-viec-o-nuoc-ngoai", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class LamViecONuocNgoaiController {
         @GetMapping("/nhan-vien/{id}/lam-viec-o-nuoc-ngoai")
@@ -196,7 +196,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin luong-ban-than", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @Tag(name = "Admin luong-ban-than", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class LuongBanThanController {
         @GetMapping("/nhan-vien/{id}/luong-ban-than")
@@ -216,7 +216,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin ly-luan-chinh-tri", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @Tag(name = "Admin ly-luan-chinh-tri", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class LyLuanChinhTriController {
         @GetMapping("/nhan-vien/{id}/ly-luan-chinh-tri")
@@ -240,7 +240,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin nghiep-vu-chuyen-nganh", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @Tag(name = "Admin nghiep-vu-chuyen-nganh", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class NghiepVuChuyenNganhController {
         @GetMapping("/nhan-vien/{id}/nghiep-vu-chuyen-nganh")
@@ -264,7 +264,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin ngoai-ngu", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @Tag(name = "Admin ngoai-ngu", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class NgoaiNguController {
         @GetMapping("/nhan-vien/{id}/ngoai-ngu")
@@ -288,7 +288,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin phu-cap-khac", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @Tag(name = "Admin phu-cap-khac", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class PhuCapKhacController {
         @GetMapping("/nhan-vien/{id}/phu-cap-khac")
@@ -306,7 +306,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin quan-he-gia-dinh", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @Tag(name = "Admin quan-he-gia-dinh", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class QuanHeGiaDinhController {
         @GetMapping("/nhan-vien/{id}/quan-he-gia-dinh")
@@ -325,7 +325,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin qua-trinh-cong-tac", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @Tag(name = "Admin qua-trinh-cong-tac", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class QuaTrinhCongTacController {
         @GetMapping("/nhan-vien/{id}/qua-trinh-cong-tac")
@@ -350,7 +350,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin tin-hoc", description = "The Admin API. Contains all the operations that can be performed on a Admin.")
+    @Tag(name = "Admin tin-hoc", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class TinHocController {
         @GetMapping("/nhan-vien/{id}/tin-hoc")

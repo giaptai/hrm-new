@@ -6,7 +6,6 @@ public record ReqLamViecONuocNgoai(
         LocalDateTime batDau,
         LocalDateTime ketThuc,
         String toChucDiaChiCongViec,
-        String loaiSoYeuLyLichChiTiet,
         String soYeuLyLich
 ) {
 }

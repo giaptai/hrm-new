@@ -8,8 +8,6 @@ public record ReqQuanHeGiaDinh(
         int moiQuanHe,
         String hoVaTen,
         short namSinh,
-        String thongTinThanNhan,
-        String loaiSoYeuLyLichChiTiet,
-        String soYeuLyLich
+        String thongTinThanNhan
 ) {
 }
