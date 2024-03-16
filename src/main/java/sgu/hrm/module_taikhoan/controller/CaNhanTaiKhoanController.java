@@ -46,12 +46,20 @@ public class CaNhanTaiKhoanController {
     @PatchMapping("/ca-nhan/tai-khoan/doi-mat-khau")
     @Transactional
     public ResponseEntity<ResDTO<Boolean>> doi_mat_khau(@RequestBody ReqMatKhau reqMatKhau) {
-        return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, taiKhoanService.doiMatKhau(reqMatKhau.matkhau())), HttpStatus.OK);
+        boolean doiMk = taiKhoanService.doiMatKhau(reqMatKhau.matkhau());
+        if (doiMk) {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.DOI_MAT_KHAU_THANH_CONG, true), ResEnum.DOI_MAT_KHAU_THANH_CONG.getStatusCode());
+        }
+        return new ResponseEntity<>(ResDTO.response(ResEnum.DOI_MAT_KHAU_THAT_BAI, false), ResEnum.DOI_MAT_KHAU_THAT_BAI.getStatusCode());
     }
 
     @PatchMapping("/ca-nhan/tai-khoan/doi-email")
     @Transactional
     public ResponseEntity<ResDTO<Boolean>> doi_email(@RequestBody ReqEmail email) {
-        return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, taiKhoanService.doiEmail(email.email())), HttpStatus.OK);
+        boolean doiEm = taiKhoanService.doiEmail(email.email());
+        if (doiEm) {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.DOI_EMAIL_THANH_CONG, true), ResEnum.DOI_EMAIL_THANH_CONG.getStatusCode());
+        }
+        return new ResponseEntity<>(ResDTO.response(ResEnum.DOI_EMAIL_THAT_BAI, false), ResEnum.DOI_EMAIL_THAT_BAI.getStatusCode());
     }
 }

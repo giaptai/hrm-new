@@ -9,49 +9,30 @@ import java.time.LocalDateTime;
 
 public record ReqSoYeuLyLich(
         String hovaten,
-
         GioiTinh gioiTinh,
-
         String cacTenGoiKhac,
-
         LocalDateTime sinhNgay,
-
         String noiSinh,
-
         String queQuan,
-
         int danToc, //DanToc danToc,
         int tonGiao, //DanToc danToc,
         String soCCCD,
-
         LocalDateTime ngayCapCCCD,
-
         String soDienThoai,
-
         String soBHXH,
-
         String soBHYT,
-
         String noiOHienNay,
-
         int thanhPhanGiaDinh, //ThanhPhanGiaDinh thanhPhanGiaDinh,
-
         ReqThongTinTuyenDung thongTinTuyenDung, //ThongTinTuyenDung
-
         ReqQuanSu quanSu, //QuanSu
         int doiTuongChinhSach, //DoiTuongChinhSach doiTuongChinhSach,
-
         ReqHocVan hocVan, //HocVan
-
         ReqChucVu chucVu,
         int chucVuKiemNhiem, //ChucVu chucVuKiemNhiem
-
         int chucVuDangHienTai, //ChucDanhDang chucVuDangHienTai;
-
         int chucVuDangKiemNhiem, // ChucDanhDang chucVuDangKiemNhiem;
-
         double tienLuong,
-        ReqNgach ngach,
+        ReqNgachNhanVien ngach,
         double phuCapChucVu,
 
         double phuCapKiemNhiem,
@@ -115,8 +96,8 @@ public record ReqSoYeuLyLich(
     ) {
     }
 
-    public record ReqNgach(
-            String ngachNhanVien, //NgachCongChuc ngachCongChuc;  NgachVienChuc ngachVienChuc;
+    public record ReqNgachNhanVien(
+            String ngach, //NgachCongChuc ngachCongChuc;  NgachVienChuc ngachVienChuc;
 
             LocalDateTime ngayBoNhiemNgach,
 
@@ -127,7 +108,6 @@ public record ReqSoYeuLyLich(
             double phuCapThamNienVuotKhungNgach,
 
             LocalDateTime ngayHuongPCTNVKNgach
-
     ) {
     }
 

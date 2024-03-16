@@ -1187,7 +1187,7 @@ public class SoYeuLyLichChiTietServices {
 
         @Override
         public PhuCapKhac themThongTin(ReqPhuCapKhac req) {
-            try {
+//            try {
                 LoaiPhuCap loaiPhuCap = loaiPhuCapRepository.findById(req.loaiPhuCap()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
 //                mapToPhuCapKhac(req)
                 PhuCapKhac cap = new PhuCapKhac(
@@ -1200,9 +1200,9 @@ public class SoYeuLyLichChiTietServices {
                         req.giaTri(),
                         syll());
                 return phuCapKhacRepository.save(cap);
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
-            }
+//            } catch (ResponseStatusException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
         }
 
         @Override

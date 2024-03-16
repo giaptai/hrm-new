@@ -29,7 +29,7 @@ public class LoaiPhuCap extends DateTimeObject {
     @Column(columnDefinition = "INTEGER AUTO_INCREMENT")
     int id;
 
-    @Column(length = 50, unique = true)
+    @Column(length = 70, unique = true)
     String name;
 
     public LoaiPhuCap(String name) {

@@ -115,7 +115,7 @@ public class TaiKhoanService implements ITaiKhoanService {
     public TaiKhoan xemTaiKhoanTheoSoCCCDOrUsername(String number) {
         try {
             TaiKhoan taiKhoanSoCCCD = taiKhoanRepository.findBySoCCCD(number);
-            TaiKhoan taiKhoanUsername = taiKhoanRepository.findByUsername(number);
+            TaiKhoan taiKhoanUsername = taiKhoanRepository.findByUsernameContaining(number);
             if (taiKhoanSoCCCD != null) {
                 return taiKhoanSoCCCD;
             } else return taiKhoanUsername;
@@ -164,7 +164,8 @@ public class TaiKhoanService implements ITaiKhoanService {
                 return taiKhoanRepository.save(taiKhoan);
             } else return null;
         } catch (RuntimeException e) {
-            throw new RuntimeException(e.getCause());
+            return null;
+//            throw new ResponseStatusException(ResEnum.TRUNG_DU_LIEU.getStatusCode(), "Trùng dữ liệu hoặc lỗi gì đó");
         } finally {
 //            if (taiKhoan != null) {
 //                producers.sendMailProducer(reqTaiKhoan);
@@ -187,7 +188,8 @@ public class TaiKhoanService implements ITaiKhoanService {
             //không tạo refresh token ok
             throw new ResponseStatusException(ResEnum.DANG_NHAP_THAT_BAI.getStatusCode(), ResEnum.DANG_NHAP_THAT_BAI.name());
         } catch (AuthenticationException e) {
-            throw new ResponseStatusException(ResEnum.DANG_NHAP_THAT_BAI.getStatusCode(), ResEnum.DANG_NHAP_THAT_BAI.name());
+            return null;
+//            throw new ResponseStatusException(ResEnum.DANG_NHAP_THAT_BAI.getStatusCode(), ResEnum.DANG_NHAP_THAT_BAI.name());
 //            throw ResDTO.error(ResEnum.DANG_NHAP_THAT_BAI);
         } catch (Exception e) {
             throw new RuntimeException(e.getCause());

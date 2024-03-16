@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import sgu.hrm.module_response.ResDTO;
 import sgu.hrm.module_response.ResEnum;
+import sgu.hrm.module_taikhoan.models.TaiKhoan;
 import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoanLogin;
 import sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoan;
 import sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoanLogin;
@@ -33,9 +34,15 @@ public class SercurityController {
 
     @PostMapping("/dang-nhap")
     public ResponseEntity<ResDTO<ResTaiKhoanLogin>> dangNhap(@RequestBody ReqTaiKhoanLogin reqTaiKhoanLogin) {
+        ResTaiKhoanLogin taiKhoan = taiKhoanService.dangNhap(reqTaiKhoanLogin);
+        if (taiKhoan != null) {
+            return new ResponseEntity<>(ResDTO.response(
+                    ResEnum.DANG_NHAP_THANH_CONG, taiKhoanService.dangNhap(reqTaiKhoanLogin)),
+                    ResEnum.DANG_NHAP_THANH_CONG.getStatusCode());
+        }
         return new ResponseEntity<>(ResDTO.response(
-                ResEnum.DANG_NHAP_THANH_CONG, taiKhoanService.dangNhap(reqTaiKhoanLogin)),
-                ResEnum.DANG_NHAP_THANH_CONG.getStatusCode());
+                ResEnum.DANG_NHAP_THAT_BAI, null),
+                ResEnum.DANG_NHAP_THAT_BAI.getStatusCode());
     }
 
     @GetMapping("/dang-xuat")

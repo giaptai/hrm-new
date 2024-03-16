@@ -1295,6 +1295,7 @@ public class UtilitiesService {
                 return viTriViecLamRepository.findById(id).map(e -> {
                     e.setName(req.name());
                     e.setBacLuong(bacLuong);
+                    e.setTienLuong(req.tienLuong());
                     e.setUpdate_at();
                     return viTriViecLamRepository.save(e);
                 }).orElse(null);

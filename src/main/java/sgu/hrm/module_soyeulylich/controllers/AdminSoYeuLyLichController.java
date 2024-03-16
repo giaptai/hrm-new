@@ -3,6 +3,8 @@ package sgu.hrm.module_soyeulylich.controllers;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,20 +25,16 @@ import sgu.hrm.module_soyeulylich.models.response.ResSoYeuLyLich;
 import sgu.hrm.module_soyeulylich.services.ISoYeuLyLichService;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
 @RequestMapping(value = "/nhan-vien")
 @Tag(name = "Admin so-yeu-ly-lich", description = "Quản lý")
 @SecurityRequirement(name = "Bearer Authentication")
+@RequiredArgsConstructor
 public class AdminSoYeuLyLichController {
-
     private final ISoYeuLyLichService soYeuLyLichService;
-
-    public AdminSoYeuLyLichController(ISoYeuLyLichService soYeuLyLichService) {
-        this.soYeuLyLichService = soYeuLyLichService;
-    }
-
     @GetMapping("/so-yeu-ly-lich")
     public ResponseEntity<ResDTO<List<ResSoYeuLyLich>>> getAllSoYeuLyLich() {
         List<ResSoYeuLyLich> resSoYeuLyLichs = soYeuLyLichService.xemDanhSachSoYeuLyLich().stream().map(ResSoYeuLyLich::mapToResSoYeuLyLich).toList();
@@ -49,13 +47,13 @@ public class AdminSoYeuLyLichController {
     }
 
     @GetMapping("/so-yeu-ly-lich/{id}")
-    public ResponseEntity<ResDTO<ResSoYeuLyLich>> getSoYeuLyLichById(@PathVariable(name = "id") String id) {
+    public ResponseEntity<ResDTO<ResSoYeuLyLich>> getSoYeuLyLichById(@PathVariable(name = "id") UUID id) {
         return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG,
                 ResSoYeuLyLich.mapToResSoYeuLyLich(soYeuLyLichService.xemSoYeuLyLichTheoId(id))), HttpStatus.OK);
     }
 
-    @PatchMapping("/so-yeu-ly-lich/phe-duyet")
     @Transactional
+    @PatchMapping("/so-yeu-ly-lich/phe-duyet")
     public ResponseEntity<ResDTO<List<ResSoYeuLyLich>>> editSoYeuLyLich(@PathVariable(name = "id", required = false) String id,
                                                                         @RequestBody List<ReqDSSoYeuLyLich> reqDSSoYeuLyLich) {
         List<ResSoYeuLyLich> resSoYeuLyLichs = soYeuLyLichService.pheDuyetSoYeuLyLich(reqDSSoYeuLyLich).stream().map(ResSoYeuLyLich::mapToResSoYeuLyLich).toList();

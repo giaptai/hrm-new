@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import sgu.hrm.module_response.ResDTO;
 import sgu.hrm.module_response.ResEnum;
+import sgu.hrm.module_taikhoan.models.TaiKhoan;
 import sgu.hrm.module_taikhoan.models.request.ReqEmail;
 import sgu.hrm.module_taikhoan.models.request.ReqMatKhau;
 import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoan;
@@ -37,25 +38,37 @@ public class AdminTaiKhoanController {
     @GetMapping("/nhan-vien/tai-khoan")
     public ResponseEntity<ResDTO<List<ResTaiKhoan>>> getAllTaiKhoan() {
         List<ResTaiKhoan> resTaiKhoans = taiKhoanService.xemDanhSachTaiKhoan().stream().map(ResTaiKhoan::mapToResTaiKhoan).toList();
-        return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resTaiKhoans), HttpStatus.OK);
+        return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resTaiKhoans), ResEnum.THANH_CONG.getStatusCode());
     }
 
     @GetMapping("/nhan-vien/tai-khoan/tim-kiem")
     public ResponseEntity<ResDTO<ResTaiKhoan>> getTaiKhoanBySoCCCD(@RequestParam(name = "q") String number) {
-        ResTaiKhoan resTaiKhoan = ResTaiKhoan.mapToResTaiKhoan(taiKhoanService.xemTaiKhoanTheoSoCCCDOrUsername(number));
-        return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resTaiKhoan), HttpStatus.OK);
+        TaiKhoan taiKhoan = taiKhoanService.xemTaiKhoanTheoSoCCCDOrUsername(number);
+        if (taiKhoan != null) {
+            ResTaiKhoan resTaiKhoan = ResTaiKhoan.mapToResTaiKhoan(taiKhoanService.xemTaiKhoanTheoSoCCCDOrUsername(number));
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resTaiKhoan), ResEnum.THANH_CONG.getStatusCode());
+        }
+        return new ResponseEntity<>(ResDTO.response(ResEnum.HONG_TIM_THAY, null), ResEnum.HONG_TIM_THAY.getStatusCode());
     }
 
     @GetMapping("/nhan-vien/tai-khoan/{id}")
     public ResponseEntity<ResDTO<ResTaiKhoan>> getTaiKhoanBySoCCCD(@PathVariable(name = "id") int id) {
-        ResTaiKhoan resTaiKhoan = ResTaiKhoan.mapToResTaiKhoan(taiKhoanService.xemTaiKhoanTheoId(id));
-        return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resTaiKhoan), HttpStatus.OK);
+        TaiKhoan taiKhoan = taiKhoanService.xemTaiKhoanTheoId(id);
+        if (taiKhoan != null) {
+            ResTaiKhoan resTaiKhoan = ResTaiKhoan.mapToResTaiKhoan(taiKhoanService.xemTaiKhoanTheoId(id));
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resTaiKhoan), ResEnum.THANH_CONG.getStatusCode());
+        }
+        return new ResponseEntity<>(ResDTO.response(ResEnum.HONG_TIM_THAY, null), ResEnum.HONG_TIM_THAY.getStatusCode());
     }
 
-    @Transactional
-    @PostMapping("/nhan-vien/them")
+    @Transactional(Transactional.TxType.NEVER)
+    @PostMapping("/nhan-vien/tai-khoan")
     public ResponseEntity<ResDTO<ResTaiKhoan>> addTaiKhoan(@RequestBody ReqTaiKhoan reqTaiKhoan) {
-        ResTaiKhoan resTaiKhoan = ResTaiKhoan.mapToResTaiKhoan(taiKhoanService.themTaiKhoan(reqTaiKhoan));
-        return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resTaiKhoan), HttpStatus.OK);
+        TaiKhoan taiKhoan = taiKhoanService.themTaiKhoan(reqTaiKhoan);
+        if (taiKhoan != null) {
+            ResTaiKhoan resTaiKhoan = ResTaiKhoan.mapToResTaiKhoan(taiKhoan);
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TAO_THANH_CONG, resTaiKhoan), ResEnum.TAO_THANH_CONG.getStatusCode());
+        } else
+            return new ResponseEntity<>(ResDTO.response(ResEnum.TRUNG_DU_LIEU, null), ResEnum.TRUNG_DU_LIEU.getStatusCode());
     }
 }

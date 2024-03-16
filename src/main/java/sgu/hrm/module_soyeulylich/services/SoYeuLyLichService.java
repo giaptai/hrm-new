@@ -142,9 +142,10 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
     }
 
     @Override
-    public SoYeuLyLich xemSoYeuLyLichTheoId(String id) {
+    public SoYeuLyLich xemSoYeuLyLichTheoId(UUID id) {
         try {
-            return soYeuLyLichRepository.findById(UUID.fromString(id)).orElse(null);
+//            if(UUID.)
+            return soYeuLyLichRepository.findById(id).orElse(null);
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getCause());
         }
@@ -190,7 +191,7 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
         ReqSoYeuLyLich.ReqQuanSu reqQuanSu = req.quanSu();
         ReqSoYeuLyLich.ReqHocVan reqHocVan = req.hocVan();
         ReqSoYeuLyLich.ReqChucVu reqChucVu = req.chucVu();
-        ReqSoYeuLyLich.ReqNgach reqNgach = req.ngach();
+        ReqSoYeuLyLich.ReqNgachNhanVien reqNgach = req.ngach();
         ReqSoYeuLyLich.ReqViecLam reqViecLam = req.viecLam();
         ReqSoYeuLyLich.ReqSucKhoe reqSucKhoe = req.sucKhoe();
         /////////////////////////////////////////////////////
@@ -208,8 +209,8 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
         NhomMau nhomMau = nhomMauRepository.findById(reqSucKhoe.nhomMau()).orElse(null);
         ChucVu chucVu = chucVuRepository.findById(reqChucVu.chucVuHienTai()).orElse(null);
         ChucVu chucVuKiemNhiem = chucVuRepository.findById(req.chucVuKiemNhiem()).orElse(null);
-        NgachCongChuc ngachCongChuc = ngachCongChucRepository.findById(reqNgach.ngachNhanVien()).orElse(null);
-        NgachVienChuc ngachVienChuc = ngachVienChucRepository.findById(reqNgach.ngachNhanVien()).orElse(null);
+        NgachCongChuc ngachCongChuc = ngachCongChucRepository.findById(reqNgach.ngach()).orElse(null);
+        NgachVienChuc ngachVienChuc = ngachVienChucRepository.findById(reqNgach.ngach()).orElse(null);
         ViTriViecLam viTriViecLam = viTriViecLamRepository.findById(reqViecLam.viTriViecLam()).orElse(null);
         ChucDanhDang chucDanhDangHienTai = chucDanhDangRepository.findById(req.chucVuDangHienTai()).orElse(null);
         ChucDanhDang chucDanhDangKiemNhiem = chucDanhDangRepository.findById(req.chucVuDangKiemNhiem()).orElse(null);

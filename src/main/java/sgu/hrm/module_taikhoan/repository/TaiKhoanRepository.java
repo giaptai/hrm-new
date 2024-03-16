@@ -11,6 +11,9 @@ public interface TaiKhoanRepository extends JpaRepository<TaiKhoan, Integer> {
     TaiKhoan findBySoCCCD(String soCCCD);
 
     @Query
+    TaiKhoan findByUsernameContaining(String username);
+
+    @Query
     TaiKhoan findByUsername(String username);
 
     //JPQL

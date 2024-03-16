@@ -5,6 +5,7 @@ import sgu.hrm.module_soyeulylich.models.request.ReqDSSoYeuLyLich;
 import sgu.hrm.module_soyeulylich.models.request.ReqSoYeuLyLich;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public interface ISoYeuLyLichService {
@@ -16,7 +17,7 @@ public interface ISoYeuLyLichService {
 
     SoYeuLyLich xemSoYeuLyLichTheoSoCCCDHoacID(String q);
 
-    SoYeuLyLich xemSoYeuLyLichTheoId(String id);
+    SoYeuLyLich xemSoYeuLyLichTheoId(UUID id);
 
     List<SoYeuLyLich> pheDuyetSoYeuLyLich(List<ReqDSSoYeuLyLich> reqDSSoYeuLyLich);
 }
