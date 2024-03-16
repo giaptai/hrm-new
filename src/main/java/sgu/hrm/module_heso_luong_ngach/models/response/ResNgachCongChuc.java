@@ -24,7 +24,7 @@ public record ResNgachCongChuc(
                 t.getName(),
                 Optional.ofNullable(t.getHeSoLuongCongChuc()).map(HeSoLuongCongChuc::getHeSo).orElse(0.0f),
                 t.getHeSoLuongCongChuc() != null ? t.getHeSoLuongCongChuc().getBacLuong().getName() : "",
-                t.getHeSoLuongCongChuc() != null ? t.getHeSoLuongCongChuc().getNhomLoaiCongChuc().getName() : "",
+                t.getHeSoLuongCongChuc() != null ? t.getHeSoLuongCongChuc().getNhomCongChuc().getName() : "",
                 t.isTrangThai(),
                 t.getCreate_at(),
                 t.getUpdate_at()

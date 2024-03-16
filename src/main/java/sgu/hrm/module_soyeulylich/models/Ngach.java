@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "ngach")
+@Table(name = "ngach_nhan_vien")
 @Getter
 @Setter
 @SuperBuilder

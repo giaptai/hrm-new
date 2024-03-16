@@ -37,7 +37,7 @@ import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 import sgu.hrm.module_utilities.models.DanToc;
 import sgu.hrm.module_utilities.models.DanhHieuNhaNuoc;
 import sgu.hrm.module_utilities.models.DoiTuongChinhSach;
-import sgu.hrm.module_utilities.models.DonVi;
+//import sgu.hrm.module_utilities.models.DonVi;
 import sgu.hrm.module_utilities.models.HocHam;
 import sgu.hrm.module_utilities.models.NhomMau;
 import sgu.hrm.module_utilities.models.ThanhPhanGiaDinh;
@@ -51,7 +51,7 @@ import sgu.hrm.module_utilities.repositories.CoQuanToChucDonViRepository;
 import sgu.hrm.module_utilities.repositories.DanTocRepository;
 import sgu.hrm.module_utilities.repositories.DanhHieuNhaNuocPhongTangRepository;
 import sgu.hrm.module_utilities.repositories.DoiTuongChinhSachRepository;
-import sgu.hrm.module_utilities.repositories.DonViRepository;
+//import sgu.hrm.module_utilities.repositories.DonViRepository;
 import sgu.hrm.module_utilities.repositories.HocHamRepository;
 import sgu.hrm.module_utilities.repositories.NhomMauRepository;
 import sgu.hrm.module_utilities.repositories.ThanhPhanGiaDinhRepository;
@@ -90,7 +90,7 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
     final NgachCongChucRepository ngachCongChucRepository;
     final NgachVienChucRepository ngachVienChucRepository;
     final ViTriViecLamRepository viTriViecLamRepository;
-    final DonViRepository donViRepository;
+    //    final DonViRepository donViRepository;
     final IAuthenticationFacade facadeEmployee;
 
     @Override
@@ -196,7 +196,9 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
         /////////////////////////////////////////////////////
         DanToc danToc = danTocRepository.findById(req.danToc()).orElse(null);
         ThanhPhanGiaDinh thanhPhanGiaDinh = thanhPhanGiaDinhRepository.findById(req.thanhPhanGiaDinh()).orElse(null);
-        DonVi donVi = donViRepository.findById(tuyenDung.coQuanToChucDonViTuyenDung()).orElse(null); //coQuanToChucDonViTuyenDung
+//        DonVi donVi = donViRepository.findById(tuyenDung.coQuanToChucDonViTuyenDung()).orElse(null); //coQuanToChucDonViTuyenDung
+        CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(tuyenDung.coQuanToChucDonViTuyenDung()).orElse(null); //coQuanToChucDonViTuyenDung
+
         CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi = capBacLoaiQuanHamQuanDoiRepository.findById(reqQuanSu.capBacLoaiQuanHamQuanDoi()).orElse(null);
         DoiTuongChinhSach doiTuongChinhSach = doiTuongChinhSachRepository.findById(req.doiTuongChinhSach()).orElse(null);
         TrinhDoGiaoDucPhoThong trinhDoGiaoDucPhoThong = trinhDoGiaoDucPhoThongRepository.findById(reqHocVan.trinhDoGiaoDucPhoThong()).orElse(null);
@@ -256,8 +258,10 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
         if (ngach != null) {
             if (ngachCongChuc != null) {
                 ngach.setNgachCongChuc(ngachCongChuc);
+                ngach.setNgachVienChuc(null);
             } else {
                 ngach.setNgachVienChuc(ngachVienChuc);
+                ngach.setNgachCongChuc(null);
             }
             ngach.setNgayBoNhiemNgach(reqNgach.ngayBoNhiemNgach());
             ngach.setNgayHuongLuongNgach(reqNgach.ngayHuongLuongNgach());

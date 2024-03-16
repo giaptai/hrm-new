@@ -5,8 +5,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import sgu.hrm.module_utilities.models.ViTriViecLam;
 
+import java.util.Optional;
+
 @Repository
 public interface ViTriViecLamRepository extends JpaRepository<ViTriViecLam, Integer> {
     @Query
-    ViTriViecLam findByName(String name);
+    Optional<ViTriViecLam> findByName(String name);
 }

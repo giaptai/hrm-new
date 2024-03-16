@@ -29,17 +29,11 @@ public class BacLuong extends DateTimeObject {
     @Column(columnDefinition = "INTEGER AUTO_INCREMENT")
     int id;
 
-    @Column(length = 6, unique = true)
+    @Column(columnDefinition = "varchar(10) unique")
     String name;
 
     public BacLuong(String name) {
         super(); // goi thi moi set chu
         this.name = name;
-    }
-    //danh cho edit
-
-    @Override
-    public void setUpdate_at() {
-        super.setUpdate_at();
     }
 }

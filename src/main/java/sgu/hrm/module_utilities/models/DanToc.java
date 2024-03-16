@@ -24,7 +24,7 @@ import sgu.hrm.module_utilities.models.response.DateTimeObject;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@JsonIgnoreProperties({"create_at", "update_at"})
+//@JsonIgnoreProperties({"create_at", "update_at"})
 public class DanToc extends DateTimeObject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

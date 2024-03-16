@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import sgu.hrm.module_utilities.models.response.DateTimeObject;
 import sgu.hrm.module_utilities.models.BacLuong;
@@ -19,6 +20,7 @@ import sgu.hrm.module_utilities.models.BacLuong;
 @Entity
 @Table(name = "he_so_luong_vien_chuc")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -32,9 +34,9 @@ public class HeSoLuongVienChuc extends DateTimeObject {
 //    @Id
     @ManyToOne
 //    @MapsId("nhom_loai_vien_chuc")
-    @JoinColumn(foreignKey = @ForeignKey(name = "nhom_loai_vien_chuc_fk"), name = "nhom_loai_vien_chuc", columnDefinition = "INTEGER", referencedColumnName = "id")
+    @JoinColumn(foreignKey = @ForeignKey(name = "nhom_vien_chuc_fk"), name = "nhom_vien_chuc", columnDefinition = "INTEGER", referencedColumnName = "id")
 //    @JsonIgnore
-    NhomLoaiVienChuc nhomLoaiVienChuc;
+    NhomVienChuc nhomVienChuc;
 
 //    @Id
     @ManyToOne
@@ -44,4 +46,11 @@ public class HeSoLuongVienChuc extends DateTimeObject {
 
     @Column(name = "he_so", columnDefinition = "FLOAT")
     float heSo;
+
+    public HeSoLuongVienChuc(NhomVienChuc nhomVienChuc, BacLuong bacLuong, float heSo) {
+        super();
+        this.nhomVienChuc = nhomVienChuc;
+        this.bacLuong = bacLuong;
+        this.heSo = heSo;
+    }
 }

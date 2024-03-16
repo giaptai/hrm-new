@@ -187,7 +187,7 @@ public class TaiKhoanService implements ITaiKhoanService {
             //không tạo refresh token ok
             throw new ResponseStatusException(ResEnum.DANG_NHAP_THAT_BAI.getStatusCode(), ResEnum.DANG_NHAP_THAT_BAI.name());
         } catch (AuthenticationException e) {
-            throw new ResponseStatusException(ResEnum.DANG_NHAP_THAT_BAI.getStatusCode(), ResEnum.DANG_NHAP_THAT_BAI.name(), e);
+            throw new ResponseStatusException(ResEnum.DANG_NHAP_THAT_BAI.getStatusCode(), ResEnum.DANG_NHAP_THAT_BAI.name());
 //            throw ResDTO.error(ResEnum.DANG_NHAP_THAT_BAI);
         } catch (Exception e) {
             throw new RuntimeException(e.getCause());

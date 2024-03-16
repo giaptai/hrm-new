@@ -1,9 +1,13 @@
 server:
   port: 8082
 
+springdoc:
+  api-docs:
+    path: /api-docs
+
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/quan_ly_nhan_vien_chinh_phu
+    url: jdbc:mysql://127.0.0.1:3306/quan_ly_nhan_vien_chinh_phu?createDatabaseIfNotExist=true
     username: root
     password:
   jpa:

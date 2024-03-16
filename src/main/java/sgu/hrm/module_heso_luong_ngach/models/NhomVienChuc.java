@@ -1,6 +1,6 @@
 package sgu.hrm.module_heso_luong_ngach.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
@@ -13,17 +13,20 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import sgu.hrm.module_utilities.models.response.DateTimeObject;
 
 @Entity
-@Table(name = "nhom_loai_cong_chuc")
+@Table(name = "nhom_vien_chuc")
+@Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class NhomLoaiCongChuc extends DateTimeObject {
+@JsonIgnoreProperties({"loaiVienChuc"})
+public class NhomVienChuc extends DateTimeObject {
     @Id
     @Column(columnDefinition = "INTEGER AUTO_INCREMENT")
     int id;
@@ -31,13 +34,13 @@ public class NhomLoaiCongChuc extends DateTimeObject {
     @Column(length = 6, unique = true)
     String name;
 
-//    @OneToMany(mappedBy = "nhomLoaiCongChuc")
-//    List<HeSoLuongCongChuc> heSoLuongCongChucs;
-
     @ManyToOne
-    @JsonIgnore
-    //name là tên cột chứa khóa ngoại tron sql
-    //referencedColumnName nghĩa là lấy theo tên của trường trong class
-    @JoinColumn(foreignKey = @ForeignKey(name = "loai_cong_chuc_fk"),name = "loai_cong_chuc", referencedColumnName = "id", columnDefinition = "VARCHAR(10)")
-    LoaiCongChuc loaiCongChuc;
+    @JoinColumn(foreignKey = @ForeignKey(name = "loai_vien_chuc_fk"), name = "loai_vien_chuc", referencedColumnName = "id", columnDefinition = "INTEGER")
+    LoaiVienChuc loaiVienChuc;
+
+    public NhomVienChuc(String name, LoaiVienChuc loaiVienChuc) {
+        super();
+        this.name = name;
+        this.loaiVienChuc = loaiVienChuc;
+    }
 }

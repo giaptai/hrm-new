@@ -1,8 +1,11 @@
 package sgu.hrm.module_response;
 
 import lombok.Data;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -36,7 +39,8 @@ public class ResDTO<T> {
         return new ResDTO<>(resEnum, data);
     }
 
+    @Bean
     public static RuntimeException error(ResEnum resEnum) {
-        return new RuntimeException(String.valueOf(new ResDTO<>(resEnum)));
+        return new ResponseStatusException(resEnum.getStatusCode(), resEnum.name());
     }
 }

@@ -1,11 +1,8 @@
 package sgu.hrm.module_utilities.models.response;
 
-import sgu.hrm.module_utilities.models.CapNhomChucDanhDang;
-import sgu.hrm.module_utilities.models.ChucDanhDang;
 import sgu.hrm.module_utilities.models.ViTriViecLam;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 public record ResViTriViecLam(
         int id,

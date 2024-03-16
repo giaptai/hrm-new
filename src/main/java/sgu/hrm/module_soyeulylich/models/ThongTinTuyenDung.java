@@ -20,7 +20,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
 import sgu.hrm.module_utilities.models.DanhHieuNhaNuoc;
-import sgu.hrm.module_utilities.models.DonVi;
+//import sgu.hrm.module_utilities.models.DonVi;
 import sgu.hrm.module_utilities.models.HocHam;
 import sgu.hrm.module_utilities.models.TrinhDoChuyenMon;
 import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
@@ -52,7 +52,7 @@ public class ThongTinTuyenDung extends DateTimeObject {
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "coquan_tochuc_donvi_fk"), name = "coquan_tochuc_donvi", columnDefinition = "INTEGER")
-    DonVi coQuanToChucDonViTuyenDung;
+    CoQuanToChucDonVi coQuanToChucDonViTuyenDung;
 
     @Column(name = "ngay_vao_co_quan_hien_dang_cong_tac", columnDefinition = "datetime")
     LocalDateTime ngayVaoCoQuanHienDangCongTac;
@@ -80,7 +80,7 @@ public class ThongTinTuyenDung extends DateTimeObject {
     @JoinColumn(foreignKey = @ForeignKey(name = "so_yeu_ly_lich_thong_tin_tuyen_dung"), name = "so_yeu_ly_lich_id", referencedColumnName = "id", columnDefinition = "binary(16)")
     SoYeuLyLich soYeuLyLich;
 
-    public ThongTinTuyenDung(String ngheNghiepTruocKhiTuyenDung, LocalDateTime ngayDuocTuyenDungLanDau, DonVi coQuanToChucDonViTuyenDung,
+    public ThongTinTuyenDung(String ngheNghiepTruocKhiTuyenDung, LocalDateTime ngayDuocTuyenDungLanDau, CoQuanToChucDonVi coQuanToChucDonViTuyenDung,
                              LocalDateTime ngayVaoCoQuanHienDangCongTac, LocalDateTime ngayVaoDangCongSanVietNam, LocalDateTime ngayChinhThuc,
                              LocalDateTime ngayThamGiaToChucChinhTriXaHoiDauTien, String congViecChinhDuocGiao, String soTruongCongTac,
                              String congViecLamLauNhat, SoYeuLyLich soYeuLyLich) {

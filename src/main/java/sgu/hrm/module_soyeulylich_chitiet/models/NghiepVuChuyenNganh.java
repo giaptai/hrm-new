@@ -21,7 +21,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import sgu.hrm.module_utilities.enums.XacNhan;
-import sgu.hrm.module_utilities.models.DonVi;
+//import sgu.hrm.module_utilities.models.DonVi;
 import sgu.hrm.module_utilities.models.response.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
@@ -52,7 +52,7 @@ public class NghiepVuChuyenNganh extends DateTimeObject {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(foreignKey = @ForeignKey(name = "ten_co_so_dao_tao_nvcn_fk"), name = "ten_co_so_dao_tao", columnDefinition = "INTEGER")
-    DonVi tenCoSoDaoTao;
+    CoQuanToChucDonVi tenCoSoDaoTao;
 
     @Column(name = "chung_chi_duoc_cap", columnDefinition = "varchar(50)")
     String chungChiDuocCap;
@@ -65,7 +65,7 @@ public class NghiepVuChuyenNganh extends DateTimeObject {
     @JoinColumn(foreignKey = @ForeignKey(name = "so_yeu_ly_lich_nvcn_fk"), name = "so_yeu_ly_lich", referencedColumnName = "id", columnDefinition = "binary(16)")
     SoYeuLyLich soYeuLyLich;
 
-    public NghiepVuChuyenNganh(LocalDateTime batDau, LocalDateTime ketThuc, DonVi tenCoSoDaoTao, String chungChiDuocCap, SoYeuLyLich soYeuLyLich) {
+    public NghiepVuChuyenNganh(LocalDateTime batDau, LocalDateTime ketThuc, CoQuanToChucDonVi tenCoSoDaoTao, String chungChiDuocCap, SoYeuLyLich soYeuLyLich) {
         super();
         this.batDau = batDau;
         this.ketThuc = ketThuc;

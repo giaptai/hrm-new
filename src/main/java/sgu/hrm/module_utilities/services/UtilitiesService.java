@@ -5,11 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import org.springframework.web.server.ResponseStatusException;
+import sgu.hrm.module_response.ResDTO;
 import sgu.hrm.module_response.ResEnum;
 import sgu.hrm.module_utilities.models.BacLuong;
-import sgu.hrm.module_utilities.models.BoCoQuan;
+//import sgu.hrm.module_utilities.models.BoCoQuan;
 import sgu.hrm.module_utilities.models.CapBacLoaiQuanHamQuanDoi;
-import sgu.hrm.module_utilities.models.CapNhomChucDanhDang;
+//import sgu.hrm.module_utilities.models.CapNhomChucDanhDang;
 import sgu.hrm.module_utilities.models.ChucDanhDang;
 import sgu.hrm.module_utilities.models.ChucVu;
 import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
@@ -17,12 +18,13 @@ import sgu.hrm.module_utilities.models.DanToc;
 
 import sgu.hrm.module_utilities.models.DanhHieuNhaNuoc;
 import sgu.hrm.module_utilities.models.DoiTuongChinhSach;
-import sgu.hrm.module_utilities.models.DonVi;
+//import sgu.hrm.module_utilities.models.DonVi;
 import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
 import sgu.hrm.module_utilities.models.HocHam;
-import sgu.hrm.module_utilities.models.LoaiQuanHamQuanDoi;
+//import sgu.hrm.module_utilities.models.LoaiQuanHamQuanDoi;
+import sgu.hrm.module_utilities.models.LoaiPhuCap;
 import sgu.hrm.module_utilities.models.MoiQuanHe;
-import sgu.hrm.module_utilities.models.NhomChucDanhDang;
+//import sgu.hrm.module_utilities.models.NhomChucDanhDang;
 import sgu.hrm.module_utilities.models.NhomMau;
 import sgu.hrm.module_utilities.models.ThanhPhanGiaDinh;
 import sgu.hrm.module_utilities.models.TonGiao;
@@ -31,21 +33,22 @@ import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
 import sgu.hrm.module_utilities.models.ViTriViecLam;
 import sgu.hrm.module_utilities.models.request.ReqUtilities;
 import sgu.hrm.module_utilities.repositories.BacLuongRepository;
-import sgu.hrm.module_utilities.repositories.BoCoQuanRepository;
+//import sgu.hrm.module_utilities.repositories.BoCoQuanRepository;
 import sgu.hrm.module_utilities.repositories.CapBacLoaiQuanHamQuanDoiRepository;
-import sgu.hrm.module_utilities.repositories.CapNhomChucDanhDangRepository;
+//import sgu.hrm.module_utilities.repositories.CapNhomChucDanhDangRepository;
 import sgu.hrm.module_utilities.repositories.ChucDanhDangRepository;
 import sgu.hrm.module_utilities.repositories.ChucVuRepository;
 import sgu.hrm.module_utilities.repositories.CoQuanToChucDonViRepository;
 import sgu.hrm.module_utilities.repositories.DanTocRepository;
 import sgu.hrm.module_utilities.repositories.DanhHieuNhaNuocPhongTangRepository;
 import sgu.hrm.module_utilities.repositories.DoiTuongChinhSachRepository;
-import sgu.hrm.module_utilities.repositories.DonViRepository;
+//import sgu.hrm.module_utilities.repositories.DonViRepository;
 import sgu.hrm.module_utilities.repositories.HinhThucKhenThuongRepository;
 import sgu.hrm.module_utilities.repositories.HocHamRepository;
-import sgu.hrm.module_utilities.repositories.LoaiQuanHamQuanDoiRepository;
+//import sgu.hrm.module_utilities.repositories.LoaiQuanHamQuanDoiRepository;
+import sgu.hrm.module_utilities.repositories.LoaiPhuCapRepository;
 import sgu.hrm.module_utilities.repositories.MoiQuanHeRepository;
-import sgu.hrm.module_utilities.repositories.NhomChucDanhDangRepository;
+//import sgu.hrm.module_utilities.repositories.NhomChucDanhDangRepository;
 import sgu.hrm.module_utilities.repositories.NhomMauRepository;
 import sgu.hrm.module_utilities.repositories.ThanhPhanGiaDinhRepository;
 import sgu.hrm.module_utilities.repositories.TonGiaoRepository;
@@ -53,6 +56,7 @@ import sgu.hrm.module_utilities.repositories.TrinhDoChuyenMonRepository;
 import sgu.hrm.module_utilities.repositories.TrinhDoGiaoDucPhoThongRepository;
 import sgu.hrm.module_utilities.repositories.ViTriViecLamRepository;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,20 +65,21 @@ import java.util.Optional;
 public class UtilitiesService {
     private final BacLuongRepository bacLuongRepository;
     private final CapBacLoaiQuanHamQuanDoiRepository capBacLoaiQuanHamQuanDoiRepository;
-    private final CapNhomChucDanhDangRepository capNhomChucDanhDangRepository;
+    //    private final CapNhomChucDanhDangRepository capNhomChucDanhDangRepository;
     private final ChucDanhDangRepository chucDanhDangRepository;
     private final ChucVuRepository chucVuRepository;
     private final CoQuanToChucDonViRepository coQuanToChucDonViRepository;
-    private final BoCoQuanRepository boCoQuanRepository;
-    private final DonViRepository donViRepository;
+    //    private final BoCoQuanRepository boCoQuanRepository;
+//    private final DonViRepository donViRepository;
     private final DanhHieuNhaNuocPhongTangRepository danhHieuNhaNuocPhongTangRepository;
     private final DanTocRepository danTocRepository;
     private final DoiTuongChinhSachRepository doiTuongChinhSachRepository;
     private final HinhThucKhenThuongRepository hinhThucKhenThuongRepository;
     private final HocHamRepository hocHamRepository;
-    private final LoaiQuanHamQuanDoiRepository loaiQuanHamQuanDoiRepository;
+    private final LoaiPhuCapRepository loaiPhuCapRepository;
+    //    private final LoaiQuanHamQuanDoiRepository loaiQuanHamQuanDoiRepository;
     private final MoiQuanHeRepository moiQuanHeRepository;
-    private final NhomChucDanhDangRepository nhomChucDanhDangRepository;
+    //    private final NhomChucDanhDangRepository nhomChucDanhDangRepository;
     private final NhomMauRepository nhomMauRepository;
     private final ThanhPhanGiaDinhRepository thanhPhanGiaDinhRepository;
     private final TonGiaoRepository tonGiaoRepository;
@@ -101,10 +106,9 @@ public class UtilitiesService {
                 BacLuong bl = bacLuongRepository.findByName(name.name()).orElse(null);
                 if (bl == null) {
                     return bacLuongRepository.save(new BacLuong(name.name()));
-                }
-                return bl;
+                } else throw ResDTO.error(ResEnum.TRUNG_DU_LIEU);
             } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
+                throw ResDTO.error(ResEnum.TRUNG_DU_LIEU);
             }
         }
 
@@ -150,10 +154,12 @@ public class UtilitiesService {
         @Override
         public CapBacLoaiQuanHamQuanDoi them(ReqUtilities req) {
             CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi = capBacLoaiQuanHamQuanDoiRepository.findByName(req.name()).orElse(null);
-            LoaiQuanHamQuanDoi loaiQuanHamQuanDoi = loaiQuanHamQuanDoiRepository.findById(req.loaiQuanHamQuanDoi()).orElse(null);
+//            LoaiQuanHamQuanDoi loaiQuanHamQuanDoi = loaiQuanHamQuanDoiRepository.findById(req.loaiQuanHamQuanDoi()).orElse(null);
             try {
                 if (capBacLoaiQuanHamQuanDoi == null) {
-                    return capBacLoaiQuanHamQuanDoiRepository.save(new CapBacLoaiQuanHamQuanDoi(req.name(), loaiQuanHamQuanDoi));
+//                    return capBacLoaiQuanHamQuanDoiRepository.save(new CapBacLoaiQuanHamQuanDoi(req.name(), loaiQuanHamQuanDoi));
+                    return capBacLoaiQuanHamQuanDoiRepository.save(new CapBacLoaiQuanHamQuanDoi(req.name()));
+
                 }
                 return capBacLoaiQuanHamQuanDoi;
             } catch (RuntimeException e) {
@@ -161,26 +167,27 @@ public class UtilitiesService {
             }
         }
 
-        public CapBacLoaiQuanHamQuanDoi themCapBacLoaiQuanHamQuanDoi(String name, int loaiQuanHamName) {
-            CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi = capBacLoaiQuanHamQuanDoiRepository.findByName(name).orElse(null);
-            LoaiQuanHamQuanDoi loaiQuanHamQuanDoi = loaiQuanHamQuanDoiRepository.findById(loaiQuanHamName).orElse(null);
-            try {
-                if (capBacLoaiQuanHamQuanDoi == null) {
-                    return capBacLoaiQuanHamQuanDoiRepository.save(new CapBacLoaiQuanHamQuanDoi(name, loaiQuanHamQuanDoi));
-                }
-                return capBacLoaiQuanHamQuanDoi;
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
-            }
-        }
+//        public CapBacLoaiQuanHamQuanDoi themCapBacLoaiQuanHamQuanDoi(String name, int loaiQuanHamName) {
+//            CapBacLoaiQuanHamQuanDoi capBacLoaiQuanHamQuanDoi = capBacLoaiQuanHamQuanDoiRepository.findByName(name).orElse(null);
+////            LoaiQuanHamQuanDoi loaiQuanHamQuanDoi = loaiQuanHamQuanDoiRepository.findById(loaiQuanHamName).orElse(null);
+//            try {
+//                if (capBacLoaiQuanHamQuanDoi == null) {
+////                    return capBacLoaiQuanHamQuanDoiRepository.save(new CapBacLoaiQuanHamQuanDoi(name, loaiQuanHamQuanDoi));
+//                    return capBacLoaiQuanHamQuanDoiRepository.save(new CapBacLoaiQuanHamQuanDoi(name));
+//                }
+//                return capBacLoaiQuanHamQuanDoi;
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
 
         @Override
         public CapBacLoaiQuanHamQuanDoi sua(int id, ReqUtilities doi) {
-            LoaiQuanHamQuanDoi loaiQuanHamQuanDoi = loaiQuanHamQuanDoiRepository.findById(doi.loaiQuanHamQuanDoi()).orElse(null);
+//            LoaiQuanHamQuanDoi loaiQuanHamQuanDoi = loaiQuanHamQuanDoiRepository.findById(doi.loaiQuanHamQuanDoi()).orElse(null);
             try {
                 return capBacLoaiQuanHamQuanDoiRepository.findById(id).map(e -> {
                     e.setName(doi.name() != null ? doi.name() : e.getName());
-                    e.setLoaiQuanHamQuanDoi(loaiQuanHamQuanDoi);
+//                    e.setLoaiQuanHamQuanDoi(loaiQuanHamQuanDoi);
                     e.setUpdate_at();
                     return capBacLoaiQuanHamQuanDoiRepository.save(e);
                 }).orElse(null);
@@ -195,60 +202,60 @@ public class UtilitiesService {
         }
     }
 
-    @Service
-    public class CapNhomChucDanhDangService implements IUtilitiesService<CapNhomChucDanhDang, ReqUtilities> {
-        @Override
-        public List<CapNhomChucDanhDang> xemDS() {
-            return capNhomChucDanhDangRepository.findAll();
-        }
-
-        @Override
-        public Optional<CapNhomChucDanhDang> xemTheoId(int id) {
-            return capNhomChucDanhDangRepository.findById(id);
-        }
-
-        @Override
-        public CapNhomChucDanhDang them(ReqUtilities req) {
-            CapNhomChucDanhDang capNhomChucDanhDang = capNhomChucDanhDangRepository.findByName(req.name()).orElse(null);
-            NhomChucDanhDang nhomChucDanhDang = nhomChucDanhDangRepository.findById(req.nhomChucDanhDang()).orElse(null);
-            try {
-                if (capNhomChucDanhDang == null) {
-                    return capNhomChucDanhDangRepository.save(new CapNhomChucDanhDang(req.name(), nhomChucDanhDang));
-                }
-                return capNhomChucDanhDang;
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
-            }
-        }
-
-        @Override
-        public CapNhomChucDanhDang sua(int id, ReqUtilities dang) {
-            NhomChucDanhDang nhomChucDanhDang = nhomChucDanhDangRepository.findById(dang.nhomChucDanhDang()).orElse(null);
-            try {
-                return capNhomChucDanhDangRepository.findById(id).map(e -> {
-                    e.setName(dang.name() != null ? dang.name() : e.getName());
-                    e.setNhomChucDanhDang(nhomChucDanhDang);
-                    e.setUpdate_at();
-                    return capNhomChucDanhDangRepository.save(e);
-                }).orElse(null);
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
-            }
-        }
-
-        @Override
-        public boolean xoa(int id) {
-            try {
-                if (xemTheoId(id).isPresent()) {
-                    capNhomChucDanhDangRepository.deleteById(id);
-                    return true;
-                }
-                return false;
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
-            }
-        }
-    }
+//    @Service
+//    public class CapNhomChucDanhDangService implements IUtilitiesService<CapNhomChucDanhDang, ReqUtilities> {
+//        @Override
+//        public List<CapNhomChucDanhDang> xemDS() {
+//            return capNhomChucDanhDangRepository.findAll();
+//        }
+//
+//        @Override
+//        public Optional<CapNhomChucDanhDang> xemTheoId(int id) {
+//            return capNhomChucDanhDangRepository.findById(id);
+//        }
+//
+//        @Override
+//        public CapNhomChucDanhDang them(ReqUtilities req) {
+//            CapNhomChucDanhDang capNhomChucDanhDang = capNhomChucDanhDangRepository.findByName(req.name()).orElse(null);
+//            NhomChucDanhDang nhomChucDanhDang = nhomChucDanhDangRepository.findById(req.nhomChucDanhDang()).orElse(null);
+//            try {
+//                if (capNhomChucDanhDang == null) {
+//                    return capNhomChucDanhDangRepository.save(new CapNhomChucDanhDang(req.name(), nhomChucDanhDang));
+//                }
+//                return capNhomChucDanhDang;
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
+//
+//        @Override
+//        public CapNhomChucDanhDang sua(int id, ReqUtilities dang) {
+//            NhomChucDanhDang nhomChucDanhDang = nhomChucDanhDangRepository.findById(dang.nhomChucDanhDang()).orElse(null);
+//            try {
+//                return capNhomChucDanhDangRepository.findById(id).map(e -> {
+//                    e.setName(dang.name() != null ? dang.name() : e.getName());
+//                    e.setNhomChucDanhDang(nhomChucDanhDang);
+//                    e.setUpdate_at();
+//                    return capNhomChucDanhDangRepository.save(e);
+//                }).orElse(null);
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
+//
+//        @Override
+//        public boolean xoa(int id) {
+//            try {
+//                if (xemTheoId(id).isPresent()) {
+//                    capNhomChucDanhDangRepository.deleteById(id);
+//                    return true;
+//                }
+//                return false;
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
+//    }
 
     @Service
     public class ChucDanhDangService implements IUtilitiesService<ChucDanhDang, ReqUtilities> {
@@ -265,10 +272,11 @@ public class UtilitiesService {
         @Override
         public ChucDanhDang them(ReqUtilities req) {
             ChucDanhDang chucDanhDang = chucDanhDangRepository.findByName(req.name()).orElse(null);
-            CapNhomChucDanhDang capNhomChucDanhDang = capNhomChucDanhDangRepository.findById(req.capNhomChucDanhDang()).orElse(null);
+//            CapNhomChucDanhDang capNhomChucDanhDang = capNhomChucDanhDangRepository.findById(req.capNhomChucDanhDang()).orElse(null);
             try {
                 if (chucDanhDang == null) {
-                    return chucDanhDangRepository.save(new ChucDanhDang(req.name(), capNhomChucDanhDang));
+//                    return chucDanhDangRepository.save(new ChucDanhDang(req.name(), capNhomChucDanhDang));
+                    return chucDanhDangRepository.save(new ChucDanhDang(req.name()));
                 }
                 return chucDanhDang;
             } catch (RuntimeException e) {
@@ -278,11 +286,11 @@ public class UtilitiesService {
 
         @Override
         public ChucDanhDang sua(int id, ReqUtilities dang) {
-            CapNhomChucDanhDang capNhomChucDanhDang = capNhomChucDanhDangRepository.findById(dang.capNhomChucDanhDang()).orElse(null);
+//            CapNhomChucDanhDang capNhomChucDanhDang = capNhomChucDanhDangRepository.findById(dang.capNhomChucDanhDang()).orElse(null);
             try {
                 return chucDanhDangRepository.findById(id).map(e -> {
                     e.setName(dang.name() != null ? dang.name() : e.getName());
-                    e.setCapNhomChucDanhDang(capNhomChucDanhDang);
+//                    e.setCapNhomChucDanhDang(capNhomChucDanhDang);
                     e.setUpdate_at();
                     return chucDanhDangRepository.save(e);
                 }).orElse(null);
@@ -409,111 +417,112 @@ public class UtilitiesService {
         }
     }
 
-    @Service
-    public class BoCoQuanService implements IUtilitiesService<BoCoQuan, ReqUtilities> {
-        @Override
-        public List<BoCoQuan> xemDS() {
-            return boCoQuanRepository.findAll();
-        }
+//    @Service
+//    public class BoCoQuanService implements IUtilitiesService<BoCoQuan, ReqUtilities> {
+//        @Override
+//        public List<BoCoQuan> xemDS() {
+//            return boCoQuanRepository.findAll();
+//        }
+//
+//        @Override
+//        public Optional<BoCoQuan> xemTheoId(int id) {
+//            return boCoQuanRepository.findById(id);
+//        }
+//
+//        @Override
+//        public BoCoQuan them(ReqUtilities req) {
+//            BoCoQuan co = boCoQuanRepository.findByName(req.name()).orElse(null);
+//            try {
+//                if (co == null) {
+//                    return boCoQuanRepository.save(new BoCoQuan(req.name()));
+//                }
+//                return co;
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
+//
+//        @Override
+//        public BoCoQuan sua(int id, ReqUtilities vi) {
+//            try {
+//                return boCoQuanRepository.findById(id).map(e -> {
+//                    e.setName(vi.name());
+//                    e.setUpdate_at();
+//                    return boCoQuanRepository.save(e);
+//                }).orElse(null);
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
+//
+//        @Override
+//        public boolean xoa(int id) {
+//            try {
+//                if (xemTheoId(id).isPresent()) {
+//                    donViRepository.deleteById(id);
+//                    return true;
+//                }
+//                return false;
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
+//    }
 
-        @Override
-        public Optional<BoCoQuan> xemTheoId(int id) {
-            return boCoQuanRepository.findById(id);
-        }
-
-        @Override
-        public BoCoQuan them(ReqUtilities req) {
-            BoCoQuan co = boCoQuanRepository.findByName(req.name()).orElse(null);
-            try {
-                if (co == null) {
-                    return boCoQuanRepository.save(new BoCoQuan(req.name()));
-                }
-                return co;
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
-            }
-        }
-
-        @Override
-        public BoCoQuan sua(int id, ReqUtilities vi) {
-            try {
-                return boCoQuanRepository.findById(id).map(e -> {
-                    e.setName(vi.name());
-                    e.setUpdate_at();
-                    return boCoQuanRepository.save(e);
-                }).orElse(null);
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
-            }
-        }
-
-        @Override
-        public boolean xoa(int id) {
-            try {
-                if (xemTheoId(id).isPresent()) {
-                    donViRepository.deleteById(id);
-                    return true;
-                }
-                return false;
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
-            }
-        }
-    }
-    @Service
-    public class DonViService implements IUtilitiesService<DonVi, ReqUtilities> {
-        @Override
-        public List<DonVi> xemDS() {
-            return donViRepository.findAll();
-        }
-
-        @Override
-        public Optional<DonVi> xemTheoId(int id) {
-            return donViRepository.findById(id);
-        }
-
-        @Override
-        public DonVi them(ReqUtilities req) {
-            BoCoQuan boCoQuan = boCoQuanRepository.findById(req.boCoQuan()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
-            DonVi co = donViRepository.findByName(req.name()).orElse(null);
-            try {
-                if (co == null) {
-                    return donViRepository.save(new DonVi(req.name(), boCoQuan));
-                }
-                return co;
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
-            }
-        }
-
-        @Override
-        public DonVi sua(int id, ReqUtilities vi) {
-            try {
-                return donViRepository.findById(id).map(e -> {
-                    BoCoQuan boCoQuan = boCoQuanRepository.findById(vi.boCoQuan()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
-                    e.setName(vi.name());
-                    e.setBoCoQuan(boCoQuan);
-                    e.setUpdate_at();
-                    return donViRepository.save(e);
-                }).orElse(null);
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
-            }
-        }
-
-        @Override
-        public boolean xoa(int id) {
-            try {
-                if (xemTheoId(id).isPresent()) {
-                    donViRepository.deleteById(id);
-                    return true;
-                }
-                return false;
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
-            }
-        }
-    }
+//    @Service
+//    public class DonViService implements IUtilitiesService<DonVi, ReqUtilities> {
+//        @Override
+//        public List<DonVi> xemDS() {
+//            return donViRepository.findAll();
+//        }
+//
+//        @Override
+//        public Optional<DonVi> xemTheoId(int id) {
+//            return donViRepository.findById(id);
+//        }
+//
+//        @Override
+//        public DonVi them(ReqUtilities req) {
+//            BoCoQuan boCoQuan = boCoQuanRepository.findById(req.boCoQuan()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
+//            DonVi co = donViRepository.findByName(req.name()).orElse(null);
+//            try {
+//                if (co == null) {
+//                    return donViRepository.save(new DonVi(req.name(), boCoQuan));
+//                }
+//                return co;
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
+//
+//        @Override
+//        public DonVi sua(int id, ReqUtilities vi) {
+//            try {
+//                return donViRepository.findById(id).map(e -> {
+//                    BoCoQuan boCoQuan = boCoQuanRepository.findById(vi.boCoQuan()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
+//                    e.setName(vi.name());
+//                    e.setBoCoQuan(boCoQuan);
+//                    e.setUpdate_at();
+//                    return donViRepository.save(e);
+//                }).orElse(null);
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
+//
+//        @Override
+//        public boolean xoa(int id) {
+//            try {
+//                if (xemTheoId(id).isPresent()) {
+//                    donViRepository.deleteById(id);
+//                    return true;
+//                }
+//                return false;
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
+//    }
 
     @Service
     public class DanhHieuNhaNuocPhongTangService implements IUtilitiesService<DanhHieuNhaNuoc, ReqUtilities> {
@@ -777,24 +786,24 @@ public class UtilitiesService {
     }
 
     @Service
-    public class LoaiQuanHamQuanDoiService implements IUtilitiesService<LoaiQuanHamQuanDoi, ReqUtilities> {
+    public class LoaiPhuCapService implements IUtilitiesService<LoaiPhuCap, ReqUtilities> {
 
         @Override
-        public List<LoaiQuanHamQuanDoi> xemDS() {
-            return loaiQuanHamQuanDoiRepository.findAll();
+        public List<LoaiPhuCap> xemDS() {
+            return loaiPhuCapRepository.findAll();
         }
 
         @Override
-        public Optional<LoaiQuanHamQuanDoi> xemTheoId(int id) {
-            return loaiQuanHamQuanDoiRepository.findById(id);
+        public Optional<LoaiPhuCap> xemTheoId(int id) {
+            return loaiPhuCapRepository.findById(id);
         }
 
         @Override
-        public LoaiQuanHamQuanDoi them(ReqUtilities req) {
-            LoaiQuanHamQuanDoi ham = loaiQuanHamQuanDoiRepository.findByName(req.name()).orElse(null);
+        public LoaiPhuCap them(ReqUtilities req) {
+            LoaiPhuCap ham = loaiPhuCapRepository.findByName(req.name()).orElse(null);
             try {
                 if (ham == null) {
-                    return loaiQuanHamQuanDoiRepository.save(new LoaiQuanHamQuanDoi(req.name()));
+                    return loaiPhuCapRepository.save(new LoaiPhuCap(req.name()));
                 }
                 return ham;
             } catch (RuntimeException e) {
@@ -803,12 +812,12 @@ public class UtilitiesService {
         }
 
         @Override
-        public LoaiQuanHamQuanDoi sua(int id, ReqUtilities req) {
+        public LoaiPhuCap sua(int id, ReqUtilities req) {
             try {
-                return loaiQuanHamQuanDoiRepository.findById(id).map(e -> {
+                return loaiPhuCapRepository.findById(id).map(e -> {
                     e.setName(req.name());
                     e.setUpdate_at();
-                    return loaiQuanHamQuanDoiRepository.save(e);
+                    return loaiPhuCapRepository.save(e);
                 }).orElse(null);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
@@ -819,7 +828,7 @@ public class UtilitiesService {
         public boolean xoa(int id) {
             try {
                 if (xemTheoId(id).isPresent()) {
-                    loaiQuanHamQuanDoiRepository.deleteById(id);
+                    loaiPhuCapRepository.deleteById(id);
                     return true;
                 }
                 return false;
@@ -828,6 +837,59 @@ public class UtilitiesService {
             }
         }
     }
+
+//    @Service
+//    public class LoaiQuanHamQuanDoiService implements IUtilitiesService<LoaiQuanHamQuanDoi, ReqUtilities> {
+//
+//        @Override
+//        public List<LoaiQuanHamQuanDoi> xemDS() {
+//            return loaiQuanHamQuanDoiRepository.findAll();
+//        }
+//
+//        @Override
+//        public Optional<LoaiQuanHamQuanDoi> xemTheoId(int id) {
+//            return loaiQuanHamQuanDoiRepository.findById(id);
+//        }
+//
+//        @Override
+//        public LoaiQuanHamQuanDoi them(ReqUtilities req) {
+//            LoaiQuanHamQuanDoi ham = loaiQuanHamQuanDoiRepository.findByName(req.name()).orElse(null);
+//            try {
+//                if (ham == null) {
+//                    return loaiQuanHamQuanDoiRepository.save(new LoaiQuanHamQuanDoi(req.name()));
+//                }
+//                return ham;
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
+//
+//        @Override
+//        public LoaiQuanHamQuanDoi sua(int id, ReqUtilities req) {
+//            try {
+//                return loaiQuanHamQuanDoiRepository.findById(id).map(e -> {
+//                    e.setName(req.name());
+//                    e.setUpdate_at();
+//                    return loaiQuanHamQuanDoiRepository.save(e);
+//                }).orElse(null);
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
+//
+//        @Override
+//        public boolean xoa(int id) {
+//            try {
+//                if (xemTheoId(id).isPresent()) {
+//                    loaiQuanHamQuanDoiRepository.deleteById(id);
+//                    return true;
+//                }
+//                return false;
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
+//    }
 
     @Service
     public class MoiQuanHeService implements IUtilitiesService<MoiQuanHe, ReqUtilities> {
@@ -881,58 +943,58 @@ public class UtilitiesService {
         }
     }
 
-    @Service
-    public class NhomChucDanhDangService implements IUtilitiesService<NhomChucDanhDang, ReqUtilities> {
-
-        @Override
-        public List<NhomChucDanhDang> xemDS() {
-            return nhomChucDanhDangRepository.findAll();
-        }
-
-        @Override
-        public Optional<NhomChucDanhDang> xemTheoId(int id) {
-            return nhomChucDanhDangRepository.findById(id);
-        }
-
-        @Override
-        public NhomChucDanhDang them(ReqUtilities req) {
-            NhomChucDanhDang dang = nhomChucDanhDangRepository.findByName(req.name()).orElse(null);
-            try {
-                if (dang == null) {
-                    return nhomChucDanhDangRepository.save(new NhomChucDanhDang(req.name()));
-                }
-                return dang;
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
-            }
-        }
-
-        @Override
-        public NhomChucDanhDang sua(int id, ReqUtilities req) {
-            try {
-                return nhomChucDanhDangRepository.findById(id).map(e -> {
-                    e.setName(req.name());
-                    e.setUpdate_at();
-                    return nhomChucDanhDangRepository.save(e);
-                }).orElse(null);
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
-            }
-        }
-
-        @Override
-        public boolean xoa(int id) {
-            try {
-                if (xemTheoId(id).isPresent()) {
-                    nhomChucDanhDangRepository.deleteById(id);
-                    return true;
-                }
-                return false;
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e.getCause());
-            }
-        }
-    }
+//    @Service
+//    public class NhomChucDanhDangService implements IUtilitiesService<NhomChucDanhDang, ReqUtilities> {
+//
+//        @Override
+//        public List<NhomChucDanhDang> xemDS() {
+//            return nhomChucDanhDangRepository.findAll();
+//        }
+//
+//        @Override
+//        public Optional<NhomChucDanhDang> xemTheoId(int id) {
+//            return nhomChucDanhDangRepository.findById(id);
+//        }
+//
+//        @Override
+//        public NhomChucDanhDang them(ReqUtilities req) {
+//            NhomChucDanhDang dang = nhomChucDanhDangRepository.findByName(req.name()).orElse(null);
+//            try {
+//                if (dang == null) {
+//                    return nhomChucDanhDangRepository.save(new NhomChucDanhDang(req.name()));
+//                }
+//                return dang;
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
+//
+//        @Override
+//        public NhomChucDanhDang sua(int id, ReqUtilities req) {
+//            try {
+//                return nhomChucDanhDangRepository.findById(id).map(e -> {
+//                    e.setName(req.name());
+//                    e.setUpdate_at();
+//                    return nhomChucDanhDangRepository.save(e);
+//                }).orElse(null);
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
+//
+//        @Override
+//        public boolean xoa(int id) {
+//            try {
+//                if (xemTheoId(id).isPresent()) {
+//                    nhomChucDanhDangRepository.deleteById(id);
+//                    return true;
+//                }
+//                return false;
+//            } catch (RuntimeException e) {
+//                throw new RuntimeException(e.getCause());
+//            }
+//        }
+//    }
 
     @Service
     public class NhomMauService implements IUtilitiesService<NhomMau, ReqUtilities> {
@@ -1214,8 +1276,8 @@ public class UtilitiesService {
 
         @Override
         public ViTriViecLam them(ReqUtilities req) {
-            ViTriViecLam viec = viTriViecLamRepository.findByName(req.name());
-            BacLuong bacLuong = bacLuongRepository.findById(req.bacLuong()).orElse(null);
+            ViTriViecLam viec = viTriViecLamRepository.findByName(req.name()).orElse(null);
+            BacLuong bacLuong = bacLuongRepository.findById(req.bacLuong()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
             try {
                 if (viec == null) {
                     return viTriViecLamRepository.save(new ViTriViecLam(req.name(), bacLuong, req.tienLuong()));
@@ -1228,7 +1290,7 @@ public class UtilitiesService {
 
         @Override
         public ViTriViecLam sua(int id, ReqUtilities req) {
-            BacLuong bacLuong = bacLuongRepository.findById(req.bacLuong()).orElse(null);
+            BacLuong bacLuong = bacLuongRepository.findById(req.bacLuong()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
             try {
                 return viTriViecLamRepository.findById(id).map(e -> {
                     e.setName(req.name());

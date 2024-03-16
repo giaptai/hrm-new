@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public record ReqPhuCapKhac(
         LocalDateTime batDau,
         LocalDateTime ketThuc,
-        String loaiPhuCap,
+        int loaiPhuCap,
         float phanTramHuongPhuCap,
         float heSoPhuCap,
         String hinhThucThuong,

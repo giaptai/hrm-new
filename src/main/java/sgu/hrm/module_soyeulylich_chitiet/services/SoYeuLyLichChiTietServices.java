@@ -68,12 +68,14 @@ import sgu.hrm.module_soyeulylich_chitiet.repositories.TinHocRepository;
 
 import sgu.hrm.module_utilities.enums.XacNhan;
 import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
-import sgu.hrm.module_utilities.models.DonVi;
+//import sgu.hrm.module_utilities.models.DonVi;
 import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
+import sgu.hrm.module_utilities.models.LoaiPhuCap;
 import sgu.hrm.module_utilities.models.MoiQuanHe;
 import sgu.hrm.module_utilities.repositories.CoQuanToChucDonViRepository;
-import sgu.hrm.module_utilities.repositories.DonViRepository;
+//import sgu.hrm.module_utilities.repositories.DonViRepository;
 import sgu.hrm.module_utilities.repositories.HinhThucKhenThuongRepository;
+import sgu.hrm.module_utilities.repositories.LoaiPhuCapRepository;
 import sgu.hrm.module_utilities.repositories.MoiQuanHeRepository;
 
 import java.util.ArrayList;
@@ -102,8 +104,9 @@ public class SoYeuLyLichChiTietServices {
     final QuaTrinhCongTacRepository quaTrinhCongTacRepository;
     final TinHocRepository tinHocRepository;
     final CoQuanToChucDonViRepository coQuanToChucDonViRepository;
-    final DonViRepository donViRepository;
+    //    final DonViRepository donViRepository;
     final MoiQuanHeRepository moiQuanHeRepository;
+    final LoaiPhuCapRepository loaiPhuCapRepository;
     final IAuthenticationFacade facadeEmployee; //lay thong tin employee hien tai
 
     private SoYeuLyLich syll() {
@@ -402,7 +405,7 @@ public class SoYeuLyLichChiTietServices {
         @Override
         public KienThucAnNinhQuocPhong themThongTin(ReqKienThucAnNinhQuocPhong req) {
             try {
-                DonVi donVi = donViRepository.findById(req.tenCoSoDaoTao()).orElse(null);
+                CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.tenCoSoDaoTao()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
                 KienThucAnNinhQuocPhong kien = new KienThucAnNinhQuocPhong(req.batDau(), req.ketThuc(), donVi, req.chungChiDuocCap(), syll());
                 kien.setXacNhan(XacNhan.CHO_XAC_NHAN);
                 return kienThucAnNinhQuocPhongRepository.save(kien);
@@ -417,7 +420,7 @@ public class SoYeuLyLichChiTietServices {
             try {
                 return kienThucAnNinhQuocPhongRepository.findById(id).map(c -> {
                     if (c.getSoYeuLyLich().getId().equals(syll.getId())) {
-                        DonVi donVi = donViRepository.findById(req.tenCoSoDaoTao()).orElse(null);
+                        CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.tenCoSoDaoTao()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
                         c.setBatDau(req.batDau());
                         c.setKetThuc(req.ketThuc());
                         c.setTenCoSoDaoTao(donVi);
@@ -496,7 +499,7 @@ public class SoYeuLyLichChiTietServices {
         @Override
         public KyLuat themThongTin(ReqKyLuat req) {
             try {
-                DonVi donVi = donViRepository.findById(req.coQuanQuyetDinh()).orElse(null);
+                CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.coQuanQuyetDinh()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
                 KyLuat kyLuat = new KyLuat(req.batDau(), req.ketThuc(), req.hinhThuc(), req.hanhViViPhamChinh(), donVi, syll());
                 kyLuat.setXacNhan(XacNhan.CHO_XAC_NHAN);
                 return kyLuatRepository.save(kyLuat);
@@ -512,7 +515,7 @@ public class SoYeuLyLichChiTietServices {
                 if (syll != null) {
                     return kyLuatRepository.findById(id).map(c -> {
                         if (c.getSoYeuLyLich().getId().equals(syll.getId())) {
-                            DonVi donVi = donViRepository.findById(req.coQuanQuyetDinh()).orElse(null);
+                            CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.coQuanQuyetDinh()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
                             c.setBatDau(req.batDau());
                             c.setKetThuc(req.ketThuc());
                             c.setHinhThuc(req.hinhThuc());
@@ -571,7 +574,7 @@ public class SoYeuLyLichChiTietServices {
                         reqNV -> reqNV.danhSachMaHoSo().stream().map(
                                 nvId -> {
                                     ReqKyLuat req = reqNV.kyLuat();
-                                    DonVi donVi = donViRepository.findById(req.coQuanQuyetDinh()).orElse(null);
+                                    CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.coQuanQuyetDinh()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
                                     SoYeuLyLich syll = soYeuLyLichRepository.findById(nvId).orElseThrow();
                                     return new KyLuat(req.batDau(), req.ketThuc(), req.hinhThuc(), req.hanhViViPhamChinh(), donVi, syll);
                                 }
@@ -839,7 +842,7 @@ public class SoYeuLyLichChiTietServices {
         @Override
         public LyLuanChinhTri themThongTin(ReqLyLuanChinhTri req) {
             try {
-                DonVi donVi = donViRepository.findById(req.tenCoSoDaoTao()).orElse(null);
+                CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.tenCoSoDaoTao()).orElse(null);
                 LyLuanChinhTri tri = new LyLuanChinhTri(req.batDau(), req.ketThuc(), donVi, req.hinhThucDaoTao(), req.vanBangDuocCap(), syll());
                 tri.setXacNhan(XacNhan.CHO_XAC_NHAN);
                 return lyLuanChinhTriRepository.save(tri);
@@ -855,7 +858,7 @@ public class SoYeuLyLichChiTietServices {
                 if (syll != null) {
                     return lyLuanChinhTriRepository.findById(id).map(c -> {
                         if (c.getSoYeuLyLich().getId().equals(syll.getId())) {
-                            DonVi donVi = donViRepository.findById(req.tenCoSoDaoTao()).orElse(null);
+                            CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.tenCoSoDaoTao()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
                             c.setBatDau(req.batDau());
                             c.setKetThuc(req.ketThuc());
                             c.setTenCoSoDaoTao(donVi);
@@ -910,7 +913,7 @@ public class SoYeuLyLichChiTietServices {
                             nvId -> {
                                 ReqLyLuanChinhTri req = reqNV.lyLuanChinhTri();
                                 SoYeuLyLich syll = soYeuLyLichRepository.findById(nvId).orElseThrow();
-                                DonVi donVi = donViRepository.findById(req.tenCoSoDaoTao()).orElse(null);
+                                CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.tenCoSoDaoTao()).orElse(null);
                                 return new LyLuanChinhTri(req.batDau(), req.ketThuc(), donVi,
                                         req.hinhThucDaoTao(), req.vanBangDuocCap(), syll);
                             }
@@ -952,7 +955,7 @@ public class SoYeuLyLichChiTietServices {
         @Override
         public NghiepVuChuyenNganh themThongTin(ReqNghiepVuChuyenNganh req) {
             try {
-                DonVi donVi = donViRepository.findById(req.tenCoSoDaoTao()).orElse(null);
+                CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.tenCoSoDaoTao()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
                 NghiepVuChuyenNganh vu = new NghiepVuChuyenNganh(req.batDau(), req.ketThuc(), donVi, req.chungChiDuocCap(), syll());
                 vu.setXacNhan(XacNhan.CHO_XAC_NHAN);
                 return nghiepVuChuyenNganhRepository.save(vu);
@@ -968,7 +971,7 @@ public class SoYeuLyLichChiTietServices {
                 if (syll != null) {
                     return nghiepVuChuyenNganhRepository.findById(id).map(c -> {
                         if (c.getSoYeuLyLich().getId().equals(syll.getId())) {
-                            DonVi donVi = donViRepository.findById(req.tenCoSoDaoTao()).orElse(null);
+                            CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.tenCoSoDaoTao()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
                             c.setBatDau(req.batDau());
                             c.setKetThuc(req.ketThuc());
                             c.setTenCoSoDaoTao(donVi);
@@ -1022,7 +1025,7 @@ public class SoYeuLyLichChiTietServices {
                             nvId -> {
                                 ReqNghiepVuChuyenNganh req = reqNV.nghiepVuChuyenNganh();
                                 SoYeuLyLich syll = soYeuLyLichRepository.findById(nvId).orElseThrow();
-                                DonVi donVi = donViRepository.findById(req.tenCoSoDaoTao()).orElse(null);
+                                CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.tenCoSoDaoTao()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
                                 return new NghiepVuChuyenNganh(req.batDau(), req.ketThuc(), donVi, req.chungChiDuocCap(), syll);
                             }
                     )).toList();
@@ -1063,7 +1066,7 @@ public class SoYeuLyLichChiTietServices {
         @Override
         public NgoaiNgu themThongTin(ReqNgoaiNgu req) {
             try {
-                DonVi donVi = donViRepository.findById(req.tenCoSoDaoTao()).orElse(null);
+                CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.tenCoSoDaoTao()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
                 NgoaiNgu ngu = new NgoaiNgu(req.batDau(), req.ketThuc(), donVi, req.tenNgoaiNgu(), req.chungChiDuocCap(), req.diemSo(), syll());
                 ngu.setXacNhan(XacNhan.CHO_XAC_NHAN);
                 return ngoaiNguRepository.save(ngu);
@@ -1078,7 +1081,7 @@ public class SoYeuLyLichChiTietServices {
             try {
                 return ngoaiNguRepository.findById(id).map(c -> {
                     if (c.getSoYeuLyLich().getId().equals(syll.getId())) {
-                        DonVi donVi = donViRepository.findById(req.tenCoSoDaoTao()).orElse(null);
+                        CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.tenCoSoDaoTao()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
                         c.setBatDau(req.batDau());
                         c.setKetThuc(req.ketThuc());
                         c.setTenCoSoDaoTao(donVi);
@@ -1132,7 +1135,7 @@ public class SoYeuLyLichChiTietServices {
                             nvId -> {
                                 ReqNgoaiNgu req = reqNV.ngoaiNgu();
                                 SoYeuLyLich syll = soYeuLyLichRepository.findById(nvId).orElseThrow();
-                                DonVi donVi = donViRepository.findById(req.tenCoSoDaoTao()).orElse(null);
+                                CoQuanToChucDonVi donVi = coQuanToChucDonViRepository.findById(req.tenCoSoDaoTao()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
                                 return new NgoaiNgu(req.batDau(), req.ketThuc(), donVi, req.tenNgoaiNgu(), req.chungChiDuocCap(), req.diemSo(), syll);
                             }
                     )).toList();
@@ -1142,17 +1145,17 @@ public class SoYeuLyLichChiTietServices {
 
     @Service
     public class PhuCapKhacService extends ISoYeuLyLichChiTietServices.IPhuCapKhacSefvice {
-        private PhuCapKhac mapToPhuCapKhac(ReqPhuCapKhac cu) {
-            return new PhuCapKhac(
-                    cu.batDau(),
-                    cu.ketThuc(),
-                    cu.loaiPhuCap(),
-                    cu.phanTramHuongPhuCap(),
-                    cu.heSoPhuCap(),
-                    cu.hinhThucThuong(),
-                    cu.giaTri(),
-                    syll());
-        }
+//        private PhuCapKhac mapToPhuCapKhac(ReqPhuCapKhac cu) {
+//            return new PhuCapKhac(
+//                    cu.batDau(),
+//                    cu.ketThuc(),
+//                    cu.loaiPhuCap(),
+//                    cu.phanTramHuongPhuCap(),
+//                    cu.heSoPhuCap(),
+//                    cu.hinhThucThuong(),
+//                    cu.giaTri(),
+//                    syll());
+//        }
 
         @Override
         public List<PhuCapKhac> xemDanhSachThongTin() {
@@ -1184,9 +1187,18 @@ public class SoYeuLyLichChiTietServices {
 
         @Override
         public PhuCapKhac themThongTin(ReqPhuCapKhac req) {
-            PhuCapKhac cap;
             try {
-                cap = mapToPhuCapKhac(req);
+                LoaiPhuCap loaiPhuCap = loaiPhuCapRepository.findById(req.loaiPhuCap()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
+//                mapToPhuCapKhac(req)
+                PhuCapKhac cap = new PhuCapKhac(
+                        req.batDau(),
+                        req.ketThuc(),
+                        loaiPhuCap,
+                        req.phanTramHuongPhuCap(),
+                        req.heSoPhuCap(),
+                        req.hinhThucThuong(),
+                        req.giaTri(),
+                        syll());
                 return phuCapKhacRepository.save(cap);
             } catch (RuntimeException e) {
                 throw new RuntimeException(e.getCause());
@@ -1200,9 +1212,10 @@ public class SoYeuLyLichChiTietServices {
                 if (syll != null) {
                     return phuCapKhacRepository.findById(id).map(c -> {
                         if (c.getSoYeuLyLich().getId().equals(syll.getId())) {
+                            LoaiPhuCap loaiPhuCap = loaiPhuCapRepository.findById(req.loaiPhuCap()).orElseThrow(() -> new ResponseStatusException(ResEnum.HONG_TIM_THAY.getStatusCode()));
                             c.setBatDau(req.batDau());
                             c.setKetThuc(req.ketThuc());
-                            c.setLoaiPhuCap(req.loaiPhuCap());
+                            c.setLoaiPhuCap(loaiPhuCap);
                             c.setPhanTramHuongPhuCap(req.phanTramHuongPhuCap());
                             c.setHeSoPhuCap(req.heSoPhuCap());
                             c.setHinhThucHuong(req.hinhThucThuong());

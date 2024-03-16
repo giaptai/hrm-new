@@ -32,7 +32,7 @@ import org.apache.kafka.common.serialization.Serializer;
 import sgu.hrm.module_soyeulylich_chitiet.models.response.ResNgoaiNgu;
 import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoan;
 import sgu.hrm.module_utilities.enums.XacNhan;
-import sgu.hrm.module_utilities.models.DonVi;
+//import sgu.hrm.module_utilities.models.DonVi;
 import sgu.hrm.module_utilities.models.response.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
@@ -67,7 +67,7 @@ public class NgoaiNgu extends DateTimeObject {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(foreignKey = @ForeignKey(name = "ten_co_so_dao_tao_ngoaingu_fk"), name = "ten_co_so_dao_tao", columnDefinition = "INTEGER")
-    DonVi tenCoSoDaoTao;
+    CoQuanToChucDonVi tenCoSoDaoTao;
 
     @Column(name = "ten_ngoai_ngu", columnDefinition = "varchar(50)")
     String tenNgoaiNgu;
@@ -91,7 +91,7 @@ public class NgoaiNgu extends DateTimeObject {
         super.setUpdate_at();
     }
 
-    public NgoaiNgu(LocalDateTime batDau, LocalDateTime ketThuc, DonVi tenCoSoDaoTao, String tenNgoaiNgu, String chungChiDuocCap, float diemSo, SoYeuLyLich soYeuLyLich) {
+    public NgoaiNgu(LocalDateTime batDau, LocalDateTime ketThuc, CoQuanToChucDonVi tenCoSoDaoTao, String tenNgoaiNgu, String chungChiDuocCap, float diemSo, SoYeuLyLich soYeuLyLich) {
         super();
         this.batDau = batDau;
         this.ketThuc = ketThuc;

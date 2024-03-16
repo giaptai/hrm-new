@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import sgu.hrm.module_utilities.models.response.DateTimeObject;
 import sgu.hrm.module_utilities.models.BacLuong;
@@ -19,6 +20,7 @@ import sgu.hrm.module_utilities.models.BacLuong;
 @Entity
 @Table(name = "he_so_luong_cong_chuc")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -35,10 +37,10 @@ public class HeSoLuongCongChuc extends DateTimeObject {
     //    @Id
     @ManyToOne
 ////    @MapsId("nhom_loai_cong_chuc")
-    @JoinColumn(foreignKey = @ForeignKey(name = "nhom_loai_cong_chuc_fk"),name = "nhom_loai_cong_chuc", columnDefinition = "INTEGER", referencedColumnName = "id")
+    @JoinColumn(foreignKey = @ForeignKey(name = "nhom_cong_chuc_fk"),name = "nhom_cong_chuc", columnDefinition = "INTEGER", referencedColumnName = "id")
 ////    @JsonIgnore
 //    @JsonIgnoreProperties({"trangThai", "id"})
-    NhomLoaiCongChuc nhomLoaiCongChuc;
+    NhomCongChuc nhomCongChuc;
     //
 //    @Id
     @ManyToOne
@@ -50,4 +52,11 @@ public class HeSoLuongCongChuc extends DateTimeObject {
 
     @Column(name = "he_so", columnDefinition = "FLOAT")
     float heSo;
+
+    public HeSoLuongCongChuc(NhomCongChuc nhomCongChuc, BacLuong bacLuong, float heSo) {
+        super();
+        this.nhomCongChuc = nhomCongChuc;
+        this.bacLuong = bacLuong;
+        this.heSo = heSo;
+    }
 }

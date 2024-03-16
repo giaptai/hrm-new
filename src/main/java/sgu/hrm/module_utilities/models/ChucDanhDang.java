@@ -37,15 +37,21 @@ public class ChucDanhDang extends DateTimeObject {
     @Column(columnDefinition = "varchar(250) unique")
     String name;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "cap_nhom_chuc_danh_dang_fk"), name = "cap_nhom_chuc_danh_dang", referencedColumnName = "id", columnDefinition = "integer")
-    CapNhomChucDanhDang capNhomChucDanhDang;
+//    @ManyToOne
+//    @JoinColumn(foreignKey = @ForeignKey(name = "cap_nhom_chuc_danh_dang_fk"), name = "cap_nhom_chuc_danh_dang", referencedColumnName = "id", columnDefinition = "integer")
+//    CapNhomChucDanhDang capNhomChucDanhDang;
 
-    public ChucDanhDang(String name, CapNhomChucDanhDang capNhomChucDanhDang) {
+    public ChucDanhDang(String name) {
         super(); // goi thi moi set chu
         this.name = name;
-        this.capNhomChucDanhDang = capNhomChucDanhDang;
+//        this.capNhomChucDanhDang = capNhomChucDanhDang;
     }
+
+//    public ChucDanhDang(String name, CapNhomChucDanhDang capNhomChucDanhDang) {
+//        super(); // goi thi moi set chu
+//        this.name = name;
+//        this.capNhomChucDanhDang = capNhomChucDanhDang;
+//    }
     //danh cho edit
 
     @Override

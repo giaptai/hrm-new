@@ -60,7 +60,7 @@ public class HocVan extends DateTimeObject {
     HocHam hocHam;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "danh_hieu_nha_nuoc_phong_tang_fk"), name = "danh_hieu_nha_nuoc_phong_tang", referencedColumnName = "id", columnDefinition = "integer")
+    @JoinColumn(foreignKey = @ForeignKey(name = "danh_hieu_nha_nuoc_phong_tang_fk"), name = "danh_hieu_nha_nuoc", referencedColumnName = "id", columnDefinition = "integer")
     DanhHieuNhaNuoc danhHieuNhaNuocPhongTang;
 
     @OneToOne

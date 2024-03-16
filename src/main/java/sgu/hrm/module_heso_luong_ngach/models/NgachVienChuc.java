@@ -13,12 +13,14 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import sgu.hrm.module_utilities.models.response.DateTimeObject;
 
 @Entity
 @Table(name = "ngach_vien_chuc")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -32,11 +34,17 @@ public class NgachVienChuc extends DateTimeObject {
     @Column(length = 250, unique = true)
     String name;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "bac_ngach_vien_chuc_fk"), name = "bac_ngach_vien_chuc", referencedColumnName = "id", columnDefinition = "INTEGER")
-    BacNgachVienChuc bacNgachVienChuc;
+//    @ManyToOne
+//    @JoinColumn(foreignKey = @ForeignKey(name = "bac_ngach_vien_chuc_fk"), name = "bac_ngach_vien_chuc", referencedColumnName = "id", columnDefinition = "INTEGER")
+//    BacNgachVienChuc bacNgachVienChuc;
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "he_so_luong_vien_chuc_fk"), name = "he_so_luong_vien_chuc", referencedColumnName = "id", columnDefinition = "integer")
     HeSoLuongVienChuc heSoLuongVienChuc;
+
+    public NgachVienChuc(String name, HeSoLuongVienChuc heSoLuongVienChuc) {
+        super();
+        this.name = name;
+        this.heSoLuongVienChuc = heSoLuongVienChuc;
+    }
 }

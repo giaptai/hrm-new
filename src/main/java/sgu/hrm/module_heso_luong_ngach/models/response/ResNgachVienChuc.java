@@ -24,7 +24,7 @@ public record ResNgachVienChuc(
                 v.getName(),
                 Optional.ofNullable(v.getHeSoLuongVienChuc()).map(HeSoLuongVienChuc::getHeSo).orElse(0.0f),
                 v.getHeSoLuongVienChuc() != null ? v.getHeSoLuongVienChuc().getBacLuong().getName() : "",
-                v.getHeSoLuongVienChuc() != null ? v.getHeSoLuongVienChuc().getNhomLoaiVienChuc().getName() : "",
+                v.getHeSoLuongVienChuc() != null ? v.getHeSoLuongVienChuc().getNhomVienChuc().getName() : "",
                 v.isTrangThai(),
                 v.getCreate_at(),
                 v.getUpdate_at()

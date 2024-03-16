@@ -23,6 +23,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import sgu.hrm.module_response.ResEnum;
 import sgu.hrm.module_utilities.enums.RoleTaiKhoan;
 
 import java.util.List;
@@ -86,7 +87,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .exceptionHandling(execHandle ->
                         execHandle
                                 .accessDeniedPage("/tu-choi")
-                                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                                .authenticationEntryPoint(new HttpStatusEntryPoint(ResEnum.KHONG_DUOC_UY_QUYEN.getStatusCode()))
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(

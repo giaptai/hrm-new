@@ -36,14 +36,14 @@ public class CaNhanSoYeuLyLichController {
                 soYeuLyLichService.xemThongTinSoYeuLyLich()), ResEnum.THANH_CONG.getStatusCode());
     }
 
-    @GetMapping("/so-yeu-ly-lich-het")
-    public ResponseEntity<SoYeuLyLich> so_yeu_ly_lich_het() {
-        return new ResponseEntity<>(soYeuLyLichService.xemThongTinSoYeuLyLich(), HttpStatus.OK);
-    }
+//    @GetMapping("/so-yeu-ly-lich-het")
+//    public ResponseEntity<SoYeuLyLich> so_yeu_ly_lich_het() {
+//        return new ResponseEntity<>(soYeuLyLichService.xemThongTinSoYeuLyLich(), HttpStatus.OK);
+//    }
 
     @PatchMapping("/so-yeu-ly-lich")
     public ResponseEntity<ResDTO<SoYeuLyLich>> so_yeu_ly_lich_cap_nhat(@RequestBody ReqSoYeuLyLich reqSoYeuLyLich) {
-        return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG,
-                soYeuLyLichService.capNhatSoYeuLyLich(reqSoYeuLyLich)), ResEnum.THANH_CONG.getStatusCode());
+        return new ResponseEntity<>(ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG,
+                soYeuLyLichService.capNhatSoYeuLyLich(reqSoYeuLyLich)), ResEnum.CAP_NHAT_THANH_CONG.getStatusCode());
     }
 }

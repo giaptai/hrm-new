@@ -1,5 +1,7 @@
 package sgu.hrm.module_taikhoan.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,8 @@ import java.util.List;
 
 
 @RestController
+@Tag(name = "Admin tai-khoan", description = "Quản lý")
+@SecurityRequirement(name = "Bearer Authentication")
 public class AdminTaiKhoanController {
 
     private final ITaiKhoanService taiKhoanService;
