@@ -696,7 +696,7 @@ VALUES ('Đại tướng'),
 --        ('Ngạch viên chức cán sự'),
 --        ('Ngạch nhân viên');
 --ngach/chuc_danh_nghe_nghiep_cong_chuc
-INSERT INTO ngach_cong_chuc (id, name, he_so_luong_cong_chuc)
+INSERT INTO ngach_cong_chuc (ma, name, he_so_luong_cong_chuc)
 VALUES ('01.001', 'Chuyên viên cao cấp', 1),
        ('04.023', 'Thanh tra viên cao cấp', 1),
        ('06.029', 'Kế toán viên cao cấp', 1),
@@ -841,7 +841,7 @@ VALUES ('01.001', 'Chuyên viên cao cấp', 1),
 --        ('19.186', 'Bảo vệ, tuần tra canh gác', 4, 15),
 --        ('19.224', 'Nhân viên bảo vệ kho dự trữ (Công chức loại C1)', 5, 12);
 --ngach/chuc_danh_nghe_nghiep vien chuc
-INSERT INTO ngach_vien_chuc (id, name, he_so_luong_vien_chuc)
+INSERT INTO ngach_vien_chuc (ma, name, he_so_luong_vien_chuc)
 values ('V.07.01.01', 'Giảng viên cao cấp (hạng I)', 1),
        ('V.07.08.20', 'Giảng viên cao đẳng sư phạm cao cấp (hạng I)', 1),
        ('V.09.02.01', 'Giảng viên giáo dục nghề nghiệp cao cấp (hạng I)', 1),

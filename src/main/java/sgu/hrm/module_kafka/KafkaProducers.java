@@ -6,13 +6,13 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.stereotype.Component;
 import sgu.hrm.module_soyeulylich_chitiet.models.NgoaiNgu;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResKhenThuong;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResKyLuat;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResNgoaiNgu;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResKhenThuong;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResKyLuat;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResNgoaiNgu;
 import sgu.hrm.module_soyeulylich_chitiet.services.ISoYeuLyLichChiTietServices;
 import sgu.hrm.module_soyeulylich_chitiet.services.SoYeuLyLichChiTietServices;
-import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoan;
-import sgu.hrm.module_utilities.enums.XacNhan;
+import sgu.hrm.module_taikhoan.dto.request.ReqTaiKhoan;
+import sgu.hrm.enums.XacNhan;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

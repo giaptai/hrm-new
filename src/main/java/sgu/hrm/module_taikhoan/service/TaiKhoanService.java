@@ -12,30 +12,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 import sgu.hrm.module_kafka.KafkaConsumers;
 import sgu.hrm.module_kafka.KafkaProducers;
-import sgu.hrm.module_response.ResDTO;
-import sgu.hrm.module_response.ResEnum;
+import sgu.hrm.response.ResEnum;
 import sgu.hrm.module_security.IAuthenticationFacade;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
-import sgu.hrm.module_utilities.enums.PheDuyet;
-import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
+import sgu.hrm.enums.PheDuyet;
 import sgu.hrm.module_soyeulylich.repository.SoYeuLyLichRepository;
 import sgu.hrm.module_security.jwt_utilities.JWTUtilities;
 import sgu.hrm.module_taikhoan.models.TaiKhoan;
-import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoan;
-import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoanLogin;
-import sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoanLogin;
+import sgu.hrm.module_taikhoan.dto.request.ReqTaiKhoan;
+import sgu.hrm.module_taikhoan.dto.request.ReqTaiKhoanLogin;
+import sgu.hrm.module_taikhoan.dto.resopnse.ResTaiKhoanLogin;
 import sgu.hrm.module_taikhoan.repository.TaiKhoanRepository;
-import sgu.hrm.module_utilities.enums.RoleTaiKhoan;
+import sgu.hrm.enums.RoleTaiKhoan;
 
 
 import java.time.LocalDateTime;
 
 import java.util.List;
 
-import static sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoan.mapToResTaiKhoan;
+import static sgu.hrm.module_taikhoan.dto.resopnse.ResTaiKhoan.mapToResTaiKhoan;
 
 @Service
 @RequiredArgsConstructor
@@ -157,7 +154,7 @@ public class TaiKhoanService implements ITaiKhoanService {
                         .hoVaTen(reqTaiKhoan.hoVaTen())
                         .soCCCD(reqTaiKhoan.soCCCD())
                         .create_at(taiKhoan.getCreate_at())
-                        .pheDuyet(PheDuyet.CHUA_PHE_DUYET)
+                        .pheDuyet(PheDuyet.CHO_PHE_DUYET)
                         .build();
                 soYeuLyLichRepository.save(soYeuLyLich);
                 taiKhoan.setSoYeuLyLich(soYeuLyLich);

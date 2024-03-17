@@ -14,7 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import sgu.hrm.module_utilities.models.response.DateTimeObject;
+import sgu.hrm.module_cauhinh.dto.response.DateTimeObject;
 
 
 @Entity

@@ -20,9 +20,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import sgu.hrm.module_utilities.enums.TinhTrangSucKhoe;
-import sgu.hrm.module_utilities.models.NhomMau;
-import sgu.hrm.module_utilities.models.response.DateTimeObject;
+import sgu.hrm.enums.TinhTrangSucKhoe;
+import sgu.hrm.module_cauhinh.models.NhomMau;
+import sgu.hrm.module_cauhinh.dto.response.DateTimeObject;
 
 import java.util.UUID;
 

@@ -24,7 +24,7 @@ public class Swagger {
                         "sgu.hrm.module_soyeulylich.controllers",
                         "sgu.hrm.module_soyeulylich_chitiet.controllers",
                         "sgu.hrm.module_taikhoan.controller",
-                        "sgu.hrm.module_utilities.controllers"
+                        "sgu.hrm.module_cauhinh.controllers"
                 )
                 .build();
     }

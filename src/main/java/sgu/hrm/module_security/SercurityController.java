@@ -1,24 +1,18 @@
 package sgu.hrm.module_security;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import sgu.hrm.module_response.ResDTO;
-import sgu.hrm.module_response.ResEnum;
-import sgu.hrm.module_taikhoan.models.TaiKhoan;
-import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoanLogin;
-import sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoan;
-import sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoanLogin;
+import sgu.hrm.response.ResDTO;
+import sgu.hrm.response.ResEnum;
+import sgu.hrm.module_taikhoan.dto.request.ReqTaiKhoanLogin;
+import sgu.hrm.module_taikhoan.dto.resopnse.ResTaiKhoanLogin;
 import sgu.hrm.module_taikhoan.service.ITaiKhoanService;
-
-import java.util.List;
 
 @RestController
 @Tag(name = "Login", description = "The login API")

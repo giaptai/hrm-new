@@ -1,11 +1,9 @@
 package sgu.hrm.module_taikhoan.service;
 
-import sgu.hrm.module_response.ResDTO;
 import sgu.hrm.module_taikhoan.models.TaiKhoan;
-import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoan;
-import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoanLogin;
-import sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoan;
-import sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoanLogin;
+import sgu.hrm.module_taikhoan.dto.request.ReqTaiKhoan;
+import sgu.hrm.module_taikhoan.dto.request.ReqTaiKhoanLogin;
+import sgu.hrm.module_taikhoan.dto.resopnse.ResTaiKhoanLogin;
 
 import java.text.Normalizer;
 import java.util.List;

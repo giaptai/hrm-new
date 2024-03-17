@@ -1,19 +1,16 @@
 package sgu.hrm.module_soyeulylich.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
@@ -27,44 +24,19 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
-import sgu.hrm.module_heso_luong_ngach.models.NgachCongChuc;
-import sgu.hrm.module_heso_luong_ngach.models.NgachVienChuc;
-import sgu.hrm.module_soyeulylich_chitiet.models.BanThanCoLamViecChoCheDoCu;
-import sgu.hrm.module_taikhoan.models.TaiKhoan;
-import sgu.hrm.module_utilities.models.CapBacLoaiQuanHamQuanDoi;
-import sgu.hrm.module_utilities.models.ChucDanhDang;
-import sgu.hrm.module_utilities.models.ChucVu;
-import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
-import sgu.hrm.module_utilities.models.DanToc;
-import sgu.hrm.module_utilities.models.DanhHieuNhaNuoc;
-import sgu.hrm.module_utilities.models.TonGiao;
-import sgu.hrm.module_utilities.models.response.DateTimeObject;
-import sgu.hrm.module_utilities.models.DoiTuongChinhSach;
-import sgu.hrm.module_utilities.enums.GioiTinh;
-import sgu.hrm.module_utilities.models.HocHam;
-import sgu.hrm.module_soyeulylich_chitiet.models.KhenThuong;
-import sgu.hrm.module_soyeulylich_chitiet.models.KienThucAnNinhQuocPhong;
-import sgu.hrm.module_soyeulylich_chitiet.models.KyLuat;
-import sgu.hrm.module_soyeulylich_chitiet.models.LamViecONuocNgoai;
-import sgu.hrm.module_soyeulylich_chitiet.models.LuongBanThan;
-import sgu.hrm.module_soyeulylich_chitiet.models.LyLuanChinhTri;
-import sgu.hrm.module_soyeulylich_chitiet.models.NghiepVuChuyenNganh;
-import sgu.hrm.module_soyeulylich_chitiet.models.NgoaiNgu;
-import sgu.hrm.module_soyeulylich_chitiet.models.PhuCapKhac;
-import sgu.hrm.module_soyeulylich_chitiet.models.QuaTrinhCongTac;
-import sgu.hrm.module_soyeulylich_chitiet.models.QuanHeGiaDinh;
+import sgu.hrm.module_cauhinh.models.ChucDanhDang;
+import sgu.hrm.module_cauhinh.models.ChucVu;
+import sgu.hrm.module_cauhinh.models.DanToc;
+import sgu.hrm.module_cauhinh.models.TonGiao;
+import sgu.hrm.module_cauhinh.dto.response.DateTimeObject;
+import sgu.hrm.module_cauhinh.models.DoiTuongChinhSach;
+import sgu.hrm.enums.GioiTinh;
 
-import sgu.hrm.module_utilities.enums.PheDuyet;
-import sgu.hrm.module_utilities.models.ThanhPhanGiaDinh;
-import sgu.hrm.module_soyeulylich_chitiet.models.TinHoc;
-import sgu.hrm.module_utilities.models.TrinhDoChuyenMon;
-import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
-import sgu.hrm.module_utilities.models.ViTriViecLam;
+import sgu.hrm.enums.PheDuyet;
+import sgu.hrm.module_cauhinh.models.ThanhPhanGiaDinh;
 
 import java.time.LocalDateTime;
 
-import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -266,7 +238,7 @@ public class SoYeuLyLich extends DateTimeObject {
 
     @OneToOne(mappedBy = "soYeuLyLich", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    Ngach ngach;
+    NgachNhanVien ngach;
 
     @Column(name = "phu_cap_chuc_vu", columnDefinition = "double default 0.0")
     double phuCapChucVu;

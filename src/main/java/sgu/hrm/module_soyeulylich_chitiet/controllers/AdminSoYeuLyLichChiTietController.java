@@ -5,49 +5,56 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import sgu.hrm.module_kafka.KafkaConsumers;
 import sgu.hrm.module_kafka.KafkaProducers;
-import sgu.hrm.module_response.ResDTO;
-import sgu.hrm.module_response.ResEnum;
-import sgu.hrm.module_soyeulylich_chitiet.models.NgoaiNgu;
-import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqNgoaiNguNhanVien;
-import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqQuaTrinhCongTacNhanVien;
-import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKhenThuongNhanVien;
-import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqKyLuatNhanVien;
-import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLamViecONuocNgoaiNhanVien;
-import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqLyLuanChinhTriNhanVien;
-import sgu.hrm.module_soyeulylich_chitiet.models.request.ReqNghiepVuChuyenNganhNhanVien;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResBanThanCoLamViecChoCheDoCu;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResKhenThuong;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResKienThucAnNinhQuocPhong;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResKyLuat;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResLamViecONuocNgoai;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResLuongBanThan;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResLyLuanChinhTri;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResNghiepVuChuyenNganh;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResNgoaiNgu;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResPhuCapKhac;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResQuaTrinhCongTac;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResQuanHeGiaDinh;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResTinHoc;
+import sgu.hrm.module_soyeulylich.dto.request.ReqDSSoYeuLyLich;
+import sgu.hrm.module_soyeulylich.dto.request.ReqSoYeuLyLich;
+import sgu.hrm.module_soyeulylich.dto.response.ResSoYeuLyLich;
+import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
+import sgu.hrm.module_soyeulylich.services.ISoYeuLyLichService;
+import sgu.hrm.response.ResDTO;
+import sgu.hrm.response.ResEnum;
+import sgu.hrm.module_soyeulylich_chitiet.dto.request.ReqNgoaiNguNhanVien;
+import sgu.hrm.module_soyeulylich_chitiet.dto.request.ReqQuaTrinhCongTacNhanVien;
+import sgu.hrm.module_soyeulylich_chitiet.dto.request.ReqKhenThuongNhanVien;
+import sgu.hrm.module_soyeulylich_chitiet.dto.request.ReqKyLuatNhanVien;
+import sgu.hrm.module_soyeulylich_chitiet.dto.request.ReqLamViecONuocNgoaiNhanVien;
+import sgu.hrm.module_soyeulylich_chitiet.dto.request.ReqLyLuanChinhTriNhanVien;
+import sgu.hrm.module_soyeulylich_chitiet.dto.request.ReqNghiepVuChuyenNganhNhanVien;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResBanThanCoLamViecChoCheDoCu;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResKhenThuong;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResKienThucAnNinhQuocPhong;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResKyLuat;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResLamViecONuocNgoai;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResLuongBanThan;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResLyLuanChinhTri;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResNghiepVuChuyenNganh;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResNgoaiNgu;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResPhuCapKhac;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResQuaTrinhCongTac;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResQuanHeGiaDinh;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResTinHoc;
 import sgu.hrm.module_soyeulylich_chitiet.services.ISoYeuLyLichChiTietServices;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor // create constructor if field set final or @not null
 @RequestMapping(value = "")
 public class AdminSoYeuLyLichChiTietController {
+    private final ISoYeuLyLichService soYeuLyLichService;
     private final ISoYeuLyLichChiTietServices.IBanThanCoLamViecChoCheDoCuSefvice banThanCoLamViecChoCheDoCuSefvice;
     private final ISoYeuLyLichChiTietServices.IKhenThuongSefvice khenThuongSefvice;
     private final ISoYeuLyLichChiTietServices.IKienThucAnNinhQuocPhongSefvice kienThucAnNinhQuocPhongSefvice;
@@ -65,8 +72,46 @@ public class AdminSoYeuLyLichChiTietController {
     private final KafkaConsumers consumers;
 
     @RestController
+    @RequestMapping(value = "/nhan-vien")
+    @Tag(name = "Admin ", description = "Quản lý")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public class AdminSoYeuLyLichController {
+        @GetMapping("/so-yeu-ly-lich")
+        public ResponseEntity<ResDTO<List<ResSoYeuLyLich>>> getAll() {
+            List<ResSoYeuLyLich> resSoYeuLyLichs = soYeuLyLichService.xemDanhSachSoYeuLyLich().stream().map(ResSoYeuLyLich::mapToResSoYeuLyLich).toList();
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, resSoYeuLyLichs), ResEnum.THANH_CONG.getStatusCode());
+        }
+
+        @GetMapping("/so-yeu-ly-lich/tim-kiem")
+        public ResponseEntity<ResDTO<SoYeuLyLich>> getBySoCCCDOrId(@RequestParam(name = "q") String q) {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG, soYeuLyLichService.xemSoYeuLyLichTheoSoCCCDHoacID(q)), ResEnum.THANH_CONG.getStatusCode());
+        }
+
+        @GetMapping("/so-yeu-ly-lich/{id}")
+        public ResponseEntity<ResDTO<ResSoYeuLyLich>> getById(@PathVariable(name = "id") UUID id) {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.THANH_CONG,
+                    ResSoYeuLyLich.mapToResSoYeuLyLich(soYeuLyLichService.xemSoYeuLyLichTheoId(id))), ResEnum.THANH_CONG.getStatusCode());
+        }
+
+        @jakarta.transaction.Transactional
+        @PatchMapping("/so-yeu-ly-lich/{id}")
+        public ResponseEntity<ResDTO<ResSoYeuLyLich>> editById(@PathVariable(name = "id") UUID id, @RequestBody ReqSoYeuLyLich lyLich) {
+            return new ResponseEntity<>(ResDTO.response(ResEnum.CAP_NHAT_THANH_CONG,
+                    ResSoYeuLyLich.mapToResSoYeuLyLich(soYeuLyLichService.capNhatTheoId(id, lyLich))), ResEnum.CAP_NHAT_THANH_CONG.getStatusCode());
+        }
+
+        @jakarta.transaction.Transactional
+        @PatchMapping("/so-yeu-ly-lich/phe-duyet")
+        public ResponseEntity<ResDTO<List<ResSoYeuLyLich>>> edit(@PathVariable(name = "id", required = false) String id,
+                                                                 @RequestBody List<ReqDSSoYeuLyLich> reqDSSoYeuLyLich) {
+            List<ResSoYeuLyLich> resSoYeuLyLichs = soYeuLyLichService.pheDuyetSoYeuLyLich(reqDSSoYeuLyLich).stream().map(ResSoYeuLyLich::mapToResSoYeuLyLich).toList();
+            return new ResponseEntity<>(ResDTO.response(ResEnum.PHE_DUYET_THANH_CONG, resSoYeuLyLichs), ResEnum.PHE_DUYET_THANH_CONG.getStatusCode());
+        }
+    }
+
+    @RestController
     @RequestMapping(value = "/danh-sach-phe-duyet")
-    @Tag(name = "Admin danh-sach-phe-duyet", description = "Quản lý")
+    @Tag(name = "Admin ", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class PheDuyetController {
         @GetMapping("/ngoai-ngu")
@@ -86,7 +131,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin lam-viec-cho-che-do-cu", description = "Quản lý")
+    @Tag(name = "Admin ", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class BanThanCoLamViecChoCheDoCuController {
         @GetMapping("/nhan-vien/{id}/lam-viec-cho-che-do-cu")
@@ -104,7 +149,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin khen-thuong", description = "Quản lý")
+    @Tag(name = "Admin ", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class KhenThuongController {
         @GetMapping("/nhan-vien/{id}/khen-thuong")
@@ -129,7 +174,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin kien-thuc-an-ninh-quoc-phong", description = "Quản lý")
+    @Tag(name = "Admin ", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class KienThucAnNinhQuocPhongController {
         @GetMapping("/nhan-vien/{id}/kien-thuc-an-ninh-quoc-phong")
@@ -147,7 +192,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin ky-luat", description = "Quản lý")
+    @Tag(name = "Admin ", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class KyLuatController {
         @GetMapping("/nhan-vien/{id}/ky-luat")
@@ -172,7 +217,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin lam-viec-o-nuoc-ngoai", description = "Quản lý")
+    @Tag(name = "Admin ", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class LamViecONuocNgoaiController {
         @GetMapping("/nhan-vien/{id}/lam-viec-o-nuoc-ngoai")
@@ -196,7 +241,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin luong-ban-than", description = "Quản lý")
+    @Tag(name = "Admin ", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class LuongBanThanController {
         @GetMapping("/nhan-vien/{id}/luong-ban-than")
@@ -216,7 +261,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin ly-luan-chinh-tri", description = "Quản lý")
+    @Tag(name = "Admin ", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class LyLuanChinhTriController {
         @GetMapping("/nhan-vien/{id}/ly-luan-chinh-tri")
@@ -240,7 +285,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin nghiep-vu-chuyen-nganh", description = "Quản lý")
+    @Tag(name = "Admin ", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class NghiepVuChuyenNganhController {
         @GetMapping("/nhan-vien/{id}/nghiep-vu-chuyen-nganh")
@@ -264,7 +309,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin ngoai-ngu", description = "Quản lý")
+    @Tag(name = "Admin ", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class NgoaiNguController {
         @GetMapping("/nhan-vien/{id}/ngoai-ngu")
@@ -288,7 +333,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin phu-cap-khac", description = "Quản lý")
+    @Tag(name = "Admin ", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class PhuCapKhacController {
         @GetMapping("/nhan-vien/{id}/phu-cap-khac")
@@ -306,7 +351,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin quan-he-gia-dinh", description = "Quản lý")
+    @Tag(name = "Admin ", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class QuanHeGiaDinhController {
         @GetMapping("/nhan-vien/{id}/quan-he-gia-dinh")
@@ -325,7 +370,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin qua-trinh-cong-tac", description = "Quản lý")
+    @Tag(name = "Admin ", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class QuaTrinhCongTacController {
         @GetMapping("/nhan-vien/{id}/qua-trinh-cong-tac")
@@ -350,7 +395,7 @@ public class AdminSoYeuLyLichChiTietController {
 
     @RestController
     @RequestMapping(value = "")
-    @Tag(name = "Admin tin-hoc", description = "Quản lý")
+    @Tag(name = "Admin ", description = "Quản lý")
     @SecurityRequirement(name = "Bearer Authentication")
     public class TinHocController {
         @GetMapping("/nhan-vien/{id}/tin-hoc")

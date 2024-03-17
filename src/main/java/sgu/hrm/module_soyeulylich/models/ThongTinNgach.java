@@ -15,8 +15,8 @@
 //import lombok.Setter;
 //import lombok.experimental.FieldDefaults;
 //import lombok.experimental.SuperBuilder;
-//import sgu.hrm.module_heso_luong_ngach.models.NgachCongChuc;
-//import sgu.hrm.module_heso_luong_ngach.models.NgachVienChuc;
+//import sgu.hrm.module_utilities.models.NgachCongChuc;
+//import sgu.hrm.module_utilities.models.NgachVienChuc;
 //import sgu.hrm.module_utilities.enums.TinhTrangSucKhoe;
 //import sgu.hrm.module_utilities.models.NhomMau;
 //

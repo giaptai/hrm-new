@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import sgu.hrm.module_soyeulylich_chitiet.models.KhenThuong;
-import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
+import sgu.hrm.module_cauhinh.models.HinhThucKhenThuong;
 
 import java.time.LocalDateTime;
 import java.util.List;

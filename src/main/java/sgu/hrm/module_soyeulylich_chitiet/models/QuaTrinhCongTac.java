@@ -19,9 +19,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import sgu.hrm.module_utilities.models.response.DateTimeObject;
+import sgu.hrm.module_cauhinh.dto.response.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
-import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
+import sgu.hrm.module_cauhinh.models.CoQuanToChucDonVi;
 
 import java.time.LocalDateTime;
 

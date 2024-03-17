@@ -6,14 +6,14 @@ import lombok.experimental.FieldDefaults;
 
 import org.springframework.stereotype.Service;
 
-import sgu.hrm.module_heso_luong_ngach.models.NgachCongChuc;
-import sgu.hrm.module_heso_luong_ngach.models.NgachVienChuc;
-import sgu.hrm.module_heso_luong_ngach.repositories.NgachCongChucRepository;
-import sgu.hrm.module_heso_luong_ngach.repositories.NgachVienChucRepository;
+import sgu.hrm.module_cauhinh.models.NgachCongChuc;
+import sgu.hrm.module_cauhinh.models.NgachVienChuc;
+import sgu.hrm.module_cauhinh.repositories.NgachCongChucRepository;
+import sgu.hrm.module_cauhinh.repositories.NgachVienChucRepository;
 import sgu.hrm.module_security.IAuthenticationFacade;
 import sgu.hrm.module_soyeulylich.models.ChucVuHienTai;
 import sgu.hrm.module_soyeulylich.models.HocVan;
-import sgu.hrm.module_soyeulylich.models.Ngach;
+import sgu.hrm.module_soyeulylich.models.NgachNhanVien;
 import sgu.hrm.module_soyeulylich.models.NghiaVuQuanSu;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
 import sgu.hrm.module_soyeulylich.models.SucKhoe;
@@ -25,39 +25,39 @@ import sgu.hrm.module_soyeulylich.repository.NghiaVuQuanSuRepository;
 import sgu.hrm.module_soyeulylich.repository.SucKhoeRepository;
 import sgu.hrm.module_soyeulylich.repository.ThongTinTuyenDungRepository;
 import sgu.hrm.module_soyeulylich.repository.ViecLamRepository;
-import sgu.hrm.module_utilities.enums.PheDuyet;
-import sgu.hrm.module_soyeulylich.models.request.ReqDSSoYeuLyLich;
-import sgu.hrm.module_soyeulylich.models.request.ReqSoYeuLyLich;
+import sgu.hrm.enums.PheDuyet;
+import sgu.hrm.module_soyeulylich.dto.request.ReqDSSoYeuLyLich;
+import sgu.hrm.module_soyeulylich.dto.request.ReqSoYeuLyLich;
 import sgu.hrm.module_soyeulylich.repository.SoYeuLyLichRepository;
-import sgu.hrm.module_utilities.models.CapBacLoaiQuanHamQuanDoi;
+import sgu.hrm.module_cauhinh.models.CapBacLoaiQuanHamQuanDoi;
 // import sgu.hrm.models.CoQuanToChucDonViTuyenDung;
-import sgu.hrm.module_utilities.models.ChucDanhDang;
-import sgu.hrm.module_utilities.models.ChucVu;
-import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
-import sgu.hrm.module_utilities.models.DanToc;
-import sgu.hrm.module_utilities.models.DanhHieuNhaNuoc;
-import sgu.hrm.module_utilities.models.DoiTuongChinhSach;
+import sgu.hrm.module_cauhinh.models.ChucDanhDang;
+import sgu.hrm.module_cauhinh.models.ChucVu;
+import sgu.hrm.module_cauhinh.models.CoQuanToChucDonVi;
+import sgu.hrm.module_cauhinh.models.DanToc;
+import sgu.hrm.module_cauhinh.models.DanhHieuNhaNuoc;
+import sgu.hrm.module_cauhinh.models.DoiTuongChinhSach;
 //import sgu.hrm.module_utilities.models.DonVi;
-import sgu.hrm.module_utilities.models.HocHam;
-import sgu.hrm.module_utilities.models.NhomMau;
-import sgu.hrm.module_utilities.models.ThanhPhanGiaDinh;
-import sgu.hrm.module_utilities.models.TrinhDoChuyenMon;
-import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
-import sgu.hrm.module_utilities.models.ViTriViecLam;
-import sgu.hrm.module_utilities.repositories.CapBacLoaiQuanHamQuanDoiRepository;
-import sgu.hrm.module_utilities.repositories.ChucDanhDangRepository;
-import sgu.hrm.module_utilities.repositories.ChucVuRepository;
-import sgu.hrm.module_utilities.repositories.CoQuanToChucDonViRepository;
-import sgu.hrm.module_utilities.repositories.DanTocRepository;
-import sgu.hrm.module_utilities.repositories.DanhHieuNhaNuocPhongTangRepository;
-import sgu.hrm.module_utilities.repositories.DoiTuongChinhSachRepository;
+import sgu.hrm.module_cauhinh.models.HocHam;
+import sgu.hrm.module_cauhinh.models.NhomMau;
+import sgu.hrm.module_cauhinh.models.ThanhPhanGiaDinh;
+import sgu.hrm.module_cauhinh.models.TrinhDoChuyenMon;
+import sgu.hrm.module_cauhinh.models.TrinhDoGiaoDucPhoThong;
+import sgu.hrm.module_cauhinh.models.ViTriViecLam;
+import sgu.hrm.module_cauhinh.repositories.CapBacLoaiQuanHamQuanDoiRepository;
+import sgu.hrm.module_cauhinh.repositories.ChucDanhDangRepository;
+import sgu.hrm.module_cauhinh.repositories.ChucVuRepository;
+import sgu.hrm.module_cauhinh.repositories.CoQuanToChucDonViRepository;
+import sgu.hrm.module_cauhinh.repositories.DanTocRepository;
+import sgu.hrm.module_cauhinh.repositories.DanhHieuNhaNuocPhongTangRepository;
+import sgu.hrm.module_cauhinh.repositories.DoiTuongChinhSachRepository;
 //import sgu.hrm.module_utilities.repositories.DonViRepository;
-import sgu.hrm.module_utilities.repositories.HocHamRepository;
-import sgu.hrm.module_utilities.repositories.NhomMauRepository;
-import sgu.hrm.module_utilities.repositories.ThanhPhanGiaDinhRepository;
-import sgu.hrm.module_utilities.repositories.TrinhDoChuyenMonRepository;
-import sgu.hrm.module_utilities.repositories.TrinhDoGiaoDucPhoThongRepository;
-import sgu.hrm.module_utilities.repositories.ViTriViecLamRepository;
+import sgu.hrm.module_cauhinh.repositories.HocHamRepository;
+import sgu.hrm.module_cauhinh.repositories.NhomMauRepository;
+import sgu.hrm.module_cauhinh.repositories.ThanhPhanGiaDinhRepository;
+import sgu.hrm.module_cauhinh.repositories.TrinhDoChuyenMonRepository;
+import sgu.hrm.module_cauhinh.repositories.TrinhDoGiaoDucPhoThongRepository;
+import sgu.hrm.module_cauhinh.repositories.ViTriViecLamRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -177,6 +177,20 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
         }
     }
 
+    @Override
+    public SoYeuLyLich capNhatTheoId(UUID id, ReqSoYeuLyLich req) {
+        try {
+            SoYeuLyLich soYeuLyLich = soYeuLyLichRepository.findById(id).orElse(null);
+            if (soYeuLyLich != null) {
+                SoYeuLyLich syllNew = mapToSoYeuLyLich(soYeuLyLich, req);
+                return soYeuLyLichRepository.save(syllNew);
+            }
+            return null;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getCause());
+        }
+    }
+
     private double tinhLuongThucNhan(double tienLuong, float heSoLuongNgachNgheNghiep, double phanTramHuongLuongNgachNgheNghiep,
                                      float phuCapThamNienVuotKhungNgachNgheNghiep, float phuCapChucVu, float phuCapKiemNhiem, float phuCapKhac,
                                      double luongTheoMucTien, double phamTramHuongLuong, double phuCapThamNienVuotKhung
@@ -255,7 +269,7 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
                 .ngayBoNhiemLai(reqChucVu.ngayBoNhiemLai())
                 .duocQuyHoacChucDanh(reqChucVu.duocQuyHoacChucDanh())
                 .build() : null;
-        Ngach ngach = ngachRepository.findById(syll.getId()).orElse(null);
+        NgachNhanVien ngach = ngachRepository.findById(syll.getId()).orElse(null);
         if (ngach != null) {
             if (ngachCongChuc != null) {
                 ngach.setNgachCongChuc(ngachCongChuc);
@@ -271,7 +285,7 @@ public class SoYeuLyLichService implements ISoYeuLyLichService {
             ngach.setNgayHuongPCTNVKNgach(reqNgach.ngayHuongPCTNVKNgach());
             ngach.setUpdate_at();
         } else
-            ngach = new Ngach(ngachCongChuc, ngachVienChuc, reqNgach.ngayBoNhiemNgach(), reqNgach.ngayHuongLuongNgach(),
+            ngach = new NgachNhanVien(ngachCongChuc, ngachVienChuc, reqNgach.ngayBoNhiemNgach(), reqNgach.ngayHuongLuongNgach(),
                     reqNgach.phanTramHuongLuongNgach(), reqNgach.phuCapThamNienVuotKhungNgach(), reqNgach.ngayHuongPCTNVKNgach(), syll);
         ViecLam viecLam = viecLamRepository.findById(syll.getId()).orElse(null);
         if (viecLam != null) {

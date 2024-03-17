@@ -21,12 +21,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import sgu.hrm.module_utilities.enums.XacNhan;
-import sgu.hrm.module_utilities.models.response.DateTimeObject;
+import sgu.hrm.enums.XacNhan;
+import sgu.hrm.module_cauhinh.dto.response.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
-import sgu.hrm.module_utilities.enums.XepLoaiChuyenMon;
-import sgu.hrm.module_utilities.enums.XepLoaiThiDua;
-import sgu.hrm.module_utilities.models.HinhThucKhenThuong;
+import sgu.hrm.enums.XepLoaiChuyenMon;
+import sgu.hrm.enums.XepLoaiThiDua;
+import sgu.hrm.module_cauhinh.models.HinhThucKhenThuong;
 
 import java.time.LocalDateTime;
 

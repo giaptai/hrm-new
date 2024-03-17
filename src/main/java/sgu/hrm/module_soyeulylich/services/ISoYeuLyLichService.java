@@ -1,8 +1,8 @@
 package sgu.hrm.module_soyeulylich.services;
 
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
-import sgu.hrm.module_soyeulylich.models.request.ReqDSSoYeuLyLich;
-import sgu.hrm.module_soyeulylich.models.request.ReqSoYeuLyLich;
+import sgu.hrm.module_soyeulylich.dto.request.ReqDSSoYeuLyLich;
+import sgu.hrm.module_soyeulylich.dto.request.ReqSoYeuLyLich;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,4 +20,6 @@ public interface ISoYeuLyLichService {
     SoYeuLyLich xemSoYeuLyLichTheoId(UUID id);
 
     List<SoYeuLyLich> pheDuyetSoYeuLyLich(List<ReqDSSoYeuLyLich> reqDSSoYeuLyLich);
+
+    SoYeuLyLich capNhatTheoId(UUID id, ReqSoYeuLyLich req);
 }

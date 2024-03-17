@@ -2,11 +2,6 @@ package sgu.hrm.module_soyeulylich_chitiet.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -29,17 +24,15 @@ import lombok.experimental.SuperBuilder;
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serializer;
-import sgu.hrm.module_soyeulylich_chitiet.models.response.ResNgoaiNgu;
-import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoan;
-import sgu.hrm.module_utilities.enums.XacNhan;
+import sgu.hrm.module_soyeulylich_chitiet.dto.response.ResNgoaiNgu;
+import sgu.hrm.enums.XacNhan;
 //import sgu.hrm.module_utilities.models.DonVi;
-import sgu.hrm.module_utilities.models.response.DateTimeObject;
+import sgu.hrm.module_cauhinh.dto.response.DateTimeObject;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
-import sgu.hrm.module_utilities.models.CoQuanToChucDonVi;
+import sgu.hrm.module_cauhinh.models.CoQuanToChucDonVi;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 

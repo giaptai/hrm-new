@@ -1,12 +1,8 @@
 package sgu.hrm.module_soyeulylich.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -22,13 +18,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
-import sgu.hrm.module_utilities.enums.TinhTrangSucKhoe;
-import sgu.hrm.module_utilities.models.DanhHieuNhaNuoc;
-import sgu.hrm.module_utilities.models.HocHam;
-import sgu.hrm.module_utilities.models.NhomMau;
-import sgu.hrm.module_utilities.models.TrinhDoChuyenMon;
-import sgu.hrm.module_utilities.models.TrinhDoGiaoDucPhoThong;
-import sgu.hrm.module_utilities.models.response.DateTimeObject;
+import sgu.hrm.module_cauhinh.models.DanhHieuNhaNuoc;
+import sgu.hrm.module_cauhinh.models.HocHam;
+import sgu.hrm.module_cauhinh.models.TrinhDoChuyenMon;
+import sgu.hrm.module_cauhinh.models.TrinhDoGiaoDucPhoThong;
+import sgu.hrm.module_cauhinh.dto.response.DateTimeObject;
 
 import java.util.UUID;
 

@@ -7,20 +7,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import sgu.hrm.module_response.ResDTO;
-import sgu.hrm.module_response.ResEnum;
-import sgu.hrm.module_taikhoan.models.request.ReqEmail;
-import sgu.hrm.module_taikhoan.models.request.ReqMatKhau;
-import sgu.hrm.module_taikhoan.models.request.ReqTaiKhoan;
-import sgu.hrm.module_taikhoan.models.resopnse.ResTaiKhoan;
+import sgu.hrm.response.ResDTO;
+import sgu.hrm.response.ResEnum;
+import sgu.hrm.module_taikhoan.dto.request.ReqEmail;
+import sgu.hrm.module_taikhoan.dto.request.ReqMatKhau;
+import sgu.hrm.module_taikhoan.dto.resopnse.ResTaiKhoan;
 import sgu.hrm.module_taikhoan.service.ITaiKhoanService;
-
-import java.util.List;
 
 
 @RestController

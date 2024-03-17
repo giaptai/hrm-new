@@ -19,7 +19,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 import sgu.hrm.module_soyeulylich.models.SoYeuLyLich;
-import sgu.hrm.module_utilities.models.response.DateTimeObject;
+import sgu.hrm.module_cauhinh.dto.response.DateTimeObject;
 
 import java.time.LocalDateTime;
 
